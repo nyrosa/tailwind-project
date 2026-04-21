@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,14 +28,21 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script>
       (function () {
-        const t = localStorage.getItem("theme"),
-          e = window.matchMedia("(prefers-color-scheme: dark)").matches,
-          n = t === "dark" || (t === null && e);
-        if (n) document.documentElement.classList.add("dark");
-        else document.documentElement.classList.remove("dark");
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        const isDark =
+          savedTheme === "dark" || (savedTheme === null && prefersDark);
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+          document.body.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          document.body.classList.remove("dark");
+        }
       })();
     </script>
-    <link rel="stylesheet" href="../src/output.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -46,546 +53,792 @@
       rel="stylesheet"
     />
     <style>
-      .glass-nav {
-        background: rgba(10, 10, 10, 0.75);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      :root:not(.dark) .glass-nav {
-        background: rgba(255, 255, 255, 0.85);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      body {
+        font-family: "Inter", sans-serif;
+        background: #ffffff;
+        color: #1a1a1a;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      body.dark {
+        background: #0a0a0a;
+        color: #e5e5e5;
+      }
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .btn-primary {
+        background: #0ea5e9;
+        color: white;
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 9999px;
+        transition: all 0.2s;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-primary:hover {
+        background: #0284c7;
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background: transparent;
+        color: #0ea5e9;
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 9999px;
+        transition: all 0.2s;
+        display: inline-block;
+        border: 1.5px solid #0ea5e9;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-secondary:hover {
+        background: #0ea5e9;
+        color: white;
       }
       .gradient-text {
-        background: linear-gradient(135deg, #7b2fff, #00e5ff);
+        background: linear-gradient(135deg, #38bdf8, #0284c7);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
-      .btn-primary {
-        background: linear-gradient(135deg, #7b2fff, #00e5ff);
-        color: #fff;
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 40px;
-        transition: all 0.3s ease;
-        display: inline-block;
-        box-shadow: 0 4px 15px rgba(123, 47, 255, 0.3);
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e5e5e5;
+        transition: background 0.3s;
       }
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(123, 47, 255, 0.4);
-      }
-      .btn-outline {
-        border: 1px solid rgba(123, 47, 255, 0.5);
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 40px;
-        transition: all 0.3s;
-        background: transparent;
-      }
-      .dark .btn-outline {
-        color: #fff;
-      }
-      :root:not(.dark) .btn-outline {
-        color: #1d1d1f;
-      }
-      .btn-outline:hover {
-        border-color: #7b2fff;
-        color: #7b2fff;
+      body.dark nav {
+        background: rgba(10, 10, 10, 0.95);
+        border-bottom-color: #2a2a2e;
       }
       .nav-link {
-        transition: color 0.25s ease;
+        transition: color 0.2s;
         font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
       }
       .nav-link:hover {
-        color: #7b2fff;
+        color: #0ea5e9;
       }
-      .nav-indicator {
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #7b2fff, #00e5ff);
-        border-radius: 2px;
-        transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 24px;
+        transition: all 0.2s;
+      }
+      body.dark .card {
+        background: #1a1a1a;
+        border-color: #2a2a2e;
       }
       .option-btn {
         width: 100%;
         padding: 16px;
         border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.03);
-        transition: all 0.2s;
+        border: 1px solid #e5e5e5;
+        background: white;
+        text-align: left;
         cursor: pointer;
+        transition: all 0.2s;
+        margin-bottom: 8px;
         font-weight: 500;
       }
-      :root:not(.dark) .option-btn {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        background: rgba(0, 0, 0, 0.02);
-        color: #1d1d1f;
+      body.dark .option-btn {
+        background: #2a2a2a;
+        border-color: #3a3a3e;
+        color: #e5e5e5;
       }
       .option-btn:hover {
-        border-color: #7b2fff;
-        background: rgba(123, 47, 255, 0.1);
-        transform: scale(1.01);
+        border-color: #0ea5e9;
+        background: #e0f2fe;
+      }
+      body.dark .option-btn:hover {
+        background: #0ea5e9;
+        color: white;
       }
       .option-btn.selected {
-        border-color: #7b2fff;
-        background: rgba(123, 47, 255, 0.15);
-        box-shadow: 0 0 20px rgba(123, 47, 255, 0.2);
+        border-color: #0ea5e9;
+        background: #e0f2fe;
+      }
+      body.dark .option-btn.selected {
+        background: #0ea5e9;
+        color: white;
       }
       .progress-bar {
         height: 4px;
-        background: rgba(255, 255, 255, 0.1);
+        background: #e5e5e5;
         border-radius: 10px;
         overflow: hidden;
       }
-      :root:not(.dark) .progress-bar {
-        background: rgba(0, 0, 0, 0.1);
+      body.dark .progress-bar {
+        background: #2a2a2e;
       }
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #7b2fff, #00e5ff);
-        width: 0;
-        transition: width 0.3s ease;
+        background: linear-gradient(90deg, #38bdf8, #0284c7);
+        width: 0%;
+        transition: width 0.3s;
       }
-      #mobile-menu {
-        transition: all 0.3s ease;
+      footer {
+        border-top: 1px solid #e5e5e5;
+        padding: 60px 0 40px;
+        margin-top: 40px;
       }
-      :root:not(.dark) .border-white\/10 {
-        border-color: rgba(0, 0, 0, 0.08);
+      body.dark footer {
+        border-top-color: #2a2a2e;
       }
-      :root:not(.dark) .text-gray-400,
-      :root:not(.dark) .text-gray-500 {
-        color: #6b7280;
+      input {
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
+        border-radius: 16px;
+        padding: 12px 16px;
+        font-size: 14px;
+        outline: none;
       }
-      :root:not(.dark) .text-gray-600 {
-        color: #4b5563;
+      body.dark input {
+        background: #2a2a2a;
+        border-color: #3a3a3e;
+        color: #e5e5e5;
       }
-      :root:not(.dark) .bg-white\/10 {
-        background-color: rgba(0, 0, 0, 0.05);
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
   <body>
-    <nav
-      class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300"
-      id="mainNav"
-    >
+    <nav>
       <div
-        class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between"
-      >
-        <a href="index.html" class="flex items-center gap-2.5 group"
-          ><div
-            class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-            style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
-          >
-            <i class="fas fa-brain text-white text-sm"></i>
-          </div>
-          <span class="font-bold text-xl tracking-tight"
-            >Neuro<span class="gradient-text">Path</span></span
-          ></a
-        >
-        <div class="hidden md:flex items-center gap-6 lg:gap-8">
-          <div class="flex items-center gap-1 relative" id="navLinksContainer">
-            <a
-              href="index.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Home</a
-            ><a
-              href="analyzer.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Test</a
-            ><a
-              href="results.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Results</a
-            ><a
-              href="careers.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Careers</a
-            ><a
-              href="blog.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Blog</a
-            >
-            <div
-              id="navIndicator"
-              class="nav-indicator"
-              style="width: 0px; transform: translateX(0px)"
-            ></div>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <button
-            id="themeToggle"
-            class="relative w-10 h-10 rounded-full glass-nav flex items-center justify-center transition-all duration-300 hover:scale-105 group overflow-hidden border border-white/10"
-          >
-            <i
-              id="sunIcon"
-              class="fas fa-sun text-yellow-500 text-lg transition-all duration-500 transform scale-100"
-            ></i
-            ><i
-              id="moonIcon"
-              class="fas fa-moon text-blue-300 text-lg transition-all duration-500 transform scale-0 absolute"
-            ></i></button
-          ><a
-            href="analyzer.html"
-            class="btn-primary text-sm hidden md:inline-block transition-all duration-300"
-            >Take the Test →</a
-          ><button
-            id="mobileMenuBtn"
-            class="md:hidden text-2xl p-2 rounded-xl glass-nav"
-          >
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden glass-nav border-t border-white/10 px-6 py-5 flex flex-col gap-4"
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 24px;
+          max-width: 1280px;
+          margin: 0 auto;
+        "
       >
         <a
           href="index.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-home w-5 text-purple-400"></i> Home</a
-        ><a
-          href="analyzer.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-brain w-5 text-purple-400"></i> Test</a
-        ><a
-          href="results.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-chart-line w-5 text-purple-400"></i> Results</a
-        ><a
-          href="careers.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-briefcase w-5 text-purple-400"></i> Careers</a
-        ><a
-          href="blog.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-newspaper w-5 text-purple-400"></i> Blog</a
+          style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+          "
         >
-        <div class="pt-3 border-t border-white/10 mt-2">
+          <div
+            style="
+              width: 36px;
+              height: 36px;
+              background: linear-gradient(135deg, #38bdf8, #0284c7);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i class="fas fa-brain" style="color: white"></i>
+          </div>
+          <span style="font-weight: 800; font-size: 20px"
+            >Neuro<span class="gradient-text">Path</span></span
+          >
+        </a>
+        <div style="display: flex; gap: 32px">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="analyzer.html" class="nav-link">Test</a>
+          <a href="results.html" class="nav-link">Results</a>
+          <a href="careers.html" class="nav-link">Careers</a>
+          <a href="blog.html" class="nav-link">Blog</a>
+        </div>
+        <div style="display: flex; gap: 12px">
+          <button
+            id="themeToggle"
+            style="
+              width: 40px;
+              height: 40px;
+              border-radius: 9999px;
+              background: #f0f0f0;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            <i id="sunIcon" class="fas fa-sun"></i
+            ><i id="moonIcon" class="fas fa-moon" style="display: none"></i>
+          </button>
           <a
             href="analyzer.html"
-            class="btn-primary text-sm w-full text-center block"
-            >Start Free Test →</a
+            class="btn-primary"
+            style="text-decoration: none"
+            >Take the Test →</a
           >
         </div>
       </div>
     </nav>
-    <section
-      id="introScreen"
-      class="min-h-screen flex items-center justify-center pt-20"
-    >
-      <div class="max-w-2xl mx-auto px-6 text-center">
-        <div>
+
+    <main style="margin-top: 80px">
+      <section
+        id="introScreen"
+        style="
+          min-height: 80vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 60px 24px;
+        "
+      >
+        <div style="max-width: 600px">
           <span
-            class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-5"
-            style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
-            ><i class="fas fa-brain mr-1"></i> NeuroPath</span
+            style="
+              background: #e0f2fe;
+              color: #0284c7;
+              padding: 6px 14px;
+              border-radius: 9999px;
+              font-size: 12px;
+              font-weight: 600;
+            "
+            ><i class="fas fa-brain"></i> NeuroPath AI</span
           >
-          <h1 class="text-5xl md:text-6xl font-black mb-5">
+          <h1 style="font-size: 56px; font-weight: 900; margin: 24px 0 16px">
             Ready to meet<br /><span class="gradient-text"
               >your true self?</span
             >
           </h1>
-          <p class="text-gray-500 text-lg mb-8">
+          <p style="color: #666; margin-bottom: 32px">
             10 questions · 3 minutes · Instant results<br />100% free. No signup
             needed.
           </p>
-          <div class="glass-nav rounded-2xl p-6 mb-8 text-left">
-            <div class="font-bold text-sm mb-4">What you'll get:</div>
-            <div class="grid md:grid-cols-2 gap-3">
-              <div class="flex items-center gap-2 text-sm">
-                <i class="fas fa-check-circle text-purple-500"></i> Your
+          <div
+            class="card"
+            style="padding: 24px; text-align: left; margin-bottom: 32px"
+          >
+            <div style="font-weight: 700; margin-bottom: 16px">
+              What you'll get:
+            </div>
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px"
+            >
+              <div>
+                <i class="fas fa-check-circle" style="color: #0ea5e9"></i> Your
                 personality type
               </div>
-              <div class="flex items-center gap-2 text-sm">
-                <i class="fas fa-check-circle text-purple-500"></i> 12-dimension
-                profile
+              <div>
+                <i class="fas fa-check-circle" style="color: #0ea5e9"></i>
+                12-dimension profile
               </div>
-              <div class="flex items-center gap-2 text-sm">
-                <i class="fas fa-check-circle text-purple-500"></i> Top career
-                matches
+              <div>
+                <i class="fas fa-check-circle" style="color: #0ea5e9"></i> Top
+                career matches
               </div>
-              <div class="flex items-center gap-2 text-sm">
-                <i class="fas fa-check-circle text-purple-500"></i> Strengths &
-                weaknesses
+              <div>
+                <i class="fas fa-check-circle" style="color: #0ea5e9"></i>
+                Strengths & weaknesses
               </div>
             </div>
           </div>
           <button
             onclick="startQuiz()"
-            class="btn-primary text-lg w-full max-w-sm mx-auto"
+            class="btn-primary"
+            style="font-size: 18px"
           >
             Begin Test →
           </button>
         </div>
-      </div>
-    </section>
-    <section id="quizScreen" class="hidden min-h-screen pt-28 pb-16">
-      <div class="max-w-2xl mx-auto px-6">
-        <div class="mb-8">
-          <div class="flex justify-between items-center mb-3">
-            <span class="text-sm text-gray-500"
-              >Question <span id="qNum">1</span> of
-              <span id="qTotal">10</span></span
-            ><span
-              id="qCategory"
-              class="text-xs px-3 py-1 rounded-full"
-              style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
-              >Personality</span
+      </section>
+
+      <section
+        id="quizScreen"
+        style="display: none; min-height: 80vh; padding: 40px 24px"
+      >
+        <div style="max-width: 700px; margin: 0 auto">
+          <div style="margin-bottom: 32px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+              "
             >
+              <span
+                >Question <span id="qNum">1</span> of
+                <span id="qTotal">10</span></span
+              >
+              <span
+                id="qCategory"
+                style="
+                  background: #e0f2fe;
+                  color: #0284c7;
+                  padding: 4px 12px;
+                  border-radius: 9999px;
+                  font-size: 12px;
+                "
+                >Personality</span
+              >
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
           </div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
+          <div class="card" style="padding: 40px" id="questionCard">
+            <div
+              style="
+                width: 56px;
+                height: 56px;
+                background: #e0f2fe;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 24px;
+              "
+            >
+              <i
+                id="qIcon"
+                class="fas fa-brain"
+                style="color: #0ea5e9; font-size: 24px"
+              ></i>
+            </div>
+            <h2
+              id="questionText"
+              style="font-size: 28px; margin-bottom: 32px"
+            ></h2>
+            <div id="answersContainer"></div>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-top: 24px;
+            "
+          >
+            <button
+              onclick="prevQuestion()"
+              id="prevBtn"
+              class="btn-secondary"
+              style="opacity: 0.5"
+              disabled
+            >
+              ← Back
+            </button>
+            <button
+              onclick="nextQuestion()"
+              id="nextBtn"
+              class="btn-primary"
+              disabled
+            >
+              Next →
+            </button>
           </div>
         </div>
-        <div class="glass-nav rounded-3xl p-8 md:p-10 mb-6" id="questionCard">
+      </section>
+
+      <section
+        id="analyzingScreen"
+        style="
+          display: none;
+          min-height: 80vh;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 60px 24px;
+        "
+      >
+        <div>
           <div
-            class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
-            id="qIcon"
-            style="background: rgba(123, 47, 255, 0.15)"
-          >
-            <i class="fas fa-brain text-purple-500 text-xl"></i>
-          </div>
+            style="
+              width: 100px;
+              height: 100px;
+              margin: 0 auto 32px;
+              border: 4px solid #e5e5e5;
+              border-top-color: #0ea5e9;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+            "
+          ></div>
           <h2
-            class="text-2xl md:text-3xl font-bold mb-8 leading-tight"
-            id="questionText"
-          ></h2>
-          <div id="answersContainer" class="space-y-3"></div>
-        </div>
-        <div class="flex justify-between">
-          <button
-            onclick="prevQuestion()"
-            id="prevBtn"
-            class="btn-outline text-sm opacity-50"
-            disabled
+            style="font-size: 32px; margin-bottom: 16px"
+            class="gradient-text"
           >
-            ← Back</button
-          ><button
-            onclick="nextQuestion()"
-            id="nextBtn"
-            class="btn-primary text-sm"
-            disabled
-          >
-            Next →
-          </button>
-        </div>
-      </div>
-    </section>
-    <section
-      id="analyzingScreen"
-      class="hidden min-h-screen flex items-center justify-center"
-    >
-      <div class="text-center max-w-md mx-auto px-6">
-        <div class="w-32 h-32 mx-auto mb-8 relative">
-          <div
-            class="absolute inset-0 rounded-full border-4 border-purple-500/30 animate-spin"
-          ></div>
-          <div
-            class="absolute inset-4 rounded-full border-4 border-cyan-500/30 animate-spin"
-            style="animation-direction: reverse; animation-duration: 2s"
-          ></div>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <i class="fas fa-brain text-purple-500 text-4xl animate-pulse"></i>
+            Analyzing your brain
+          </h2>
+          <p id="analyzingStep" style="color: #666; margin-bottom: 24px">
+            Processing your answers...
+          </p>
+          <div class="progress-bar" style="max-width: 300px; margin: 0 auto">
+            <div class="progress-fill" id="analyzeBar"></div>
           </div>
+          <p id="analyzePercent" style="margin-top: 16px; color: #666">0%</p>
         </div>
-        <h2 class="text-3xl font-black mb-3 gradient-text">
-          Analyzing your brain
-        </h2>
-        <p class="text-gray-500 mb-6" id="analyzingStep">
-          Processing your answers...
-        </p>
-        <div class="progress-bar max-w-xs mx-auto">
-          <div class="progress-fill" id="analyzeBar"></div>
-        </div>
-        <p class="text-gray-600 text-xs mt-4" id="analyzePercent">0%</p>
-      </div>
-    </section>
-    <footer
-      class="border-t border-white/10 pt-20 pb-10 bg-white dark:bg-[#0a0a0a]"
-    >
-      <div class="max-w-7xl mx-auto px-6">
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16"
+          style="
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            margin-bottom: 48px;
+          "
         >
-          <div class="space-y-6">
-            <a href="index.html" class="flex items-center gap-2.5 group">
-              <div
-                class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-                style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
+          <div>
+            <a
+              href="index.html"
+              style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: inherit;
+                margin-bottom: 20px;
+              "
+              ><div
+                style="
+                  width: 36px;
+                  height: 36px;
+                  background: linear-gradient(135deg, #38bdf8, #0284c7);
+                  border-radius: 12px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
               >
-                <i class="fas fa-brain text-white text-sm"></i>
+                <i class="fas fa-brain" style="color: white"></i>
               </div>
-              <span class="font-bold text-xl tracking-tight"
+              <span style="font-weight: 800"
                 >Neuro<span class="gradient-text">Path</span></span
-              >
-            </a>
-            <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
+              ></a
+            >
+            <p style="color: #666; font-size: 14px">
               Empowering individuals through AI-driven cognitive profiling and
               career discovery. Understand your mind, unlock your potential.
             </p>
-            <div class="flex gap-4">
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
-                ><i class="fab fa-linkedin-in"></i
-              ></a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+            <div style="display: flex; gap: 16px; margin-top: 20px">
+              <a href="#" style="color: #666"><i class="fab fa-twitter"></i></a
+              ><a href="#" style="color: #666"
+                ><i class="fab fa-linkedin-in"></i></a
+              ><a href="#" style="color: #666"
                 ><i class="fab fa-instagram"></i
               ></a>
             </div>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Product</h4>
-            <ul class="space-y-4 text-sm text-gray-500">
-              <li>
+            <h4 style="margin-bottom: 20px">Product</h4>
+            <ul style="list-style: none; color: #666; font-size: 14px">
+              <li style="margin-bottom: 12px">
                 <a
                   href="analyzer.html"
-                  class="hover:text-purple-400 transition-colors"
+                  style="text-decoration: none; color: inherit"
                   >Personality Test</a
                 >
               </li>
-              <li>
+              <li style="margin-bottom: 12px">
                 <a
                   href="careers.html"
-                  class="hover:text-purple-400 transition-colors"
+                  style="text-decoration: none; color: inherit"
                   >Career Mapping</a
                 >
               </li>
               <li>
                 <a
                   href="results.html"
-                  class="hover:text-purple-400 transition-colors"
+                  style="text-decoration: none; color: inherit"
                   >Sample Reports</a
                 >
               </li>
             </ul>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Resources</h4>
-            <ul class="space-y-4 text-sm text-gray-500">
-              <li>
+            <h4 style="margin-bottom: 20px">Resources</h4>
+            <ul style="list-style: none; color: #666; font-size: 14px">
+              <li style="margin-bottom: 12px">
                 <a
                   href="blog.html"
-                  class="hover:text-purple-400 transition-colors"
+                  style="text-decoration: none; color: inherit"
                   >Insights Blog</a
                 >
               </li>
-              <li>
-                <a href="#" class="hover:text-purple-400 transition-colors"
+              <li style="margin-bottom: 12px">
+                <a href="#" style="text-decoration: none; color: inherit"
                   >Help Center</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:text-purple-400 transition-colors"
+                <a href="#" style="text-decoration: none; color: inherit"
                   >Privacy Policy</a
                 >
               </li>
             </ul>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Stay Updated</h4>
-            <p class="text-sm text-gray-500 mb-4">
+            <h4 style="margin-bottom: 20px">Stay Updated</h4>
+            <p style="color: #666; font-size: 14px; margin-bottom: 16px">
               Get the latest career tips via email.
             </p>
-            <form class="relative" id="newsletterForm">
+            <form id="footerNewsletter" style="display: flex">
               <input
                 type="email"
-                id="newsletterEmail"
+                id="footerEmail"
                 placeholder="Email address"
-                class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors"
-              />
-              <button
+                style="flex: 1"
+              /><button
                 type="submit"
-                class="absolute right-2 top-1.5 bg-purple-600 hover:bg-purple-500 text-white p-1.5 rounded-lg transition-colors"
+                style="
+                  background: #0ea5e9;
+                  border: none;
+                  border-radius: 12px;
+                  padding: 0 16px;
+                  margin-left: 8px;
+                  cursor: pointer;
+                "
               >
-                <i class="fas fa-arrow-right px-2"></i>
+                <i class="fas fa-arrow-right" style="color: white"></i>
               </button>
             </form>
           </div>
         </div>
-
         <div
-          class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6"
+          style="
+            border-top: 1px solid #e5e5e5;
+            padding-top: 24px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+          "
         >
-          <div class="text-xs text-gray-500">
-            © 2026 NeuroPath AI. All rights reserved.
-          </div>
-          <div class="flex gap-6 text-xs text-gray-500">
-            <a href="#" class="hover:text-white transition">Terms</a>
-            <a href="#" class="hover:text-white transition">Cookies</a>
-          </div>
+          © 2026 NeuroPath AI. All rights reserved.
         </div>
       </div>
     </footer>
+
     <script>
-      const questions=[{text:"When you meet new people, you're usually the one to start the conversation.",cat:"Social",icon:"fa-users"},{text:"You prefer to plan everything in advance rather than being spontaneous.",cat:"Planning",icon:"fa-calendar"},{text:"You trust logic and data more than your gut feelings.",cat:"Thinking",icon:"fa-brain"},{text:"You enjoy thinking about abstract ideas and theories.",cat:"Creativity",icon:"fa-lightbulb"},{text:"After a party or social event, you feel energized, not drained.",cat:"Energy",icon:"fa-bolt"},{text:"You adapt easily when plans suddenly change.",cat:"Flexibility",icon:"fa-arrows-rotate"},{text:"You think about the long-term consequences of your actions.",cat:"Vision",icon:"fa-eye"},{text:"You prefer working alone rather than in a team.",cat:"Work Style",icon:"fa-user"},{text:"You naturally take charge in group situations.",cat:"Leadership",icon:"fa-crown"},{text:"You often put other people's needs before your own.",cat:"Empathy",icon:"fa-heart"}];
-      let currentIndex=0,userAnswers={};
-      function startQuiz(){gsap.to("#introScreen",{opacity:0,duration:.3,onComplete:()=>{document.getElementById("introScreen").classList.add("hidden");document.getElementById("quizScreen").classList.remove("hidden");renderQuestion();gsap.fromTo("#quizScreen",{opacity:0},{opacity:1,duration:.5})}})}
-      function renderQuestion(){const q=questions[currentIndex];document.getElementById("qNum").textContent=currentIndex+1;document.getElementById("qTotal").textContent=questions.length;document.getElementById("qCategory").textContent=q.cat;document.getElementById("questionText").textContent=q.text;document.getElementById("qIcon").innerHTML=`<i class="fas ${q.icon} text-purple-500 text-xl"></i>`;document.getElementById("progressFill").style.width=((currentIndex+1)/questions.length)*100+"%";const c=document.getElementById("answersContainer");c.innerHTML="";["Strongly Disagree","Disagree","Neutral","Agree","Strongly Agree"].forEach((opt,idx)=>{const btn=document.createElement("button");btn.className="option-btn"+(userAnswers[currentIndex]===idx?" selected":"");btn.textContent=opt;btn.onclick=()=>{userAnswers[currentIndex]=idx;document.querySelectorAll(".option-btn").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");document.getElementById("nextBtn").disabled=false;gsap.to(btn,{scale:1.02,duration:.1,yoyo:true,repeat:1})};c.appendChild(btn)});document.getElementById("prevBtn").disabled=currentIndex===0;document.getElementById("prevBtn").style.opacity=currentIndex===0?"0.5":"1";document.getElementById("nextBtn").disabled=userAnswers[currentIndex]===undefined;document.getElementById("nextBtn").innerHTML=currentIndex===questions.length-1?"See Results →":"Next →";gsap.fromTo("#questionCard",{x:30,opacity:0},{x:0,opacity:1,duration:.4})}
-      function nextQuestion(){if(userAnswers[currentIndex]===undefined)return;if(currentIndex<questions.length-1){currentIndex++;renderQuestion()}else showAnalyzing()}
-      function prevQuestion(){if(currentIndex>0){currentIndex--;renderQuestion()}}
-      function showAnalyzing(){gsap.to("#quizScreen",{opacity:0,duration:.3,onComplete:()=>{document.getElementById("quizScreen").classList.add("hidden");document.getElementById("analyzingScreen").classList.remove("hidden");gsap.fromTo("#analyzingScreen",{opacity:0},{opacity:1,duration:.5});localStorage.setItem("quizAnswers",JSON.stringify(userAnswers));let p=0;const steps=["Processing answers...","Analyzing patterns...","Building your profile...","Finding career matches..."];const i=setInterval(()=>{p+=2;document.getElementById("analyzeBar").style.width=p+"%";document.getElementById("analyzePercent").textContent=p+"%";document.getElementById("analyzingStep").textContent=steps[Math.min(Math.floor(p/25),3)];if(p>=100){clearInterval(i);setTimeout(()=>{window.location.href="results.html"},500)}},40)}}}
-      function setTheme(theme) {
-        const isDark = theme === 'dark';
-        const sunIcon = document.getElementById('sunIcon');
-        const moonIcon = document.getElementById('moonIcon');
-        if (isDark) {
-          document.documentElement.classList.add('dark');
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.add('scale-0', 'absolute');
-            sunIcon.classList.remove('scale-100', 'relative');
-            moonIcon.classList.add('scale-100', 'relative');
-            moonIcon.classList.remove('scale-0', 'absolute');
-          }
-        } else {
-          document.documentElement.classList.remove('dark');
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.add('scale-100', 'relative');
-            sunIcon.classList.remove('scale-0', 'absolute');
-            moonIcon.classList.add('scale-0', 'absolute');
-            moonIcon.classList.remove('scale-100', 'relative');
-          }
-        }
-        localStorage.setItem('theme', theme);
-      }
-      function initTheme(){const s=localStorage.getItem('theme'),p=window.matchMedia('(prefers-color-scheme: dark)').matches;let t=s;if(!t)t=p?'dark':'light';setTheme(t);}
-      const navLinks=document.querySelectorAll(".nav-link"),indicator=document.getElementById("navIndicator");
-      function updateIndicator(l){if(!l||!indicator)return;const r=l.getBoundingClientRect(),cr=document.getElementById("navLinksContainer").getBoundingClientRect();indicator.style.width=r.width+"px";indicator.style.transform=`translateX(${r.left-cr.left}px)`}
-      const cp=window.location.pathname.split("/").pop()||"analyzer.html";
-      navLinks.forEach(l=>{if(l.getAttribute("href")===cp){l.style.color="#A06BFF";updateIndicator(l)}});
-      navLinks.forEach(l=>{l.addEventListener("mouseenter",()=>updateIndicator(l));l.addEventListener("mouseleave",()=>{const a=Array.from(navLinks).find(ln=>ln.getAttribute("href")===cp);if(a)updateIndicator(a)})});
-      const nav=document.getElementById("mainNav");window.addEventListener("scroll",()=>{if(window.scrollY>50)nav.classList.add("shadow-lg");else nav.classList.remove("shadow-lg")});
-      document.getElementById("themeToggle").addEventListener("click",()=>{const d=document.documentElement.classList.contains("dark");setTheme(d?"light":"dark");gsap.to(document.getElementById("themeToggle"),{scale:.95,duration:.1,yoyo:true,repeat:1})});
-      document.getElementById("mobileMenuBtn").addEventListener("click",()=>{document.getElementById("mobile-menu").classList.toggle("hidden")});
-      const newsletterForm = document.getElementById('newsletterForm');
-      if (newsletterForm) {
-        newsletterForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const email = document.getElementById('newsletterEmail').value;
-          if (email && email.includes('@')) {
-            alert('Thanks for subscribing! Check your inbox soon.');
-            newsletterForm.reset();
-          } else {
-            alert('Please enter a valid email address.');
-          }
+      const questions = [
+        {
+          text: "When you meet new people, you're usually the one to start the conversation.",
+          cat: "Social",
+          icon: "fa-users",
+        },
+        {
+          text: "You prefer to plan everything in advance rather than being spontaneous.",
+          cat: "Planning",
+          icon: "fa-calendar",
+        },
+        {
+          text: "You trust logic and data more than your gut feelings.",
+          cat: "Thinking",
+          icon: "fa-brain",
+        },
+        {
+          text: "You enjoy thinking about abstract ideas and theories.",
+          cat: "Creativity",
+          icon: "fa-lightbulb",
+        },
+        {
+          text: "After a party or social event, you feel energized, not drained.",
+          cat: "Energy",
+          icon: "fa-bolt",
+        },
+        {
+          text: "You adapt easily when plans suddenly change.",
+          cat: "Flexibility",
+          icon: "fa-arrows-rotate",
+        },
+        {
+          text: "You think about the long-term consequences of your actions.",
+          cat: "Vision",
+          icon: "fa-eye",
+        },
+        {
+          text: "You prefer working alone rather than in a team.",
+          cat: "Work Style",
+          icon: "fa-user",
+        },
+        {
+          text: "You naturally take charge in group situations.",
+          cat: "Leadership",
+          icon: "fa-crown",
+        },
+        {
+          text: "You often put other people's needs before your own.",
+          cat: "Empathy",
+          icon: "fa-heart",
+        },
+      ];
+      let currentIndex = 0,
+        userAnswers = {};
+
+      function startQuiz() {
+        gsap.to("#introScreen", {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            document.getElementById("introScreen").style.display = "none";
+            document.getElementById("quizScreen").style.display = "block";
+            renderQuestion();
+            gsap.fromTo(
+              "#quizScreen",
+              { opacity: 0 },
+              { opacity: 1, duration: 0.5 },
+            );
+          },
         });
       }
-      initTheme();window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{if(!localStorage.getItem('theme'))setTheme(e.matches?'dark':'light')});
+      function renderQuestion() {
+        const q = questions[currentIndex];
+        document.getElementById("qNum").innerHTML = currentIndex + 1;
+        document.getElementById("qTotal").innerHTML = questions.length;
+        document.getElementById("qCategory").innerHTML = q.cat;
+        document.getElementById("questionText").innerHTML = q.text;
+        document.getElementById("qIcon").className = `fas ${q.icon}`;
+        document.getElementById("progressFill").style.width =
+          ((currentIndex + 1) / questions.length) * 100 + "%";
+        const container = document.getElementById("answersContainer");
+        container.innerHTML = "";
+        [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree",
+        ].forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className =
+            "option-btn" +
+            (userAnswers[currentIndex] === idx ? " selected" : "");
+          btn.innerHTML = opt;
+          btn.onclick = () => {
+            userAnswers[currentIndex] = idx;
+            document
+              .querySelectorAll(".option-btn")
+              .forEach((b) => b.classList.remove("selected"));
+            btn.classList.add("selected");
+            document.getElementById("nextBtn").disabled = false;
+            gsap.to(btn, { scale: 1.02, duration: 0.1, yoyo: true, repeat: 1 });
+          };
+          container.appendChild(btn);
+        });
+        document.getElementById("prevBtn").disabled = currentIndex === 0;
+        document.getElementById("prevBtn").style.opacity =
+          currentIndex === 0 ? "0.5" : "1";
+        document.getElementById("nextBtn").disabled =
+          userAnswers[currentIndex] === undefined;
+        document.getElementById("nextBtn").innerHTML =
+          currentIndex === questions.length - 1 ? "See Results →" : "Next →";
+        gsap.fromTo(
+          "#questionCard",
+          { x: 30, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.4 },
+        );
+      }
+      function nextQuestion() {
+        if (userAnswers[currentIndex] === undefined) return;
+        if (currentIndex < questions.length - 1) {
+          currentIndex++;
+          renderQuestion();
+        } else showAnalyzing();
+      }
+      function prevQuestion() {
+        if (currentIndex > 0) {
+          currentIndex--;
+          renderQuestion();
+        }
+      }
+      function showAnalyzing() {
+        gsap.to("#quizScreen", {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            document.getElementById("quizScreen").style.display = "none";
+            document.getElementById("analyzingScreen").style.display = "flex";
+            gsap.fromTo(
+              "#analyzingScreen",
+              { opacity: 0 },
+              { opacity: 1, duration: 0.5 },
+            );
+            localStorage.setItem("quizAnswers", JSON.stringify(userAnswers));
+            let percent = 0;
+            const steps = [
+              "Processing answers...",
+              "Analyzing patterns...",
+              "Building your profile...",
+              "Finding career matches...",
+            ];
+            const interval = setInterval(() => {
+              percent += 2;
+              document.getElementById("analyzeBar").style.width = percent + "%";
+              document.getElementById("analyzePercent").innerHTML =
+                percent + "%";
+              document.getElementById("analyzingStep").innerHTML =
+                steps[Math.min(Math.floor(percent / 25), 3)];
+              if (percent >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                  window.location.href = "results.html";
+                }, 500);
+              }
+            }, 40);
+          },
+        });
+      }
+
+      function setTheme(theme) {
+        const isDark = theme === "dark";
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+          document.body.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          document.body.classList.remove("dark");
+        }
+        const sun = document.getElementById("sunIcon"),
+          moon = document.getElementById("moonIcon");
+        if (isDark) {
+          sun.style.display = "none";
+          moon.style.display = "block";
+        } else {
+          sun.style.display = "block";
+          moon.style.display = "none";
+        }
+        localStorage.setItem("theme", theme);
+      }
+
+      const saved = localStorage.getItem("theme"),
+        prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(saved || (prefersDark ? "dark" : "light"));
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const isDark = document.body.classList.contains("dark");
+        setTheme(isDark ? "light" : "dark");
+      });
+      document
+        .getElementById("footerNewsletter")
+        ?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("footerEmail").value;
+          if (email && email.includes("@"))
+            alert("Thanks for subscribing! Check your inbox soon.");
+          else alert("Please enter a valid email address.");
+        });
     </script>
   </body>
 </html>

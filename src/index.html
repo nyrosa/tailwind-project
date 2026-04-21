@@ -1,853 +1,299 @@
-<!doctype html>
-<html lang="en" class="dark scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeuroPath | Personality Test & Career Discovery Platform</title>
-    <meta
-      name="description"
-      content="Discover your true personality type and ideal career path with NeuroPath's free AI-powered test. 10 questions, 3 minutes, instant results."
-    />
-    <meta
-      name="keywords"
-      content="personality test, career test, MBTI, personality types, career assessment, free personality test, INTJ, ENFP"
-    />
-    <meta name="author" content="NeuroPath" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://neuropath.ai/" />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="NeuroPath - Know Your Mind. Own Your Future."
-    />
-    <meta
-      property="og:description"
-      content="Free personality test with instant results. Discover your type, career matches, and strengths."
-    />
-    <meta property="og:site_name" content="NeuroPath" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <script>
-      (function () {
-        const savedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        const isDark =
-          savedTheme === "dark" || (savedTheme === null && prefersDark);
-        if (isDark) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-      })();
-    </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "NeuroPath",
-        "description": "Free AI-powered personality assessment tool",
-        "url": "https://neuropath.ai"
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroPath | Personality Test & Career Discovery Platform</title>
+  <meta name="description" content="Discover your true personality type and ideal career path with NeuroPath's free AI-powered test. 10 questions, 3 minutes, instant results." />
+  <meta name="keywords" content="personality test, career test, MBTI, personality types, career assessment, free personality test, INTJ, ENFP" />
+  <meta name="author" content="NeuroPath" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://neuropath.ai/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="NeuroPath - Know Your Mind. Own Your Future." />
+  <meta property="og:description" content="Free personality test with instant results. Discover your type, career matches, and strengths." />
+  <meta property="og:site_name" content="NeuroPath" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NeuroPath",
+      "description": "Free AI-powered personality assessment tool",
+      "url": "https://neuropath.ai"
+    }
+  </script>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const isDark = savedTheme === "dark" || (savedTheme === null && prefersDark);
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+        document.body.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        document.body.classList.remove("dark");
       }
-    </script>
-    <link rel="stylesheet" href="../src/output.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      .glass-nav {
-        background: rgba(10, 10, 10, 0.75);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-      :root:not(.dark) .glass-nav {
-        background: rgba(255, 255, 255, 0.85);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      }
-      .gradient-text {
-        background: linear-gradient(135deg, #7b2fff, #00e5ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-      .btn-primary {
-        background: linear-gradient(135deg, #7b2fff, #00e5ff);
-        color: #fff;
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 40px;
-        transition: all 0.3s ease;
-        display: inline-block;
-        box-shadow: 0 4px 15px rgba(123, 47, 255, 0.3);
-      }
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(123, 47, 255, 0.4);
-      }
-      .btn-outline {
-        border: 1px solid rgba(123, 47, 255, 0.5);
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 40px;
-        transition: all 0.3s;
-        background: transparent;
-      }
-      .dark .btn-outline {
-        color: #fff;
-      }
-      :root:not(.dark) .btn-outline {
-        color: #1d1d1f;
-      }
-      .btn-outline:hover {
-        border-color: #7b2fff;
-        color: #7b2fff;
-      }
-      .nav-link {
-        transition: color 0.25s ease;
-        font-weight: 500;
-      }
-      .nav-link:hover {
-        color: #7b2fff;
-      }
-      .nav-indicator {
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #7b2fff, #00e5ff);
-        border-radius: 2px;
-        transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      }
-      .card-hover {
-        transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      }
-      .card-hover:hover {
-        transform: translateY(-8px);
-      }
-      @keyframes marquee {
-        0% {
-          transform: translateX(0);
-        }
-        100% {
-          transform: translateX(-50%);
-        }
-      }
-      .animate-marquee {
-        animation: marquee 20s linear infinite;
-      }
-      #mobile-menu {
-        transition: all 0.3s ease;
-      }
-      :root:not(.dark) .border-white\/10 {
-        border-color: rgba(0, 0, 0, 0.08);
-      }
-      :root:not(.dark) .text-gray-400,
-      :root:not(.dark) .text-gray-500 {
-        color: #6b7280;
-      }
-      :root:not(.dark) .bg-white\/10 {
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-    </style>
-  </head>
-  <body>
-    <nav
-      class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300"
-      id="mainNav"
-    >
-      <div
-        class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between"
-      >
-        <a href="index.html" class="flex items-center gap-2.5 group"
-          ><div
-            class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-            style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
-          >
-            <i class="fas fa-brain text-white text-sm"></i>
-          </div>
-          <span class="font-bold text-xl tracking-tight"
-            >Neuro<span class="gradient-text">Path</span></span
-          ></a
-        >
-        <div class="hidden md:flex items-center gap-6 lg:gap-8">
-          <div class="flex items-center gap-1 relative" id="navLinksContainer">
-            <a
-              href="index.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Home</a
-            ><a
-              href="analyzer.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Test</a
-            ><a
-              href="results.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Results</a
-            ><a
-              href="careers.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Careers</a
-            ><a
-              href="blog.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Blog</a
-            >
-            <div
-              id="navIndicator"
-              class="nav-indicator"
-              style="width: 0px; transform: translateX(0px)"
-            ></div>
-          </div>
+    })();
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #ffffff; color: #1a1a1a; transition: background 0.3s, color 0.3s; }
+    body.dark { background: #0a0a0a; color: #e5e5e5; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .btn-primary { background: #0ea5e9; color: white; font-weight: 600; padding: 12px 28px; border-radius: 9999px; transition: all 0.2s; display: inline-block; border: none; cursor: pointer; text-decoration: none; }
+    .btn-primary:hover { background: #0284c7; transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: #0ea5e9; font-weight: 600; padding: 12px 28px; border-radius: 9999px; transition: all 0.2s; display: inline-block; border: 1.5px solid #0ea5e9; cursor: pointer; text-decoration: none; }
+    .btn-secondary:hover { background: #0ea5e9; color: white; }
+    .gradient-text { background: linear-gradient(135deg, #38bdf8, #0284c7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e5e5; transition: background 0.3s; }
+    body.dark nav { background: rgba(10,10,10,0.95); border-bottom-color: #2a2a2e; }
+    .nav-link { transition: color 0.2s; font-weight: 500; cursor: pointer; text-decoration: none; color: inherit; }
+    .nav-link:hover { color: #0ea5e9; }
+    .card { background: white; border: 1px solid #e5e5e5; border-radius: 24px; transition: all 0.2s; }
+    body.dark .card { background: #1a1a1a; border-color: #2a2a2e; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+    body.dark .card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+    footer { border-top: 1px solid #e5e5e5; padding: 60px 0 40px; margin-top: 40px; }
+    body.dark footer { border-top-color: #2a2a2e; }
+    input { background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 16px; padding: 12px 16px; font-size: 14px; outline: none; }
+    body.dark input { background: #2a2a2a; border-color: #3a3a3e; color: #e5e5e5; }
+    input:focus { border-color: #0ea5e9; }
+    @media (max-width: 768px) { .container { padding: 0 16px; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; max-width: 1280px; margin: 0 auto;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit;">
+        <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #38bdf8, #0284c7); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+          <i class="fas fa-brain" style="color: white; font-size: 18px;"></i>
         </div>
-        <div class="flex items-center gap-3">
-          <button
-            id="themeToggle"
-            class="relative w-10 h-10 rounded-full glass-nav flex items-center justify-center transition-all duration-300 hover:scale-105 group overflow-hidden border border-white/10"
-          >
-            <i
-              id="sunIcon"
-              class="fas fa-sun text-yellow-500 text-lg transition-all duration-500 transform scale-100"
-            ></i
-            ><i
-              id="moonIcon"
-              class="fas fa-moon text-blue-300 text-lg transition-all duration-500 transform scale-0 absolute"
-            ></i></button
-          ><a
-            href="analyzer.html"
-            class="btn-primary text-sm hidden md:inline-block transition-all duration-300"
-            >Take the Test →</a
-          ><button
-            id="mobileMenuBtn"
-            class="md:hidden text-2xl p-2 rounded-xl glass-nav"
-          >
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
+        <span style="font-weight: 800; font-size: 20px;">Neuro<span class="gradient-text">Path</span></span>
+      </a>
+      <div style="display: flex; gap: 32px;">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="analyzer.html" class="nav-link">Test</a>
+        <a href="results.html" class="nav-link">Results</a>
+        <a href="careers.html" class="nav-link">Careers</a>
+        <a href="blog.html" class="nav-link">Blog</a>
       </div>
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden glass-nav border-t border-white/10 px-6 py-5 flex flex-col gap-4"
-      >
-        <a
-          href="index.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-home w-5 text-purple-400"></i> Home</a
-        ><a
-          href="analyzer.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-brain w-5 text-purple-400"></i> Test</a
-        ><a
-          href="results.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-chart-line w-5 text-purple-400"></i> Results</a
-        ><a
-          href="careers.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-briefcase w-5 text-purple-400"></i> Careers</a
-        ><a
-          href="blog.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-newspaper w-5 text-purple-400"></i> Blog</a
-        >
-        <div class="pt-3 border-t border-white/10 mt-2">
-          <a
-            href="analyzer.html"
-            class="btn-primary text-sm w-full text-center block"
-            >Start Free Test →</a
-          >
-        </div>
-      </div>
-    </nav>
-    <section class="min-h-screen flex items-center pt-20 overflow-hidden">
-      <div class="max-w-6xl mx-auto px-6 py-20">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <span
-              class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-6"
-              style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
-              ><i class="fas fa-brain mr-1"></i> Powered by Neuro AI</span
-            >
-            <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">
-              Know Your<br /><span class="gradient-text">Mind.</span><br />Own
-              Your<br /><span
-                style="
-                  background: linear-gradient(135deg, #ff3dff, #7b2fff);
-                  -webkit-background-clip: text;
-                  -webkit-text-fill-color: transparent;
-                "
-                >Future.</span
-              >
-            </h1>
-            <p class="text-gray-500 text-lg mb-8 max-w-lg">
-              The personality test that actually makes sense. Find out who you
-              really are and what you should do with your life.
-            </p>
-            <div class="flex flex-wrap gap-4 mb-10">
-              <a href="analyzer.html" class="btn-primary">Start Free Test →</a
-              ><a href="results.html" class="btn-outline">See Sample Results</a>
-            </div>
-            <div class="flex gap-8">
-              <div>
-                <div class="text-2xl font-bold">2.4M+</div>
-                <div class="text-gray-500 text-sm">People tested</div>
-              </div>
-              <div>
-                <div class="text-2xl font-bold">94%</div>
-                <div class="text-gray-500 text-sm">Say it's accurate</div>
-              </div>
-              <div>
-                <div class="text-2xl font-bold">4 min</div>
-                <div class="text-gray-500 text-sm">Average time</div>
-              </div>
-            </div>
-          </div>
-          <div class="relative hidden lg:block">
-            <div class="relative flex justify-center">
-              <div
-                class="absolute w-72 h-72 rounded-full border border-purple-500/30 animate-ping"
-                style="animation-duration: 3s"
-              ></div>
-              <div
-                class="absolute w-80 h-80 rounded-full border border-cyan-500/30 animate-ping"
-                style="animation-duration: 4s; animation-delay: 1s"
-              ></div>
-              <div class="glass-nav rounded-3xl p-8 text-center z-10 w-80">
-                <div
-                  class="w-20 h-20 rounded-2xl mx-auto mb-4 flex items-center justify-center"
-                  style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
-                >
-                  <i class="fas fa-brain text-white text-3xl"></i>
-                </div>
-                <div class="text-3xl font-black mb-1">INTJ</div>
-                <div class="text-purple-400 text-sm mb-4">The Architect</div>
-                <div class="space-y-3 text-left">
-                  <div>
-                    <div class="flex justify-between text-xs mb-1">
-                      <span>Analytical</span><span>96%</span>
-                    </div>
-                    <div class="h-1.5 bg-white/10 rounded-full">
-                      <div
-                        class="h-1.5 rounded-full w-[96%]"
-                        style="
-                          background: linear-gradient(90deg, #7b2fff, #00e5ff);
-                        "
-                      ></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="flex justify-between text-xs mb-1">
-                      <span>Strategic</span><span>88%</span>
-                    </div>
-                    <div class="h-1.5 bg-white/10 rounded-full">
-                      <div
-                        class="h-1.5 rounded-full w-[88%]"
-                        style="
-                          background: linear-gradient(90deg, #7b2fff, #ff3dff);
-                        "
-                      ></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="flex justify-between text-xs mb-1">
-                      <span>Creative</span><span>74%</span>
-                    </div>
-                    <div class="h-1.5 bg-white/10 rounded-full">
-                      <div
-                        class="h-1.5 rounded-full w-[74%]"
-                        style="
-                          background: linear-gradient(90deg, #00e5ff, #7b2fff);
-                        "
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="overflow-hidden py-4 border-y border-white/10">
-      <div class="flex gap-8 animate-marquee whitespace-nowrap">
-        <span class="text-gray-500 text-sm font-semibold"
-          >✦ PERSONALITY ANALYSIS</span
-        ><span class="text-purple-500">◆</span
-        ><span class="text-gray-500 text-sm font-semibold"
-          >✦ CAREER MAPPING</span
-        ><span class="text-cyan-500">◆</span
-        ><span class="text-gray-500 text-sm font-semibold"
-          >✦ COGNITIVE PROFILING</span
-        ><span class="text-pink-500">◆</span
-        ><span class="text-gray-500 text-sm font-semibold"
-          >✦ STRENGTH DISCOVERY</span
-        ><span class="text-purple-500">◆</span
-        ><span class="text-gray-500 text-sm font-semibold">✦ AI INSIGHTS</span
-        ><span class="text-cyan-500">◆</span>
+      <div style="display: flex; gap: 12px;">
+        <button id="themeToggle" style="width: 40px; height: 40px; border-radius: 9999px; background: #f0f0f0; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+          <i id="sunIcon" class="fas fa-sun" style="color: #eab308;"></i>
+          <i id="moonIcon" class="fas fa-moon" style="color: #94a3b8; display: none;"></i>
+        </button>
+        <a href="analyzer.html" class="btn-primary" style="text-decoration: none;">Take the Test →</a>
       </div>
     </div>
-    <section class="py-24">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-16">
-          <span
-            class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4"
-            style="background: rgba(0, 229, 255, 0.1); color: #00e5ff"
-            >How It Works</span
-          >
-          <h2 class="text-4xl md:text-5xl font-black">
-            3 Steps to <span class="gradient-text">Self-Discovery</span>
-          </h2>
-        </div>
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="glass-nav rounded-2xl p-8 text-center card-hover">
-            <div
-              class="w-16 h-16 rounded-xl mx-auto mb-5 flex items-center justify-center"
-              style="background: rgba(123, 47, 255, 0.15)"
-            >
-              <span class="text-3xl font-black gradient-text">1</span>
-            </div>
-            <h3 class="text-xl font-bold mb-3">Take the Quiz</h3>
-            <p class="text-gray-500 text-sm">
-              Answer 10 questions about yourself. No right or wrong answers.
-              Just be honest.
-            </p>
-          </div>
-          <div class="glass-nav rounded-2xl p-8 text-center card-hover">
-            <div
-              class="w-16 h-16 rounded-xl mx-auto mb-5 flex items-center justify-center"
-              style="background: rgba(0, 229, 255, 0.1)"
-            >
-              <span class="text-3xl font-black gradient-text">2</span>
-            </div>
-            <h3 class="text-xl font-bold mb-3">AI Analysis</h3>
-            <p class="text-gray-500 text-sm">
-              Our AI processes your answers and builds your personality profile
-              in seconds.
-            </p>
-          </div>
-          <div class="glass-nav rounded-2xl p-8 text-center card-hover">
-            <div
-              class="w-16 h-16 rounded-xl mx-auto mb-5 flex items-center justify-center"
-              style="background: rgba(255, 61, 255, 0.1)"
-            >
-              <span class="text-3xl font-black gradient-text">3</span>
-            </div>
-            <h3 class="text-xl font-bold mb-3">Get Your Report</h3>
-            <p class="text-gray-500 text-sm">
-              Download your full report with career matches and personalized
-              advice.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-20 border-t border-white/10">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="flex flex-wrap justify-between items-end mb-12">
-          <div>
-            <span
-              class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4"
-              style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
-              >16 Types</span
-            >
-            <h2 class="text-4xl md:text-5xl font-black">
-              Which one <span class="gradient-text">are you?</span>
-            </h2>
-          </div>
-          <a href="analyzer.html" class="btn-outline text-sm mt-4 md:mt-0"
-            >Find out →</a
-          >
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="glass-nav rounded-xl p-4 text-center card-hover">
-            <div class="text-2xl mb-2">🏛️</div>
-            <div class="font-bold">INTJ</div>
-            <div class="text-purple-400 text-xs">The Architect</div>
-          </div>
-          <div class="glass-nav rounded-xl p-4 text-center card-hover">
-            <div class="text-2xl mb-2">💡</div>
-            <div class="font-bold">ENTP</div>
-            <div class="text-cyan-400 text-xs">The Visionary</div>
-          </div>
-          <div class="glass-nav rounded-xl p-4 text-center card-hover">
-            <div class="text-2xl mb-2">🎨</div>
-            <div class="font-bold">INFP</div>
-            <div class="text-pink-400 text-xs">The Mediator</div>
-          </div>
-          <div class="glass-nav rounded-xl p-4 text-center card-hover">
-            <div class="text-2xl mb-2">⚡</div>
-            <div class="font-bold">ENTJ</div>
-            <div class="text-yellow-400 text-xs">The Commander</div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-24 border-t border-white/10">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-14">
-          <span
-            class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4"
-            style="background: rgba(0, 229, 255, 0.1); color: #00e5ff"
-            >Real Voices</span
-          >
-          <h2 class="text-4xl md:text-5xl font-black">
-            They found their <span class="gradient-text">path</span>
-          </h2>
-        </div>
-        <div class="grid md:grid-cols-3 gap-6">
-          <div class="glass-nav rounded-2xl p-6 card-hover">
-            <div class="flex gap-1 text-purple-500 mb-4">★★★★★</div>
-            <p class="text-gray-400 text-sm mb-5">
-              "I was stuck in a job I hated. NeuroPath showed me I'm actually an
-              ENFP and should be doing creative work. Changed my life."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://i.pinimg.com/736x/02/8e/a7/028ea730c0c6e6528b02eeae93fb74a7.jpg"
-                class="w-10 h-10 rounded-full object-cover"
-              />
-              <div>
-                <div class="font-bold text-sm">Chen</div>
-                <div class="text-gray-500 text-xs">UX Designer</div>
-              </div>
-            </div>
-          </div>
-          <div class="glass-nav rounded-2xl p-6 card-hover">
-            <div class="flex gap-1 text-purple-500 mb-4">★★★★★</div>
-            <p class="text-gray-400 text-sm mb-5">
-              "Took the test on a whim. Got INTJ. Now I'm in software
-              engineering and actually enjoy Mondays. Wild."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://i.pinimg.com/736x/26/ac/a2/26aca22d1b2464a4a7f89af466149c5a.jpg"
-                class="w-10 h-10 rounded-full object-cover"
-              />
-              <div>
-                <div class="font-bold text-sm">Kimchii</div>
-                <div class="text-gray-500 text-xs">Software Engineer</div>
-              </div>
-            </div>
-          </div>
-          <div class="glass-nav rounded-2xl p-6 card-hover">
-            <div class="flex gap-1 text-purple-500 mb-4">★★★★★</div>
-            <p class="text-gray-400 text-sm mb-5">
-              "The career matches were spot on. I was already thinking about
-              switching to product management, and this confirmed it."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://i.pinimg.com/736x/72/ef/27/72ef273571a13a8b658d25ba99ee5745.jpg"
-                class="w-10 h-10 rounded-full object-cover"
-              />
-              <div>
-                <div class="font-bold text-sm">Jay</div>
-                <div class="text-gray-500 text-xs">AI Engineer</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-24">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <div
-          class="glass-nav rounded-3xl p-12 relative overflow-hidden card-hover"
-        >
-          <div
-            class="absolute w-64 h-64 rounded-full bg-purple-600/20 blur-3xl -top-20 -left-20"
-          ></div>
-          <div
-            class="absolute w-48 h-48 rounded-full bg-pink-600/20 blur-3xl -bottom-20 -right-20"
-          ></div>
-          <span
-            class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-5"
-            style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
-            >Free · No Credit Card</span
-          >
-          <h2 class="text-3xl md:text-5xl font-black mb-4">
-            Ready to meet your<br /><span class="gradient-text"
-              >true self?</span
-            >
-          </h2>
-          <p class="text-gray-500 mb-8">
-            Join 2.4 million people who've already taken the test.
+  </nav>
+
+  <main style="margin-top: 80px;">
+    <section class="container" style="padding: 60px 24px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+        <div>
+          <span style="display: inline-block; background: #e0f2fe; color: #0284c7; padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 600; margin-bottom: 20px;">
+            <i class="fas fa-brain"></i> Powered by Neuro AI
+          </span>
+          <h1 style="font-size: 64px; font-weight: 900; line-height: 1.2; margin-bottom: 20px;">
+            Know Your<br><span class="gradient-text">Mind.</span><br>Own Your<br><span class="gradient-text">Future.</span>
+          </h1>
+          <p style="font-size: 18px; color: #666; margin-bottom: 30px; max-width: 500px;">
+            The personality test that actually makes sense. Find out who you really are and what you should do with your life.
           </p>
-          <a href="analyzer.html" class="btn-primary text-lg"
-            >Start Free Test →</a
-          >
+          <div style="display: flex; gap: 16px; margin-bottom: 40px;">
+            <a href="analyzer.html" class="btn-primary">Start Free Test →</a>
+            <a href="results.html" class="btn-secondary">See Sample Results</a>
+          </div>
+          <div style="display: flex; gap: 48px;">
+            <div><div style="font-size: 28px; font-weight: 800;">2.4M+</div><div style="color: #666;">People tested</div></div>
+            <div><div style="font-size: 28px; font-weight: 800;">94%</div><div style="color: #666;">Say it's accurate</div></div>
+            <div><div style="font-size: 28px; font-weight: 800;">4 min</div><div style="color: #666;">Average time</div></div>
+          </div>
+        </div>
+        <div class="card" style="padding: 40px; text-align: center;">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #38bdf8, #0284c7); border-radius: 24px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-brain" style="color: white; font-size: 36px;"></i>
+          </div>
+          <div style="font-size: 48px; font-weight: 900;">INTJ</div>
+          <div style="color: #0ea5e9; margin-bottom: 20px;">The Architect</div>
+          <div style="text-align: left;">
+            <div><div style="display: flex; justify-content: space-between; margin-bottom: 6px;"><span>Analytical</span><span>96%</span></div><div style="height: 6px; background: #e5e5e5; border-radius: 10px;"><div style="width: 96%; height: 100%; background: linear-gradient(90deg, #38bdf8, #0284c7); border-radius: 10px;"></div></div></div>
+            <div style="margin-top: 12px;"><div style="display: flex; justify-content: space-between; margin-bottom: 6px;"><span>Strategic</span><span>88%</span></div><div style="height: 6px; background: #e5e5e5; border-radius: 10px;"><div style="width: 88%; height: 100%; background: linear-gradient(90deg, #38bdf8, #0284c7); border-radius: 10px;"></div></div></div>
+            <div style="margin-top: 12px;"><div style="display: flex; justify-content: space-between; margin-bottom: 6px;"><span>Creative</span><span>74%</span></div><div style="height: 6px; background: #e5e5e5; border-radius: 10px;"><div style="width: 74%; height: 100%; background: linear-gradient(90deg, #38bdf8, #0284c7); border-radius: 10px;"></div></div></div>
+          </div>
         </div>
       </div>
     </section>
-    <footer
-      class="border-t border-white/10 pt-20 pb-10 bg-white dark:bg-[#0a0a0a]"
-    >
-      <div class="max-w-7xl mx-auto px-6">
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16"
-        >
-          <div class="space-y-6">
-            <a href="index.html" class="flex items-center gap-2.5 group">
-              <div
-                class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-                style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
-              >
-                <i class="fas fa-brain text-white text-sm"></i>
-              </div>
-              <span class="font-bold text-xl tracking-tight"
-                >Neuro<span class="gradient-text">Path</span></span
-              >
-            </a>
-            <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
-              Empowering individuals through AI-driven cognitive profiling and
-              career discovery. Understand your mind, unlock your potential.
-            </p>
-            <div class="flex gap-4">
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
-                ><i class="fab fa-linkedin-in"></i
-              ></a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
-                ><i class="fab fa-instagram"></i
-              ></a>
-            </div>
-          </div>
 
-          <div>
-            <h4 class="font-bold mb-6">Product</h4>
-            <ul class="space-y-4 text-sm text-gray-500">
-              <li>
-                <a
-                  href="analyzer.html"
-                  class="hover:text-purple-400 transition-colors"
-                  >Personality Test</a
-                >
-              </li>
-              <li>
-                <a
-                  href="careers.html"
-                  class="hover:text-purple-400 transition-colors"
-                  >Career Mapping</a
-                >
-              </li>
-              <li>
-                <a
-                  href="results.html"
-                  class="hover:text-purple-400 transition-colors"
-                  >Sample Reports</a
-                >
-              </li>
-            </ul>
-          </div>
+    <section class="container" style="padding: 80px 24px; text-align: center;">
+      <span style="display: inline-block; background: #e0f2fe; color: #0284c7; padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 600; margin-bottom: 16px;">How It Works</span>
+      <h2 style="font-size: 48px; font-weight: 900; margin-bottom: 60px;">3 Steps to <span class="gradient-text">Self-Discovery</span></h2>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+        <div class="card" style="padding: 40px 24px;">
+          <div style="width: 64px; height: 64px; background: #e0f2fe; border-radius: 16px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;"><span style="font-size: 32px; font-weight: 900; color: #0ea5e9;">1</span></div>
+          <h3 style="font-size: 20px; margin-bottom: 12px;">Take the Quiz</h3>
+          <p style="color: #666;">Answer 10 questions about yourself. No right or wrong answers. Just be honest.</p>
+        </div>
+        <div class="card" style="padding: 40px 24px;">
+          <div style="width: 64px; height: 64px; background: #e0f2fe; border-radius: 16px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;"><span style="font-size: 32px; font-weight: 900; color: #0ea5e9;">2</span></div>
+          <h3 style="font-size: 20px; margin-bottom: 12px;">AI Analysis</h3>
+          <p style="color: #666;">Our AI processes your answers and builds your personality profile in seconds.</p>
+        </div>
+        <div class="card" style="padding: 40px 24px;">
+          <div style="width: 64px; height: 64px; background: #e0f2fe; border-radius: 16px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;"><span style="font-size: 32px; font-weight: 900; color: #0ea5e9;">3</span></div>
+          <h3 style="font-size: 20px; margin-bottom: 12px;">Get Your Report</h3>
+          <p style="color: #666;">Download your full report with career matches and personalized advice.</p>
+        </div>
+      </div>
+    </section>
 
-          <div>
-            <h4 class="font-bold mb-6">Resources</h4>
-            <ul class="space-y-4 text-sm text-gray-500">
-              <li>
-                <a
-                  href="blog.html"
-                  class="hover:text-purple-400 transition-colors"
-                  >Insights Blog</a
-                >
-              </li>
-              <li>
-                <a href="#" class="hover:text-purple-400 transition-colors"
-                  >Help Center</a
-                >
-              </li>
-              <li>
-                <a href="#" class="hover:text-purple-400 transition-colors"
-                  >Privacy Policy</a
-                >
-              </li>
-            </ul>
-          </div>
+    <section class="container" style="padding: 60px 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;">
+        <div>
+          <span style="background: #e0f2fe; color: #0284c7; padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 600;">16 Types</span>
+          <h2 style="font-size: 40px; font-weight: 900; margin-top: 16px;">Which one <span class="gradient-text">are you?</span></h2>
+        </div>
+        <a href="analyzer.html" class="btn-secondary" style="text-decoration: none;">Find out →</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+        <div class="card" style="padding: 24px; text-align: center;"><div style="font-size: 32px;">🏛️</div><div style="font-weight: 700;">INTJ</div><div style="color: #0ea5e9; font-size: 12px;">The Architect</div></div>
+        <div class="card" style="padding: 24px; text-align: center;"><div style="font-size: 32px;">💡</div><div style="font-weight: 700;">ENTP</div><div style="color: #0ea5e9; font-size: 12px;">The Visionary</div></div>
+        <div class="card" style="padding: 24px; text-align: center;"><div style="font-size: 32px;">🎨</div><div style="font-weight: 700;">INFP</div><div style="color: #0ea5e9; font-size: 12px;">The Mediator</div></div>
+        <div class="card" style="padding: 24px; text-align: center;"><div style="font-size: 32px;">⚡</div><div style="font-weight: 700;">ENTJ</div><div style="color: #0ea5e9; font-size: 12px;">The Commander</div></div>
+      </div>
+    </section>
 
-          <div>
-            <h4 class="font-bold mb-6">Stay Updated</h4>
-            <p class="text-sm text-gray-500 mb-4">
-              Get the latest career tips via email.
-            </p>
-            <form class="relative" id="newsletterForm">
-              <input
-                type="email"
-                id="newsletterEmail"
-                placeholder="Email address"
-                class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors"
-              />
-              <button
-                type="submit"
-                class="absolute right-2 top-1.5 bg-purple-600 hover:bg-purple-500 text-white p-1.5 rounded-lg transition-colors"
-              >
-                <i class="fas fa-arrow-right px-2"></i>
-              </button>
-            </form>
+    <section class="container" style="padding: 80px 24px; text-align: center;">
+      <span style="background: #e0f2fe; color: #0284c7; padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 600;">Real Voices</span>
+      <h2 style="font-size: 48px; font-weight: 900; margin: 16px 0 60px;">They found their <span class="gradient-text">path</span></h2>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+        <div class="card" style="padding: 24px; text-align: left;">
+          <div style="color: #eab308; margin-bottom: 16px;">★★★★★</div>
+          <p style="color: #666; margin-bottom: 20px;">"I was stuck in a job I hated. NeuroPath showed me I'm actually an ENFP and should be doing creative work. Changed my life."</p>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="https://i.pinimg.com/736x/02/8e/a7/028ea730c0c6e6528b02eeae93fb74a7.jpg" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+            <div><div style="font-weight: 600;">Chen</div><div style="color: #666; font-size: 12px;">UX Designer</div></div>
           </div>
         </div>
-
-        <div
-          class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6"
-        >
-          <div class="text-xs text-gray-500">
-            © 2026 NeuroPath AI. All rights reserved.
+        <div class="card" style="padding: 24px; text-align: left;">
+          <div style="color: #eab308; margin-bottom: 16px;">★★★★★</div>
+          <p style="color: #666; margin-bottom: 20px;">"Took the test on a whim. Got INTJ. Now I'm in software engineering and actually enjoy Mondays. Wild."</p>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="https://i.pinimg.com/736x/26/ac/a2/26aca22d1b2464a4a7f89af466149c5a.jpg" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+            <div><div style="font-weight: 600;">Kimchii</div><div style="color: #666; font-size: 12px;">Software Engineer</div></div>
           </div>
-          <div class="flex gap-6 text-xs text-gray-500">
-            <a href="#" class="hover:text-white transition">Terms</a>
-            <a href="#" class="hover:text-white transition">Cookies</a>
+        </div>
+        <div class="card" style="padding: 24px; text-align: left;">
+          <div style="color: #eab308; margin-bottom: 16px;">★★★★★</div>
+          <p style="color: #666; margin-bottom: 20px;">"The career matches were spot on. I was already thinking about switching to product management, and this confirmed it."</p>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="https://i.pinimg.com/736x/72/ef/27/72ef273571a13a8b658d25ba99ee5745.jpg" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+            <div><div style="font-weight: 600;">Jay</div><div style="color: #666; font-size: 12px;">AI Engineer</div></div>
           </div>
         </div>
       </div>
-    </footer>
-    <script>
-      function setTheme(theme) {
-        const isDark = theme === "dark";
-        const sunIcon = document.getElementById("sunIcon");
-        const moonIcon = document.getElementById("moonIcon");
+    </section>
 
-        if (isDark) {
-          document.documentElement.classList.add("dark");
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.add("scale-0", "absolute");
-            sunIcon.classList.remove("scale-100", "relative");
-            moonIcon.classList.add("scale-100", "relative");
-            moonIcon.classList.remove("scale-0", "absolute");
-          }
-        } else {
-          document.documentElement.classList.remove("dark");
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.add("scale-100", "relative");
-            sunIcon.classList.remove("scale-0", "absolute");
-            moonIcon.classList.add("scale-0", "absolute");
-            moonIcon.classList.remove("scale-100", "relative");
-          }
-        }
-        localStorage.setItem("theme", theme);
+    <section class="container" style="padding: 60px 24px 100px; text-align: center;">
+      <div class="card" style="padding: 60px 40px; position: relative; overflow: hidden;">
+        <span style="background: #e0f2fe; color: #0284c7; padding: 6px 14px; border-radius: 9999px; font-size: 12px; font-weight: 600;">Free · No Credit Card</span>
+        <h2 style="font-size: 48px; font-weight: 900; margin: 24px 0 16px;">Ready to meet your<br><span class="gradient-text">true self?</span></h2>
+        <p style="color: #666; margin-bottom: 30px;">Join 2.4 million people who've already taken the test.</p>
+        <a href="analyzer.html" class="btn-primary" style="font-size: 18px;">Start Free Test →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px; margin-bottom: 48px;">
+        <div>
+          <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; margin-bottom: 20px;">
+            <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #38bdf8, #0284c7); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+              <i class="fas fa-brain" style="color: white;"></i>
+            </div>
+            <span style="font-weight: 800;">Neuro<span class="gradient-text">Path</span></span>
+          </a>
+          <p style="color: #666; font-size: 14px;">Empowering individuals through AI-driven cognitive profiling and career discovery. Understand your mind, unlock your potential.</p>
+          <div style="display: flex; gap: 16px; margin-top: 20px;">
+            <a href="#" style="color: #666;"><i class="fab fa-twitter"></i></a>
+            <a href="#" style="color: #666;"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" style="color: #666;"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 20px;">Product</h4>
+          <ul style="list-style: none; color: #666; font-size: 14px;">
+            <li style="margin-bottom: 12px;"><a href="analyzer.html" style="text-decoration: none; color: inherit;">Personality Test</a></li>
+            <li style="margin-bottom: 12px;"><a href="careers.html" style="text-decoration: none; color: inherit;">Career Mapping</a></li>
+            <li><a href="results.html" style="text-decoration: none; color: inherit;">Sample Reports</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 20px;">Resources</h4>
+          <ul style="list-style: none; color: #666; font-size: 14px;">
+            <li style="margin-bottom: 12px;"><a href="blog.html" style="text-decoration: none; color: inherit;">Insights Blog</a></li>
+            <li style="margin-bottom: 12px;"><a href="#" style="text-decoration: none; color: inherit;">Help Center</a></li>
+            <li><a href="#" style="text-decoration: none; color: inherit;">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 20px;">Stay Updated</h4>
+          <p style="color: #666; font-size: 14px; margin-bottom: 16px;">Get the latest career tips via email.</p>
+          <form id="footerNewsletter" style="display: flex;">
+            <input type="email" id="footerEmail" placeholder="Email address" style="flex: 1;">
+            <button type="submit" style="background: #0ea5e9; border: none; border-radius: 12px; padding: 0 16px; margin-left: 8px; cursor: pointer;"><i class="fas fa-arrow-right" style="color: white;"></i></button>
+          </form>
+        </div>
+      </div>
+      <div style="border-top: 1px solid #e5e5e5; padding-top: 24px; text-align: center; color: #666; font-size: 12px;">© 2026 NeuroPath AI. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    function setTheme(theme) {
+      const isDark = theme === 'dark';
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.body.classList.remove('dark');
       }
-
-      function initTheme() {
-        const savedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        let theme = savedTheme;
-        if (!theme) {
-          theme = prefersDark ? "dark" : "light";
-        }
-        setTheme(theme);
+      const sun = document.getElementById('sunIcon'), moon = document.getElementById('moonIcon');
+      if (isDark) { 
+        sun.style.display = 'none'; 
+        moon.style.display = 'block'; 
+      } else { 
+        sun.style.display = 'block'; 
+        moon.style.display = 'none'; 
       }
-
-      const navLinks = document.querySelectorAll(".nav-link");
-      const indicator = document.getElementById("navIndicator");
-
-      function updateIndicator(activeLink) {
-        if (!activeLink || !indicator) return;
-        const rect = activeLink.getBoundingClientRect();
-        const containerRect = document
-          .getElementById("navLinksContainer")
-          .getBoundingClientRect();
-        indicator.style.width = rect.width + "px";
-        indicator.style.transform = `translateX(${rect.left - containerRect.left}px)`;
-      }
-
-      const currentPath =
-        window.location.pathname.split("/").pop() || "index.html";
-      navLinks.forEach((link) => {
-        if (link.getAttribute("href") === currentPath) {
-          link.style.color = "#A06BFF";
-          updateIndicator(link);
-        }
-      });
-
-      navLinks.forEach((link) => {
-        link.addEventListener("mouseenter", () => updateIndicator(link));
-        link.addEventListener("mouseleave", () => {
-          const activeLink = Array.from(navLinks).find(
-            (l) => l.getAttribute("href") === currentPath,
-          );
-          if (activeLink) updateIndicator(activeLink);
-        });
-      });
-
-      const nav = document.getElementById("mainNav");
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) nav.classList.add("shadow-lg");
-        else nav.classList.remove("shadow-lg");
-      });
-
-      const themeToggleBtn = document.getElementById("themeToggle");
-      if (themeToggleBtn) {
-        themeToggleBtn.addEventListener("click", () => {
-          const isDark = document.documentElement.classList.contains("dark");
-          const newTheme = isDark ? "light" : "dark";
-          setTheme(newTheme);
-          gsap.to(themeToggleBtn, {
-            scale: 0.95,
-            duration: 0.1,
-            yoyo: true,
-            repeat: 1,
-          });
-        });
-      }
-
-      const mobileBtn = document.getElementById("mobileMenuBtn");
-      const mobileMenu = document.getElementById("mobile-menu");
-      if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener("click", () => {
-          mobileMenu.classList.toggle("hidden");
-        });
-      }
-
-      const newsletterForm = document.getElementById("newsletterForm");
-      if (newsletterForm) {
-        newsletterForm.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const email = document.getElementById("newsletterEmail").value;
-          if (email && email.includes("@")) {
-            alert("Thanks for subscribing! Check your inbox soon.");
-            newsletterForm.reset();
-          } else {
-            alert("Please enter a valid email address.");
-          }
-        });
-      }
-
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.fromTo(
-        ".card-hover",
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          scrollTrigger: { trigger: ".card-hover", start: "top 85%" },
-        },
-      );
-
-      initTheme();
-
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (e) => {
-          const stored = localStorage.getItem("theme");
-          if (!stored) {
-            setTheme(e.matches ? "dark" : "light");
-          }
-        });
-    </script>
-  </body>
+      localStorage.setItem('theme', theme);
+    }
+    
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(saved || (prefersDark ? 'dark' : 'light'));
+    
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+    
+    document.getElementById('footerNewsletter')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('footerEmail').value;
+      if (email && email.includes('@')) alert('Thanks for subscribing! Check your inbox soon.');
+      else alert('Please enter a valid email address.');
+    });
+    
+    gsap.fromTo('.card', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, scrollTrigger: { trigger: '.card', start: 'top 85%' } });
+  </script>
+</body>
 </html>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,131 +28,182 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script>
       (function () {
-        const t = localStorage.getItem("theme"),
-          e = window.matchMedia("(prefers-color-scheme: dark)").matches,
-          n = t === "dark" || (t === null && e);
-        if (n) document.documentElement.classList.add("dark");
-        else document.documentElement.classList.remove("dark");
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        const isDark =
+          savedTheme === "dark" || (savedTheme === null && prefersDark);
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+          document.body.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          document.body.classList.remove("dark");
+        }
       })();
     </script>
-    <link rel="stylesheet" href="../src/output.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <link
-      rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
     <style>
-      .glass-nav {
-        background: rgba(10, 10, 10, 0.75);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      :root:not(.dark) .glass-nav {
-        background: rgba(255, 255, 255, 0.85);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      body {
+        font-family: "Inter", sans-serif;
+        background: #ffffff;
+        color: #1a1a1a;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      body.dark {
+        background: #0a0a0a;
+        color: #e5e5e5;
+      }
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Buttons */
+      .btn-primary {
+        background: #0ea5e9;
+        color: white;
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 9999px;
+        transition: all 0.2s;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-primary:hover {
+        background: #0284c7;
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background: transparent;
+        color: #0ea5e9;
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 9999px;
+        transition: all 0.2s;
+        display: inline-block;
+        border: 1.5px solid #0ea5e9;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-secondary:hover {
+        background: #0ea5e9;
+        color: white;
       }
       .gradient-text {
-        background: linear-gradient(135deg, #7b2fff, #00e5ff);
+        background: linear-gradient(135deg, #38bdf8, #0284c7);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
-      .btn-primary {
-        background: linear-gradient(135deg, #7b2fff, #00e5ff);
-        color: #fff;
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 40px;
-        transition: all 0.3s ease;
-        display: inline-block;
-        box-shadow: 0 4px 15px rgba(123, 47, 255, 0.3);
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e5e5e5;
+        transition: background 0.3s;
       }
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(123, 47, 255, 0.4);
-      }
-      .btn-outline {
-        border: 1px solid rgba(123, 47, 255, 0.5);
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 40px;
-        transition: all 0.3s;
-        background: transparent;
-      }
-      .dark .btn-outline {
-        color: #fff;
-      }
-      :root:not(.dark) .btn-outline {
-        color: #1d1d1f;
-      }
-      .btn-outline:hover {
-        border-color: #7b2fff;
-        color: #7b2fff;
+      body.dark nav {
+        background: rgba(10, 10, 10, 0.95);
+        border-bottom-color: #2a2a2e;
       }
       .nav-link {
-        transition: color 0.25s ease;
+        transition: color 0.2s;
         font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
       }
       .nav-link:hover {
-        color: #7b2fff;
+        color: #0ea5e9;
       }
-      .nav-indicator {
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #7b2fff, #00e5ff);
-        border-radius: 2px;
-        transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+
+      /* Cards */
+      .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 24px;
+        transition: all 0.2s;
       }
+      body.dark .card {
+        background: #1a1a1a;
+        border-color: #2a2a2e;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      }
+      body.dark .card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Filter Buttons */
       .filter-btn {
         padding: 8px 20px;
-        border-radius: 40px;
+        border-radius: 9999px;
         font-size: 14px;
         font-weight: 500;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: #f0f0f0;
+        border: 1px solid #e5e5e5;
         cursor: pointer;
         transition: all 0.2s;
       }
-      :root:not(.dark) .filter-btn {
-        background: rgba(0, 0, 0, 0.03);
-        border-color: rgba(0, 0, 0, 0.1);
+      body.dark .filter-btn {
+        background: #2a2a2a;
+        border-color: #3a3a3e;
+        color: #e5e5e5;
       }
       .filter-btn:hover,
       .filter-btn.active {
-        background: rgba(123, 47, 255, 0.2);
-        border-color: #7b2fff;
-        color: #7b2fff;
+        background: #0ea5e9;
+        color: white;
+        border-color: #0ea5e9;
       }
-      .career-card {
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-      .career-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      }
+
+      /* Salary Bar */
       .salary-bar {
         height: 6px;
-        background: rgba(255, 255, 255, 0.1);
+        background: #e5e5e5;
         border-radius: 10px;
         overflow: hidden;
       }
-      :root:not(.dark) .salary-bar {
-        background: rgba(0, 0, 0, 0.1);
+      body.dark .salary-bar {
+        background: #2a2a2e;
       }
       .salary-fill {
         height: 100%;
-        background: linear-gradient(90deg, #7b2fff, #00e5ff);
+        background: linear-gradient(90deg, #38bdf8, #0284c7);
         width: 0;
-        transition: width 1s ease;
+        transition: width 1s;
       }
+
+      /* Match Ring */
       .match-ring {
         width: 55px;
         height: 55px;
@@ -162,734 +213,584 @@
         justify-content: center;
         font-weight: 800;
         font-size: 14px;
-        border: 2px solid rgba(123, 47, 255, 0.5);
-        background: rgba(123, 47, 255, 0.1);
-        color: #7b2fff;
+        border: 2px solid #0ea5e9;
+        background: #e0f2fe;
+        color: #0ea5e9;
       }
-      #mobile-menu {
-        transition: all 0.3s ease;
+      body.dark .match-ring {
+        background: #0ea5e9;
+        color: white;
+        border-color: #0ea5e9;
       }
-      :root:not(.dark) .border-white\/10 {
-        border-color: rgba(0, 0, 0, 0.08);
+
+      /* Skill Badges */
+      .skill-badge {
+        background: #f0f0f0;
+        color: #1a1a1a;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-block;
       }
-      :root:not(.dark) .text-gray-500 {
-        color: #6b7280;
+      body.dark .skill-badge {
+        background: #2a2a2a;
+        color: #e5e5e5;
+        border: 1px solid #3a3a3e;
+      }
+
+      /* Category Badge */
+      .category-badge {
+        background: #e0f2fe;
+        color: #0284c7;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-block;
+      }
+      body.dark .category-badge {
+        background: #0ea5e9;
+        color: white;
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid #e5e5e5;
+        padding: 60px 0 40px;
+        margin-top: 40px;
+      }
+      body.dark footer {
+        border-top-color: #2a2a2e;
+      }
+
+      /* Inputs */
+      input {
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
+        border-radius: 16px;
+        padding: 12px 16px;
+        font-size: 14px;
+        outline: none;
+      }
+      body.dark input {
+        background: #2a2a2a;
+        border-color: #3a3a3e;
+        color: #e5e5e5;
+      }
+      input:focus {
+        border-color: #0ea5e9;
+      }
+
+      /* Text colors */
+      .text-muted {
+        color: #666;
+      }
+      body.dark .text-muted {
+        color: #999;
+      }
+
+      /* Icon background */
+      .icon-bg {
+        width: 48px;
+        height: 48px;
+        background: #e0f2fe;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      body.dark .icon-bg {
+        background: #0ea5e9;
+      }
+      .icon-bg i {
+        color: #0ea5e9;
+        font-size: 20px;
+      }
+      body.dark .icon-bg i {
+        color: white;
       }
     </style>
   </head>
   <body>
-    <nav
-      class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300"
-      id="mainNav"
-    >
+    <nav>
       <div
-        class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between"
-      >
-        <a href="index.html" class="flex items-center gap-2.5 group"
-          ><div
-            class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-            style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
-          >
-            <i class="fas fa-brain text-white text-sm"></i>
-          </div>
-          <span class="font-bold text-xl tracking-tight"
-            >Neuro<span class="gradient-text">Path</span></span
-          ></a
-        >
-        <div class="hidden md:flex items-center gap-6 lg:gap-8">
-          <div class="flex items-center gap-1 relative" id="navLinksContainer">
-            <a
-              href="index.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Home</a
-            ><a
-              href="analyzer.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Test</a
-            ><a
-              href="results.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Results</a
-            ><a
-              href="careers.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Careers</a
-            ><a
-              href="blog.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Blog</a
-            >
-            <div
-              id="navIndicator"
-              class="nav-indicator"
-              style="width: 0px; transform: translateX(0px)"
-            ></div>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <button
-            id="themeToggle"
-            class="relative w-10 h-10 rounded-full glass-nav flex items-center justify-center transition-all duration-300 hover:scale-105 group overflow-hidden border border-white/10"
-          >
-            <i
-              id="sunIcon"
-              class="fas fa-sun text-yellow-500 text-lg transition-all duration-500 transform scale-100"
-            ></i
-            ><i
-              id="moonIcon"
-              class="fas fa-moon text-blue-300 text-lg transition-all duration-500 transform scale-0 absolute"
-            ></i></button
-          ><a
-            href="analyzer.html"
-            class="btn-primary text-sm hidden md:inline-block transition-all duration-300"
-            >Take the Test →</a
-          ><button
-            id="mobileMenuBtn"
-            class="md:hidden text-2xl p-2 rounded-xl glass-nav"
-          >
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden glass-nav border-t border-white/10 px-6 py-5 flex flex-col gap-4"
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 24px;
+          max-width: 1280px;
+          margin: 0 auto;
+        "
       >
         <a
           href="index.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-home w-5 text-purple-400"></i> Home</a
-        ><a
-          href="analyzer.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-brain w-5 text-purple-400"></i> Test</a
-        ><a
-          href="results.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-chart-line w-5 text-purple-400"></i> Results</a
-        ><a
-          href="careers.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-briefcase w-5 text-purple-400"></i> Careers</a
-        ><a
-          href="blog.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-newspaper w-5 text-purple-400"></i> Blog</a
+          style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+          "
         >
-        <div class="pt-3 border-t border-white/10 mt-2">
+          <div
+            style="
+              width: 36px;
+              height: 36px;
+              background: linear-gradient(135deg, #38bdf8, #0284c7);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i class="fas fa-brain" style="color: white; font-size: 18px"></i>
+          </div>
+          <span style="font-weight: 800; font-size: 20px"
+            >Neuro<span class="gradient-text">Path</span></span
+          >
+        </a>
+        <div style="display: flex; gap: 32px">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="analyzer.html" class="nav-link">Test</a>
+          <a href="results.html" class="nav-link">Results</a>
+          <a href="careers.html" class="nav-link">Careers</a>
+          <a href="blog.html" class="nav-link">Blog</a>
+        </div>
+        <div style="display: flex; gap: 12px">
+          <button
+            id="themeToggle"
+            style="
+              width: 40px;
+              height: 40px;
+              border-radius: 9999px;
+              background: #f0f0f0;
+              border: none;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i id="sunIcon" class="fas fa-sun" style="color: #eab308"></i>
+            <i
+              id="moonIcon"
+              class="fas fa-moon"
+              style="color: #94a3b8; display: none"
+            ></i>
+          </button>
           <a
             href="analyzer.html"
-            class="btn-primary text-sm w-full text-center block"
-            >Start Free Test →</a
+            class="btn-primary"
+            style="text-decoration: none"
+            >Take the Test →</a
           >
         </div>
       </div>
     </nav>
-    <section class="pt-32 pb-16">
-      <div class="max-w-6xl mx-auto px-6 text-center">
+
+    <main style="margin-top: 80px">
+      <!-- Hero Section -->
+      <section class="container" style="padding: 60px 24px; text-align: center">
         <span
-          class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-5"
-          style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
+          class="category-badge"
+          style="display: inline-block; margin-bottom: 20px"
           >200+ Career Paths</span
         >
-        <h1 class="text-5xl md:text-6xl font-black mb-5">
+        <h1 style="font-size: 64px; font-weight: 900; margin: 24px 0 16px">
           Find Your <span class="gradient-text">Dream Career</span>
         </h1>
-        <p class="text-gray-500 text-lg mb-10 max-w-2xl mx-auto">
+        <p class="text-muted" style="max-width: 600px; margin: 0 auto 40px">
           Every career includes salary ranges, required skills, growth
           projections, and personality fit scores.
         </p>
-        <div class="flex flex-wrap gap-3 justify-center mb-12">
-          <button class="filter-btn active" data-filter="all">All</button
-          ><button class="filter-btn" data-filter="tech">Tech</button
-          ><button class="filter-btn" data-filter="design">Design</button
-          ><button class="filter-btn" data-filter="business">Business</button
-          ><button class="filter-btn" data-filter="science">Science</button
-          ><button class="filter-btn" data-filter="creative">Creative</button>
-        </div>
-      </div>
-    </section>
-    <section class="pb-20">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="careerGrid">
-          <div data-cat="tech" class="glass-nav rounded-2xl p-6 career-card">
-            <div class="flex justify-between items-start mb-4">
-              <div
-                class="w-12 h-12 rounded-xl flex items-center justify-center"
-                style="background: rgba(123, 47, 255, 0.15)"
-              >
-                <i class="fas fa-code text-purple-500 text-xl"></i>
-              </div>
-              <div class="match-ring">97%</div>
-            </div>
-            <h3 class="text-xl font-bold mb-1">Software Architect</h3>
-            <div class="flex gap-2 mb-3">
-              <span
-                class="text-xs px-2 py-1 rounded-full"
-                style="background: rgba(0, 229, 255, 0.1); color: #00e5ff"
-                >Tech</span
-              ><span
-                class="text-xs px-2 py-1 rounded-full"
-                style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
-                >INTJ</span
-              >
-            </div>
-            <p class="text-gray-500 text-sm mb-4">
-              Design large-scale systems and lead technical vision across
-              engineering teams.
-            </p>
-            <div class="mb-3">
-              <div class="flex justify-between text-xs mb-1">
-                <span>Salary</span><span class="font-bold">$140k - $210k</span>
-              </div>
-              <div class="salary-bar">
-                <div class="salary-fill" data-width="90"></div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >System Design</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Leadership</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Cloud</span
-              >
-            </div>
-            <div
-              class="mt-4 pt-3 border-t border-white/10 flex justify-between text-xs text-gray-500"
-            >
-              <span
-                ><i class="fas fa-chart-line text-green-500"></i> +22%
-                growth</span
-              ><span><i class="fas fa-graduation-cap"></i> CS Degree</span>
-            </div>
-          </div>
-          <div data-cat="tech" class="glass-nav rounded-2xl p-6 career-card">
-            <div class="flex justify-between items-start mb-4">
-              <div
-                class="w-12 h-12 rounded-xl flex items-center justify-center"
-                style="background: rgba(0, 229, 255, 0.1)"
-              >
-                <i class="fas fa-robot text-cyan-500 text-xl"></i>
-              </div>
-              <div class="match-ring">94%</div>
-            </div>
-            <h3 class="text-xl font-bold mb-1">AI/ML Engineer</h3>
-            <div class="flex gap-2 mb-3">
-              <span
-                class="text-xs px-2 py-1 rounded-full"
-                style="background: rgba(0, 229, 255, 0.1); color: #00e5ff"
-                >Tech</span
-              >
-            </div>
-            <p class="text-gray-500 text-sm mb-4">
-              Build and deploy machine learning models and AI systems at scale.
-            </p>
-            <div class="mb-3">
-              <div class="flex justify-between text-xs mb-1">
-                <span>Salary</span><span class="font-bold">$130k - $200k</span>
-              </div>
-              <div class="salary-bar">
-                <div class="salary-fill" data-width="86"></div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Python</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >TensorFlow</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Statistics</span
-              >
-            </div>
-            <div
-              class="mt-4 pt-3 border-t border-white/10 flex justify-between text-xs text-gray-500"
-            >
-              <span
-                ><i class="fas fa-chart-line text-green-500"></i> +40%
-                growth</span
-              ><span><i class="fas fa-graduation-cap"></i> Math/CS</span>
-            </div>
-          </div>
-          <div data-cat="design" class="glass-nav rounded-2xl p-6 career-card">
-            <div class="flex justify-between items-start mb-4">
-              <div
-                class="w-12 h-12 rounded-xl flex items-center justify-center"
-                style="background: rgba(255, 61, 255, 0.1)"
-              >
-                <i class="fas fa-pen-nib text-pink-500 text-xl"></i>
-              </div>
-              <div class="match-ring">88%</div>
-            </div>
-            <h3 class="text-xl font-bold mb-1">UX Researcher</h3>
-            <div class="flex gap-2 mb-3">
-              <span
-                class="text-xs px-2 py-1 rounded-full"
-                style="background: rgba(0, 229, 255, 0.1); color: #00e5ff"
-                >Design</span
-              >
-            </div>
-            <p class="text-gray-500 text-sm mb-4">
-              Study human behavior and psychology to improve product
-              experiences.
-            </p>
-            <div class="mb-3">
-              <div class="flex justify-between text-xs mb-1">
-                <span>Salary</span><span class="font-bold">$90k - $150k</span>
-              </div>
-              <div class="salary-bar">
-                <div class="salary-fill" data-width="70"></div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Research</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Psychology</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Figma</span
-              >
-            </div>
-            <div
-              class="mt-4 pt-3 border-t border-white/10 flex justify-between text-xs text-gray-500"
-            >
-              <span
-                ><i class="fas fa-chart-line text-green-500"></i> +18%
-                growth</span
-              ><span><i class="fas fa-graduation-cap"></i> Psychology/HCI</span>
-            </div>
-          </div>
-          <div
-            data-cat="business"
-            class="glass-nav rounded-2xl p-6 career-card"
-          >
-            <div class="flex justify-between items-start mb-4">
-              <div
-                class="w-12 h-12 rounded-xl flex items-center justify-center"
-                style="background: rgba(255, 200, 0, 0.1)"
-              >
-                <i class="fas fa-briefcase text-yellow-500 text-xl"></i>
-              </div>
-              <div class="match-ring">82%</div>
-            </div>
-            <h3 class="text-xl font-bold mb-1">Product Manager</h3>
-            <div class="flex gap-2 mb-3">
-              <span
-                class="text-xs px-2 py-1 rounded-full"
-                style="background: rgba(0, 229, 255, 0.1); color: #00e5ff"
-                >Business</span
-              >
-            </div>
-            <p class="text-gray-500 text-sm mb-4">
-              Lead product vision and work across design, engineering, and
-              business teams.
-            </p>
-            <div class="mb-3">
-              <div class="flex justify-between text-xs mb-1">
-                <span>Salary</span><span class="font-bold">$110k - $180k</span>
-              </div>
-              <div class="salary-bar">
-                <div class="salary-fill" data-width="78"></div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Strategy</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav">Data</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Communication</span
-              >
-            </div>
-            <div
-              class="mt-4 pt-3 border-t border-white/10 flex justify-between text-xs text-gray-500"
-            >
-              <span
-                ><i class="fas fa-chart-line text-green-500"></i> +16%
-                growth</span
-              ><span><i class="fas fa-graduation-cap"></i> Any degree</span>
-            </div>
-          </div>
-          <div data-cat="science" class="glass-nav rounded-2xl p-6 career-card">
-            <div class="flex justify-between items-start mb-4">
-              <div
-                class="w-12 h-12 rounded-xl flex items-center justify-center"
-                style="background: rgba(0, 229, 255, 0.1)"
-              >
-                <i class="fas fa-flask text-cyan-500 text-xl"></i>
-              </div>
-              <div class="match-ring">91%</div>
-            </div>
-            <h3 class="text-xl font-bold mb-1">Data Scientist</h3>
-            <div class="flex gap-2 mb-3">
-              <span
-                class="text-xs px-2 py-1 rounded-full"
-                style="background: rgba(0, 229, 255, 0.1); color: #00e5ff"
-                >Science</span
-              >
-            </div>
-            <p class="text-gray-500 text-sm mb-4">
-              Extract insights from complex datasets to drive business
-              decisions.
-            </p>
-            <div class="mb-3">
-              <div class="flex justify-between text-xs mb-1">
-                <span>Salary</span><span class="font-bold">$120k - $180k</span>
-              </div>
-              <div class="salary-bar">
-                <div class="salary-fill" data-width="83"></div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Python</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav">SQL</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Statistics</span
-              >
-            </div>
-            <div
-              class="mt-4 pt-3 border-t border-white/10 flex justify-between text-xs text-gray-500"
-            >
-              <span
-                ><i class="fas fa-chart-line text-green-500"></i> +35%
-                growth</span
-              ><span><i class="fas fa-graduation-cap"></i> Math/Stats</span>
-            </div>
-          </div>
-          <div
-            data-cat="creative"
-            class="glass-nav rounded-2xl p-6 career-card"
-          >
-            <div class="flex justify-between items-start mb-4">
-              <div
-                class="w-12 h-12 rounded-xl flex items-center justify-center"
-                style="background: rgba(255, 61, 255, 0.1)"
-              >
-                <i class="fas fa-film text-pink-500 text-xl"></i>
-              </div>
-              <div class="match-ring">75%</div>
-            </div>
-            <h3 class="text-xl font-bold mb-1">Creative Director</h3>
-            <div class="flex gap-2 mb-3">
-              <span
-                class="text-xs px-2 py-1 rounded-full"
-                style="background: rgba(0, 229, 255, 0.1); color: #00e5ff"
-                >Creative</span
-              >
-            </div>
-            <p class="text-gray-500 text-sm mb-4">
-              Shape brand identity and visual strategy for companies and
-              agencies.
-            </p>
-            <div class="mb-3">
-              <div class="flex justify-between text-xs mb-1">
-                <span>Salary</span><span class="font-bold">$80k - $160k</span>
-              </div>
-              <div class="salary-bar">
-                <div class="salary-fill" data-width="68"></div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Branding</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Adobe</span
-              ><span class="text-xs px-3 py-1 rounded-full glass-nav"
-                >Storytelling</span
-              >
-            </div>
-            <div
-              class="mt-4 pt-3 border-t border-white/10 flex justify-between text-xs text-gray-500"
-            >
-              <span
-                ><i class="fas fa-chart-line text-green-500"></i> +12%
-                growth</span
-              ><span><i class="fas fa-graduation-cap"></i> Design/Arts</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-20 border-t border-white/10">
-      <div class="max-w-3xl mx-auto px-6 text-center">
-        <div class="glass-nav rounded-3xl p-10">
-          <h2 class="text-3xl font-black mb-3">Not sure where to start?</h2>
-          <p class="text-gray-500 mb-6">
-            Take our free personality test and get your personalized career
-            matches.
-          </p>
-          <a href="analyzer.html" class="btn-primary">Take the Test →</a>
-        </div>
-      </div>
-    </section>
-    <footer
-      class="border-t border-white/10 pt-20 pb-10 bg-white dark:bg-[#0a0a0a]"
-    >
-      <div class="max-w-7xl mx-auto px-6">
+
+        <!-- Filter Buttons -->
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16"
+          style="
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+          "
         >
-          <div class="space-y-6">
-            <a href="index.html" class="flex items-center gap-2.5 group">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="tech">Tech</button>
+          <button class="filter-btn" data-filter="design">Design</button>
+          <button class="filter-btn" data-filter="business">Business</button>
+          <button class="filter-btn" data-filter="science">Science</button>
+          <button class="filter-btn" data-filter="creative">Creative</button>
+        </div>
+
+        <!-- Career Grid -->
+        <div
+          id="careerGrid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            text-align: left;
+          "
+        ></div>
+      </section>
+
+      <!-- CTA Section -->
+      <section style="padding: 80px 24px; border-top: 1px solid #e5e5e5">
+        <div class="container" style="text-align: center">
+          <div class="card" style="padding: 48px">
+            <h2 style="font-size: 32px; margin-bottom: 16px">
+              Not sure where to start?
+            </h2>
+            <p class="text-muted" style="margin-bottom: 24px">
+              Take our free personality test and get your personalized career
+              matches.
+            </p>
+            <a
+              href="analyzer.html"
+              class="btn-primary"
+              style="text-decoration: none"
+              >Take the Test →</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            margin-bottom: 48px;
+          "
+        >
+          <div>
+            <a
+              href="index.html"
+              style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: inherit;
+                margin-bottom: 20px;
+              "
+            >
               <div
-                class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-                style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
+                style="
+                  width: 36px;
+                  height: 36px;
+                  background: linear-gradient(135deg, #38bdf8, #0284c7);
+                  border-radius: 12px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
               >
-                <i class="fas fa-brain text-white text-sm"></i>
+                <i class="fas fa-brain" style="color: white"></i>
               </div>
-              <span class="font-bold text-xl tracking-tight"
+              <span style="font-weight: 800"
                 >Neuro<span class="gradient-text">Path</span></span
               >
             </a>
-            <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
+            <p class="text-muted" style="font-size: 14px">
               Empowering individuals through AI-driven cognitive profiling and
               career discovery. Understand your mind, unlock your potential.
             </p>
-            <div class="flex gap-4">
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+            <div style="display: flex; gap: 16px; margin-top: 20px">
+              <a href="#" class="text-muted"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-muted"
                 ><i class="fab fa-linkedin-in"></i
               ></a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+              <a href="#" class="text-muted"
                 ><i class="fab fa-instagram"></i
               ></a>
             </div>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Product</h4>
-            <ul class="space-y-4 text-sm text-gray-500">
-              <li>
+            <h4 style="margin-bottom: 20px">Product</h4>
+            <ul style="list-style: none; font-size: 14px">
+              <li style="margin-bottom: 12px">
                 <a
                   href="analyzer.html"
-                  class="hover:text-purple-400 transition-colors"
+                  class="text-muted"
+                  style="text-decoration: none"
                   >Personality Test</a
                 >
               </li>
-              <li>
+              <li style="margin-bottom: 12px">
                 <a
                   href="careers.html"
-                  class="hover:text-purple-400 transition-colors"
+                  class="text-muted"
+                  style="text-decoration: none"
                   >Career Mapping</a
                 >
               </li>
               <li>
                 <a
                   href="results.html"
-                  class="hover:text-purple-400 transition-colors"
+                  class="text-muted"
+                  style="text-decoration: none"
                   >Sample Reports</a
                 >
               </li>
             </ul>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Resources</h4>
-            <ul class="space-y-4 text-sm text-gray-500">
-              <li>
+            <h4 style="margin-bottom: 20px">Resources</h4>
+            <ul style="list-style: none; font-size: 14px">
+              <li style="margin-bottom: 12px">
                 <a
                   href="blog.html"
-                  class="hover:text-purple-400 transition-colors"
+                  class="text-muted"
+                  style="text-decoration: none"
                   >Insights Blog</a
                 >
               </li>
-              <li>
-                <a href="#" class="hover:text-purple-400 transition-colors"
+              <li style="margin-bottom: 12px">
+                <a href="#" class="text-muted" style="text-decoration: none"
                   >Help Center</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:text-purple-400 transition-colors"
+                <a href="#" class="text-muted" style="text-decoration: none"
                   >Privacy Policy</a
                 >
               </li>
             </ul>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Stay Updated</h4>
-            <p class="text-sm text-gray-500 mb-4">
+            <h4 style="margin-bottom: 20px">Stay Updated</h4>
+            <p class="text-muted" style="font-size: 14px; margin-bottom: 16px">
               Get the latest career tips via email.
             </p>
-            <form class="relative" id="newsletterForm">
+            <form id="footerNewsletter" style="display: flex">
               <input
                 type="email"
-                id="newsletterEmail"
+                id="footerEmail"
                 placeholder="Email address"
-                class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors"
+                style="flex: 1"
               />
               <button
                 type="submit"
-                class="absolute right-2 top-1.5 bg-purple-600 hover:bg-purple-500 text-white p-1.5 rounded-lg transition-colors"
+                style="
+                  background: #0ea5e9;
+                  border: none;
+                  border-radius: 12px;
+                  padding: 0 16px;
+                  margin-left: 8px;
+                  cursor: pointer;
+                "
               >
-                <i class="fas fa-arrow-right px-2"></i>
+                <i class="fas fa-arrow-right" style="color: white"></i>
               </button>
             </form>
           </div>
         </div>
-
         <div
-          class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6"
+          style="
+            border-top: 1px solid #e5e5e5;
+            padding-top: 24px;
+            text-align: center;
+            font-size: 12px;
+          "
+          class="text-muted"
         >
-          <div class="text-xs text-gray-500">
-            © 2026 NeuroPath AI. All rights reserved.
-          </div>
-          <div class="flex gap-6 text-xs text-gray-500">
-            <a href="#" class="hover:text-white transition">Terms</a>
-            <a href="#" class="hover:text-white transition">Cookies</a>
-          </div>
+          © 2026 NeuroPath AI. All rights reserved.
         </div>
       </div>
     </footer>
+
     <script>
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.fromTo(
-        ".career-card",
-        { opacity: 0, y: 50 },
+      const careers = [
         {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          scrollTrigger: { trigger: "#careerGrid", start: "top 85%" },
-          onComplete: () => {
-            document.querySelectorAll(".salary-fill").forEach((bar) => {
-              gsap.to(bar, {
-                width: bar.dataset.width + "%",
-                duration: 1,
-                ease: "power2.out",
-              });
-            });
-          },
+          cat: "tech",
+          title: "Software Architect",
+          match: 97,
+          salary: "$140k - $210k",
+          growth: "+22%",
+          degree: "CS Degree",
+          skills: ["System Design", "Leadership", "Cloud"],
+          icon: "fa-code",
+          desc: "Design large-scale systems and lead technical vision across engineering teams.",
         },
-      );
+        {
+          cat: "tech",
+          title: "AI/ML Engineer",
+          match: 94,
+          salary: "$130k - $200k",
+          growth: "+40%",
+          degree: "Math/CS",
+          skills: ["Python", "TensorFlow", "Statistics"],
+          icon: "fa-robot",
+          desc: "Build and deploy machine learning models and AI systems at scale.",
+        },
+        {
+          cat: "design",
+          title: "UX Researcher",
+          match: 88,
+          salary: "$90k - $150k",
+          growth: "+18%",
+          degree: "Psychology/HCI",
+          skills: ["Research", "Psychology", "Figma"],
+          icon: "fa-pen-nib",
+          desc: "Study human behavior and psychology to improve product experiences.",
+        },
+        {
+          cat: "business",
+          title: "Product Manager",
+          match: 82,
+          salary: "$110k - $180k",
+          growth: "+16%",
+          degree: "Any degree",
+          skills: ["Strategy", "Data", "Communication"],
+          icon: "fa-briefcase",
+          desc: "Lead product vision and work across design, engineering, and business teams.",
+        },
+        {
+          cat: "science",
+          title: "Data Scientist",
+          match: 91,
+          salary: "$120k - $180k",
+          growth: "+35%",
+          degree: "Math/Stats",
+          skills: ["Python", "SQL", "Statistics"],
+          icon: "fa-flask",
+          desc: "Extract insights from complex datasets to drive business decisions.",
+        },
+        {
+          cat: "creative",
+          title: "Creative Director",
+          match: 75,
+          salary: "$80k - $160k",
+          growth: "+12%",
+          degree: "Design/Arts",
+          skills: ["Branding", "Adobe", "Storytelling"],
+          icon: "fa-film",
+          desc: "Shape brand identity and visual strategy for companies and agencies.",
+        },
+      ];
+
+      function renderCareers(filter) {
+        const grid = document.getElementById("careerGrid");
+        grid.innerHTML = "";
+        careers
+          .filter((c) => filter === "all" || c.cat === filter)
+          .forEach((c) => {
+            grid.innerHTML += `
+          <div class="card" data-cat="${c.cat}" style="padding: 24px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+              <div class="icon-bg">
+                <i class="fas ${c.icon}"></i>
+              </div>
+              <div class="match-ring">${c.match}%</div>
+            </div>
+            <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">${c.title}</h3>
+            <div style="margin-bottom: 16px;">
+              <span class="category-badge">${c.cat.charAt(0).toUpperCase() + c.cat.slice(1)}</span>
+            </div>
+            <p class="text-muted" style="font-size: 14px; margin-bottom: 20px; line-height: 1.5;">${c.desc}</p>
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                <span>Salary</span>
+                <span style="font-weight: 700;">${c.salary}</span>
+              </div>
+              <div class="salary-bar">
+                <div class="salary-fill" data-width="${Math.floor(parseInt(c.salary.split("-")[0].replace(/[^0-9]/g, "")) / 2.2)}"></div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+              ${c.skills.map((s) => `<span class="skill-badge">${s}</span>`).join("")}
+            </div>
+            <div style="border-top: 1px solid #e5e5e5; padding-top: 16px; display: flex; justify-content: space-between; font-size: 12px;" class="text-muted">
+              <span><i class="fas fa-chart-line" style="color: #22c55e;"></i> ${c.growth} growth</span>
+              <span><i class="fas fa-graduation-cap"></i> ${c.degree}</span>
+            </div>
+          </div>
+        `;
+          });
+        setTimeout(() => {
+          document.querySelectorAll(".salary-fill").forEach((bar) => {
+            gsap.to(bar, { width: bar.dataset.width + "%", duration: 1 });
+          });
+        }, 200);
+      }
+
+      renderCareers("all");
+
+      // Filter functionality
       document.querySelectorAll(".filter-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
           document
             .querySelectorAll(".filter-btn")
             .forEach((b) => b.classList.remove("active"));
           btn.classList.add("active");
-          const filter = btn.dataset.filter;
-          gsap.to(".career-card", {
-            opacity: 0,
-            duration: 0.2,
-            onComplete: () => {
-              document.querySelectorAll(".career-card").forEach((card) => {
-                card.style.display =
-                  filter === "all" || card.dataset.cat === filter ? "" : "none";
-              });
-              gsap.to(".career-card", {
-                opacity: 1,
-                duration: 0.3,
-                stagger: 0.05,
-              });
-            },
-          });
+          renderCareers(btn.dataset.filter);
         });
       });
+
+      // Dark mode functions
       function setTheme(theme) {
         const isDark = theme === "dark";
-        const sunIcon = document.getElementById("sunIcon");
-        const moonIcon = document.getElementById("moonIcon");
         if (isDark) {
           document.documentElement.classList.add("dark");
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.add("scale-0", "absolute");
-            sunIcon.classList.remove("scale-100", "relative");
-            moonIcon.classList.add("scale-100", "relative");
-            moonIcon.classList.remove("scale-0", "absolute");
-          }
+          document.body.classList.add("dark");
         } else {
           document.documentElement.classList.remove("dark");
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.add("scale-100", "relative");
-            sunIcon.classList.remove("scale-0", "absolute");
-            moonIcon.classList.add("scale-0", "absolute");
-            moonIcon.classList.remove("scale-100", "relative");
-          }
+          document.body.classList.remove("dark");
+        }
+        const sun = document.getElementById("sunIcon"),
+          moon = document.getElementById("moonIcon");
+        if (isDark) {
+          sun.style.display = "none";
+          moon.style.display = "block";
+        } else {
+          sun.style.display = "block";
+          moon.style.display = "none";
         }
         localStorage.setItem("theme", theme);
       }
-      function initTheme() {
-        const s = localStorage.getItem("theme"),
-          p = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        let t = s;
-        if (!t) t = p ? "dark" : "light";
-        setTheme(t);
-      }
-      const navLinks = document.querySelectorAll(".nav-link"),
-        indicator = document.getElementById("navIndicator");
-      function updateIndicator(l) {
-        if (!l || !indicator) return;
-        const r = l.getBoundingClientRect(),
-          cr = document
-            .getElementById("navLinksContainer")
-            .getBoundingClientRect();
-        indicator.style.width = r.width + "px";
-        indicator.style.transform = `translateX(${r.left - cr.left}px)`;
-      }
-      const cp = window.location.pathname.split("/").pop() || "careers.html";
-      navLinks.forEach((l) => {
-        if (l.getAttribute("href") === cp) {
-          l.style.color = "#A06BFF";
-          updateIndicator(l);
-        }
-      });
-      navLinks.forEach((l) => {
-        l.addEventListener("mouseenter", () => updateIndicator(l));
-        l.addEventListener("mouseleave", () => {
-          const a = Array.from(navLinks).find(
-            (ln) => ln.getAttribute("href") === cp,
-          );
-          if (a) updateIndicator(a);
-        });
-      });
-      const nav = document.getElementById("mainNav");
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) nav.classList.add("shadow-lg");
-        else nav.classList.remove("shadow-lg");
-      });
+
+      // Initialize theme
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      setTheme(savedTheme || (prefersDark ? "dark" : "light"));
+
+      // Theme toggle button
       document.getElementById("themeToggle").addEventListener("click", () => {
-        const d = document.documentElement.classList.contains("dark");
-        setTheme(d ? "light" : "dark");
-        gsap.to(document.getElementById("themeToggle"), {
-          scale: 0.95,
-          duration: 0.1,
-          yoyo: true,
-          repeat: 1,
-        });
+        const isDark = document.body.classList.contains("dark");
+        setTheme(isDark ? "light" : "dark");
       });
-      document.getElementById("mobileMenuBtn").addEventListener("click", () => {
-        document.getElementById("mobile-menu").classList.toggle("hidden");
-      });
-      const newsletterForm = document.getElementById("newsletterForm");
-      if (newsletterForm) {
-        newsletterForm.addEventListener("submit", (e) => {
+
+      // Newsletter form
+      document
+        .getElementById("footerNewsletter")
+        ?.addEventListener("submit", (e) => {
           e.preventDefault();
-          const email = document.getElementById("newsletterEmail").value;
-          if (email && email.includes("@")) {
+          const email = document.getElementById("footerEmail").value;
+          if (email && email.includes("@"))
             alert("Thanks for subscribing! Check your inbox soon.");
-            newsletterForm.reset();
-          } else {
-            alert("Please enter a valid email address.");
-          }
+          else alert("Please enter a valid email address.");
         });
-      }
-      initTheme();
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (e) => {
-          if (!localStorage.getItem("theme"))
-            setTheme(e.matches ? "dark" : "light");
-        });
+
+      // GSAP animations
+      gsap.fromTo(
+        ".card",
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          scrollTrigger: { trigger: "#careerGrid", start: "top 85%" },
+        },
+      );
     </script>
   </body>
 </html>

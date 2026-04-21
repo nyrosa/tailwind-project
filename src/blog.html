@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,14 +28,21 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script>
       (function () {
-        const t = localStorage.getItem("theme"),
-          e = window.matchMedia("(prefers-color-scheme: dark)").matches,
-          n = t === "dark" || (t === null && e);
-        if (n) document.documentElement.classList.add("dark");
-        else document.documentElement.classList.remove("dark");
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        const isDark =
+          savedTheme === "dark" || (savedTheme === null && prefersDark);
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+          document.body.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          document.body.classList.remove("dark");
+        }
       })();
     </script>
-    <link rel="stylesheet" href="../src/output.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <link
@@ -47,116 +54,131 @@
       rel="stylesheet"
     />
     <style>
-      .glass-nav {
-        background: rgba(10, 10, 10, 0.75);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      :root:not(.dark) .glass-nav {
-        background: rgba(255, 255, 255, 0.85);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      body {
+        font-family: "Inter", sans-serif;
+        background: #ffffff;
+        color: #1a1a1a;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      body.dark {
+        background: #0a0a0a;
+        color: #e5e5e5;
+      }
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .btn-primary {
+        background: #0ea5e9;
+        color: white;
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 9999px;
+        transition: all 0.2s;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-primary:hover {
+        background: #0284c7;
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background: transparent;
+        color: #0ea5e9;
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 9999px;
+        transition: all 0.2s;
+        display: inline-block;
+        border: 1.5px solid #0ea5e9;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-secondary:hover {
+        background: #0ea5e9;
+        color: white;
       }
       .gradient-text {
-        background: linear-gradient(135deg, #7b2fff, #00e5ff);
+        background: linear-gradient(135deg, #38bdf8, #0284c7);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
-      .btn-primary {
-        background: linear-gradient(135deg, #7b2fff, #00e5ff);
-        color: #fff;
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 40px;
-        transition: all 0.3s ease;
-        display: inline-block;
-        box-shadow: 0 4px 15px rgba(123, 47, 255, 0.3);
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e5e5e5;
+        transition: background 0.3s;
       }
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(123, 47, 255, 0.4);
-      }
-      .btn-outline {
-        border: 1px solid rgba(123, 47, 255, 0.5);
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 40px;
-        transition: all 0.3s;
-        background: transparent;
-      }
-      .dark .btn-outline {
-        color: #fff;
-      }
-      :root:not(.dark) .btn-outline {
-        color: #1d1d1f;
-      }
-      .btn-outline:hover {
-        border-color: #7b2fff;
-        color: #7b2fff;
+      body.dark nav {
+        background: rgba(10, 10, 10, 0.95);
+        border-bottom-color: #2a2a2e;
       }
       .nav-link {
-        transition: color 0.25s ease;
+        transition: color 0.2s;
         font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
       }
       .nav-link:hover {
-        color: #7b2fff;
+        color: #0ea5e9;
       }
-      .nav-indicator {
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #7b2fff, #00e5ff);
-        border-radius: 2px;
-        transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 24px;
+        transition: all 0.2s;
+      }
+      body.dark .card {
+        background: #1a1a1a;
+        border-color: #2a2a2e;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      }
+      body.dark .card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
       }
       .blog-card {
-        transition:
-          transform 0.3s,
-          box-shadow 0.3s;
         cursor: pointer;
       }
-      .blog-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 20px 60px rgba(123, 47, 255, 0.15);
-      }
-      .blog-card:hover .read-more {
-        color: #00e5ff;
-      }
-      .read-more {
-        transition: color 0.3s;
-        color: #a06bff;
-        font-weight: 700;
-        font-size: 0.85rem;
-      }
-      .cat-filter {
+      .filter-btn {
         padding: 8px 20px;
-        border-radius: 40px;
+        border-radius: 9999px;
         font-size: 14px;
         font-weight: 500;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: #f0f0f0;
+        border: 1px solid #e5e5e5;
         cursor: pointer;
         transition: all 0.2s;
       }
-      :root:not(.dark) .cat-filter {
-        background: rgba(0, 0, 0, 0.03);
-        border-color: rgba(0, 0, 0, 0.1);
+      body.dark .filter-btn {
+        background: #2a2a2a;
+        border-color: #3a3a3e;
+        color: #e5e5e5;
       }
-      .cat-filter:hover,
-      .cat-filter.active {
-        background: rgba(123, 47, 255, 0.2);
-        border-color: #7b2fff;
-        color: #7b2fff;
-      }
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      #mobile-menu {
-        transition: all 0.3s ease;
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: #0ea5e9;
+        color: white;
+        border-color: #0ea5e9;
       }
       .modal {
         display: none;
@@ -165,8 +187,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.7);
         z-index: 1000;
         justify-content: center;
         align-items: center;
@@ -174,793 +195,676 @@
       .modal-content {
         max-width: 500px;
         width: 90%;
-        padding: 2rem;
-        border-radius: 2rem;
+        background: white;
+        border-radius: 32px;
+        padding: 32px;
         text-align: center;
       }
-      :root:not(.dark) .border-white\/10 {
-        border-color: rgba(0, 0, 0, 0.08);
+      body.dark .modal-content {
+        background: #1a1a1a;
       }
-      :root:not(.dark) .text-gray-400,
-      :root:not(.dark) .text-gray-500 {
-        color: #6b7280;
+      footer {
+        border-top: 1px solid #e5e5e5;
+        padding: 60px 0 40px;
+        margin-top: 40px;
+      }
+      body.dark footer {
+        border-top-color: #2a2a2e;
+      }
+      input {
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
+        border-radius: 16px;
+        padding: 12px 16px;
+        font-size: 14px;
+        outline: none;
+      }
+      body.dark input {
+        background: #2a2a2a;
+        border-color: #3a3a3e;
+        color: #e5e5e5;
+      }
+      .text-muted {
+        color: #666;
+      }
+      body.dark .text-muted {
+        color: #999;
+      }
+      .author-img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
       }
     </style>
   </head>
   <body>
     <div id="articleModal" class="modal">
-      <div class="modal-content glass-nav rounded-3xl">
-        <i class="fas fa-newspaper text-5xl text-purple-400 mb-4"></i>
-        <h3 class="font-bold text-2xl mb-2" id="modalTitle">
+      <div class="modal-content">
+        <i
+          class="fas fa-newspaper"
+          style="font-size: 48px; color: #0ea5e9; margin-bottom: 16px"
+        ></i>
+        <h3 id="modalTitle" style="font-size: 24px; margin-bottom: 12px">
           Article Coming Soon
         </h3>
-        <p class="text-gray-400 mb-6" id="modalDesc">
+        <p id="modalDesc" class="text-muted" style="margin-bottom: 24px">
           This article is being prepared. Check back soon for the full deep
           dive!
         </p>
-        <button onclick="closeModal()" class="btn-primary text-sm px-6 py-2">
+        <button
+          onclick="closeModal()"
+          class="btn-primary"
+          style="padding: 10px 24px"
+        >
           Close
         </button>
       </div>
     </div>
-    <nav
-      class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300"
-      id="mainNav"
-    >
+
+    <nav>
       <div
-        class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between"
-      >
-        <a href="index.html" class="flex items-center gap-2.5 group"
-          ><div
-            class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-            style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
-          >
-            <i class="fas fa-brain text-white text-sm"></i>
-          </div>
-          <span class="font-bold text-xl tracking-tight"
-            >Neuro<span class="gradient-text">Path</span></span
-          ></a
-        >
-        <div class="hidden md:flex items-center gap-6 lg:gap-8">
-          <div class="flex items-center gap-1 relative" id="navLinksContainer">
-            <a
-              href="index.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Home</a
-            ><a
-              href="analyzer.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Test</a
-            ><a
-              href="results.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Results</a
-            ><a
-              href="careers.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Careers</a
-            ><a
-              href="blog.html"
-              class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              >Blog</a
-            >
-            <div
-              id="navIndicator"
-              class="nav-indicator"
-              style="width: 0px; transform: translateX(0px)"
-            ></div>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <button
-            id="themeToggle"
-            class="relative w-10 h-10 rounded-full glass-nav flex items-center justify-center transition-all duration-300 hover:scale-105 group overflow-hidden border border-white/10"
-          >
-            <i
-              id="sunIcon"
-              class="fas fa-sun text-yellow-500 text-lg transition-all duration-500 transform scale-100"
-            ></i
-            ><i
-              id="moonIcon"
-              class="fas fa-moon text-blue-300 text-lg transition-all duration-500 transform scale-0 absolute"
-            ></i></button
-          ><a
-            href="analyzer.html"
-            class="btn-primary text-sm hidden md:inline-block transition-all duration-300"
-            >Take the Test →</a
-          ><button
-            id="mobileMenuBtn"
-            class="md:hidden text-2xl p-2 rounded-xl glass-nav"
-          >
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden glass-nav border-t border-white/10 px-6 py-5 flex flex-col gap-4"
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 24px;
+          max-width: 1280px;
+          margin: 0 auto;
+        "
       >
         <a
           href="index.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-home w-5 text-purple-400"></i> Home</a
-        ><a
-          href="analyzer.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-brain w-5 text-purple-400"></i> Test</a
-        ><a
-          href="results.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-chart-line w-5 text-purple-400"></i> Results</a
-        ><a
-          href="careers.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-briefcase w-5 text-purple-400"></i> Careers</a
-        ><a
-          href="blog.html"
-          class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
-          ><i class="fas fa-newspaper w-5 text-purple-400"></i> Blog</a
+          style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+          "
         >
-        <div class="pt-3 border-t border-white/10 mt-2">
+          <div
+            style="
+              width: 36px;
+              height: 36px;
+              background: linear-gradient(135deg, #38bdf8, #0284c7);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i class="fas fa-brain" style="color: white; font-size: 18px"></i>
+          </div>
+          <span style="font-weight: 800; font-size: 20px"
+            >Neuro<span class="gradient-text">Path</span></span
+          >
+        </a>
+        <div style="display: flex; gap: 32px">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="analyzer.html" class="nav-link">Test</a>
+          <a href="results.html" class="nav-link">Results</a>
+          <a href="careers.html" class="nav-link">Careers</a>
+          <a href="blog.html" class="nav-link">Blog</a>
+        </div>
+        <div style="display: flex; gap: 12px">
+          <button
+            id="themeToggle"
+            style="
+              width: 40px;
+              height: 40px;
+              border-radius: 9999px;
+              background: #f0f0f0;
+              border: none;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i id="sunIcon" class="fas fa-sun" style="color: #eab308"></i>
+            <i
+              id="moonIcon"
+              class="fas fa-moon"
+              style="color: #94a3b8; display: none"
+            ></i>
+          </button>
           <a
             href="analyzer.html"
-            class="btn-primary text-sm w-full text-center block"
-            >Start Free Test →</a
+            class="btn-primary"
+            style="text-decoration: none"
+            >Take the Test →</a
           >
         </div>
       </div>
     </nav>
-    <section class="relative pt-32 pb-16">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-12">
-          <span
-            class="inline-block mb-4"
-            style="
-              background: rgba(123, 47, 255, 0.15);
-              color: #7b2fff;
-              padding: 4px 12px;
-              border-radius: 9999px;
-              font-size: 12px;
-            "
-            >Brain Fuel</span
-          >
-          <h1 class="font-bold text-5xl md:text-6xl mt-3 mb-3">
-            The <span class="gradient-text">NeuroPath</span> Blog
-          </h1>
-          <p class="text-gray-400 text-lg">
-            Personality science, career insights & mind-bending reads.
-          </p>
-        </div>
+
+    <main style="margin-top: 80px">
+      <!-- Hero Section -->
+      <section class="container" style="padding: 60px 24px; text-align: center">
+        <span
+          style="
+            background: #e0f2fe;
+            color: #0284c7;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+          "
+          >Brain Fuel</span
+        >
+        <h1 style="font-size: 64px; font-weight: 900; margin: 24px 0 16px">
+          The <span class="gradient-text">NeuroPath</span> Blog
+        </h1>
+        <p class="text-muted" style="font-size: 18px">
+          Personality science, career insights & mind-bending reads.
+        </p>
+      </section>
+
+      <!-- Featured Article -->
+      <section class="container" style="padding: 0 24px 80px">
         <div
-          class="glass-nav rounded-3xl overflow-hidden blog-card mb-6"
+          class="card blog-card"
           onclick="
-            showArticleModal(
+            showArticle(
               'Why Your Brain Type Determines Your Career Ceiling',
               'New research shows cognitive architecture — not IQ or effort — is the strongest predictor of which careers people thrive in long-term.',
             )
           "
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            padding: 0;
+          "
         >
-          <div class="grid md:grid-cols-2">
-            <div
-              class="h-64 md:h-auto bg-gradient-to-br from-purple-900/40 to-cyan-900/20 flex items-center justify-center relative"
-            >
-              <i class="fas fa-brain text-7xl text-purple-500/30"></i>
-              <div
-                class="absolute top-4 left-4"
+          <div
+            style="
+              background: linear-gradient(135deg, #38bdf8, #0284c7);
+              min-height: 300px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i
+              class="fas fa-brain"
+              style="font-size: 80px; color: rgba(255, 255, 255, 0.3)"
+            ></i>
+          </div>
+          <div style="padding: 40px">
+            <div style="display: flex; gap: 12px; margin-bottom: 16px">
+              <span
                 style="
-                  background: rgba(123, 47, 255, 0.15);
-                  color: #7b2fff;
+                  background: #e0f2fe;
+                  color: #0284c7;
                   padding: 4px 12px;
                   border-radius: 9999px;
                   font-size: 12px;
                 "
+                >Neuroscience</span
               >
-                <i class="fas fa-fire mr-1"></i>Featured
-              </div>
+              <span class="text-muted" style="font-size: 12px"
+                >April 12, 2025 · 8 min read</span
+              >
             </div>
-            <div class="p-8 flex flex-col justify-center">
-              <div class="flex gap-2 mb-3">
-                <span
-                  style="
-                    background: rgba(123, 47, 255, 0.15);
-                    color: #7b2fff;
-                    padding: 4px 12px;
-                    border-radius: 9999px;
-                    font-size: 12px;
-                  "
-                  >Neuroscience</span
-                ><span class="text-gray-600 text-xs"
-                  >April 12, 2025 · 8 min read</span
-                >
-              </div>
-              <h2 class="font-bold text-3xl mb-3 leading-tight">
-                Why Your Brain Type Determines Your Career Ceiling
-              </h2>
-              <p class="text-gray-400 mb-5 leading-relaxed text-sm">
-                New research shows cognitive architecture — not IQ or effort —
-                is the strongest predictor of which careers people thrive in
-                long-term. We break it down.
-              </p>
-              <span class="read-more"
-                >Read Full Article
-                <i class="fas fa-arrow-right ml-1 text-xs"></i
-              ></span>
-            </div>
+            <h2 style="font-size: 28px; margin-bottom: 16px">
+              Why Your Brain Type Determines Your Career Ceiling
+            </h2>
+            <p class="text-muted" style="margin-bottom: 20px">
+              New research shows cognitive architecture — not IQ or effort — is
+              the strongest predictor of which careers people thrive in
+              long-term. We break it down.
+            </p>
+            <span style="color: #0ea5e9; font-weight: 600"
+              >Read Full Article <i class="fas fa-arrow-right"></i
+            ></span>
           </div>
         </div>
-      </div>
-    </section>
-    <section class="pb-24">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="flex flex-wrap gap-3 mb-10 justify-center">
-          <button class="cat-filter active" data-cat="all">All Posts</button
-          ><button class="cat-filter" data-cat="neuro">Neuroscience</button
-          ><button class="cat-filter" data-cat="career">Career</button
-          ><button class="cat-filter" data-cat="personality">Personality</button
-          ><button class="cat-filter" data-cat="ai">AI & Tech</button
-          ><button class="cat-filter" data-cat="productivity">
+
+        <!-- Filter Buttons -->
+        <div
+          style="
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 48px 0 40px;
+            flex-wrap: wrap;
+          "
+        >
+          <button class="filter-btn active" data-cat="all">All Posts</button>
+          <button class="filter-btn" data-cat="neuro">Neuroscience</button>
+          <button class="filter-btn" data-cat="career">Career</button>
+          <button class="filter-btn" data-cat="personality">Personality</button>
+          <button class="filter-btn" data-cat="ai">AI & Tech</button>
+          <button class="filter-btn" data-cat="productivity">
             Productivity
           </button>
         </div>
-        <div id="blogGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div
-            data-cat="personality"
-            class="glass-nav rounded-3xl overflow-hidden blog-card"
-            onclick="
-              showArticleModal(
-                'The INTJ Paradox',
-                'INTJs are ultra-high performers — but their own perfectionism destroys them. Here\'s the science and the fix for burnout.',
-              )
-            "
-          >
-            <div
-              class="h-44 bg-gradient-to-br from-purple-900/30 to-indigo-900/20 flex items-center justify-center"
-            >
-              <i class="fas fa-user-circle text-5xl text-purple-400/30"></i>
-            </div>
-            <div class="p-6">
-              <div class="flex justify-between items-center mb-3">
-                <span
-                  style="
-                    background: rgba(123, 47, 255, 0.15);
-                    color: #7b2fff;
-                    padding: 4px 12px;
-                    border-radius: 9999px;
-                    font-size: 12px;
-                  "
-                  >Personality</span
-                ><span class="text-gray-600 text-xs">6 min read</span>
-              </div>
-              <h3 class="font-bold text-lg mb-2 leading-snug">
-                The INTJ Paradox: Why the Rarest Type Also Has the Highest
-                Burnout Rate
-              </h3>
-              <p class="text-gray-500 text-sm mb-4 line-clamp-2">
-                INTJs are ultra-high performers — but their own perfectionism
-                destroys them. Here's the science and the fix.
-              </p>
-              <div class="flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <img
-                    src="https://i.pinimg.com/736x/b5/fd/30/b5fd3058da8c4891172f55e5ca31d071.jpg"
-                    class="w-6 h-6 rounded-full object-cover"
-                  />
-                  <span class="text-gray-500 text-xs">Sean</span>
-                </div>
-                <span class="read-more">Read →</span>
-              </div>
-            </div>
-          </div>
-          <div
-            data-cat="career"
-            class="glass-nav rounded-3xl overflow-hidden blog-card"
-            onclick="
-              showArticleModal(
-                'The 5 Careers With the Highest Job Satisfaction in 2025',
-                'Data from 50,000 NeuroPath users reveals surprising patterns about which roles actually make people happy.',
-              )
-            "
-          >
-            <div
-              class="h-44 bg-gradient-to-br from-cyan-900/30 to-blue-900/20 flex items-center justify-center"
-            >
-              <i class="fas fa-chart-line text-5xl text-cyan-400/30"></i>
-            </div>
-            <div class="p-6">
-              <div class="flex justify-between items-center mb-3">
-                <span
-                  style="
-                    background: rgba(0, 229, 255, 0.1);
-                    color: #00e5ff;
-                    padding: 4px 12px;
-                    border-radius: 9999px;
-                    font-size: 12px;
-                  "
-                  >Career</span
-                ><span class="text-gray-600 text-xs">5 min read</span>
-              </div>
-              <h3 class="font-bold text-lg mb-2 leading-snug">
-                The 5 Careers With the Highest Job Satisfaction in 2025
-              </h3>
-              <p class="text-gray-500 text-sm mb-4 line-clamp-2">
-                Data from 50,000 NeuroPath users reveals surprising patterns
-                about which roles actually make people happy.
-              </p>
-              <div class="flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <img
-                    src="https://i.pinimg.com/736x/81/4e/73/814e733d8718bf0b1f3f612a5062f630.jpg"
-                    class="w-6 h-6 rounded-full object-cover"
-                  />
-                  <span class="text-gray-500 text-xs">Rang</span>
-                </div>
-                <span class="read-more">Read →</span>
-              </div>
-            </div>
-          </div>
-          <div
-            data-cat="ai"
-            class="glass-nav rounded-3xl overflow-hidden blog-card"
-            onclick="
-              showArticleModal(
-                'How We Built an AI That Understands Personality',
-                'A deep dive into the architecture behind NeuroPath\'s personality model and why it outperforms all existing tests.',
-              )
-            "
-          >
-            <div
-              class="h-44 bg-gradient-to-br from-pink-900/30 to-purple-900/20 flex items-center justify-center"
-            >
-              <i class="fas fa-robot text-5xl text-pink-400/30"></i>
-            </div>
-            <div class="p-6">
-              <div class="flex justify-between items-center mb-3">
-                <span
-                  style="
-                    color: #ff3dff;
-                    background: rgba(255, 61, 255, 0.1);
-                    padding: 4px 12px;
-                    border-radius: 9999px;
-                    font-size: 12px;
-                  "
-                  >AI & Tech</span
-                ><span class="text-gray-600 text-xs">7 min read</span>
-              </div>
-              <h3 class="font-bold text-lg mb-2 leading-snug">
-                How We Built an AI That Understands Personality Better Than You
-                Do
-              </h3>
-              <p class="text-gray-500 text-sm mb-4 line-clamp-2">
-                A deep dive into the architecture behind NeuroPath's personality
-                model and why it outperforms all existing tests.
-              </p>
-              <div class="flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <img
-                    src="https://i.pinimg.com/736x/b2/d4/c1/b2d4c1924b69df3de1ecd11f4306f32c.jpg"
-                    class="w-6 h-6 rounded-full object-cover"
-                  />
-                  <span class="text-gray-500 text-xs">Rounan</span>
-                </div>
-                <span class="read-more">Read →</span>
-              </div>
-            </div>
-          </div>
-          <div
-            data-cat="personality"
-            class="glass-nav rounded-3xl overflow-hidden blog-card"
-            onclick="
-              showArticleModal(
-                'The ENFP Struggle',
-                'ENFPs are idea machines, but follow-through is hard. Here\'s the neuroscience-based framework to finish what you start.',
-              )
-            "
-          >
-            <div
-              class="h-44 bg-gradient-to-br from-rose-900/30 to-pink-900/20 flex items-center justify-center"
-            >
-              <i class="fas fa-feather-alt text-5xl text-rose-400/30"></i>
-            </div>
-            <div class="p-6">
-              <div class="flex justify-between items-center mb-3">
-                <span
-                  style="
-                    background: rgba(123, 47, 255, 0.15);
-                    color: #7b2fff;
-                    padding: 4px 12px;
-                    border-radius: 9999px;
-                    font-size: 12px;
-                  "
-                  >Personality</span
-                ><span class="text-gray-600 text-xs">5 min read</span>
-              </div>
-              <h3 class="font-bold text-lg mb-2 leading-snug">
-                The ENFP Struggle: Why Creativity Feels Like a Curse (And How to
-                Channel It)
-              </h3>
-              <p class="text-gray-500 text-sm mb-4 line-clamp-2">
-                ENFPs are idea machines, but follow-through is hard. Here's the
-                neuroscience-based framework to finish what you start.
-              </p>
-              <div class="flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                  <img
-                    src="https://i.pravatar.cc/28?img=89"
-                    class="w-6 h-6 rounded-full object-cover"
-                  />
-                  <span class="text-gray-500 text-xs">Dr. Rivera</span>
-                </div>
-                <span class="read-more">Read →</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="text-center mt-12">
-          <button class="btn-outline load-more-btn" id="loadMoreBtn">
+
+        <!-- Blog Grid -->
+        <div
+          id="blogGrid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+          "
+        ></div>
+        <div style="text-align: center; margin-top: 48px">
+          <button id="loadMoreBtn" class="btn-secondary" style="display: none">
             Load More Articles
           </button>
         </div>
-      </div>
-    </section>
-    <section class="py-20 border-t border-white/5">
-      <div class="max-w-2xl mx-auto px-6 text-center">
-        <div class="glass-nav rounded-3xl p-10 relative">
-          <span
-            class="inline-block mb-4"
-            style="
-              background: rgba(123, 47, 255, 0.15);
-              color: #7b2fff;
-              padding: 4px 12px;
-              border-radius: 9999px;
-              font-size: 12px;
-            "
-            ><i class="fas fa-envelope mr-1.5"></i>Weekly Newsletter</span
-          >
-          <h2 class="font-bold text-3xl mb-3">
-            Stay <span class="gradient-text">Mentally Sharp</span>
-          </h2>
-          <p class="text-gray-400 mb-6 text-sm">
-            One email a week. Personality science, career moves, and brain
-            hacks. No spam, ever.
-          </p>
-          <div class="flex gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              class="flex-1 glass-nav text-sm px-4 py-3 rounded-full outline-none"
-              id="newsletterEmail"
-            /><button
-              class="btn-primary text-sm px-5 py-3 rounded-full whitespace-nowrap"
-              id="subscribeBtn"
+      </section>
+
+      <!-- Newsletter Section -->
+      <section style="padding: 60px 24px; border-top: 1px solid #e5e5e5">
+        <div class="container" style="text-align: center">
+          <div class="card" style="padding: 48px">
+            <span
+              style="
+                background: #e0f2fe;
+                color: #0284c7;
+                padding: 6px 14px;
+                border-radius: 9999px;
+                font-size: 12px;
+              "
+              ><i class="fas fa-envelope"></i> Weekly Newsletter</span
             >
-              Subscribe →
-            </button>
+            <h2 style="font-size: 32px; margin: 20px 0 16px">
+              Stay <span class="gradient-text">Mentally Sharp</span>
+            </h2>
+            <p class="text-muted" style="margin-bottom: 24px">
+              One email a week. Personality science, career moves, and brain
+              hacks. No spam, ever.
+            </p>
+            <div
+              style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto"
+            >
+              <input
+                type="email"
+                id="newsletterEmail"
+                placeholder="your@email.com"
+                style="flex: 1"
+              />
+              <button id="subscribeBtn" class="btn-primary">Subscribe →</button>
+            </div>
+            <p class="text-muted" style="font-size: 12px; margin-top: 16px">
+              Join 84,000+ readers · Unsubscribe anytime
+            </p>
           </div>
-          <p class="text-gray-600 text-xs mt-3">
-            Join 84,000+ readers · Unsubscribe anytime
-          </p>
-          <div
-            id="subscribeMessage"
-            class="text-xs mt-2 text-green-400 hidden"
-          ></div>
         </div>
-      </div>
-    </section>
-    <footer
-      class="border-t border-white/10 pt-20 pb-10 bg-white dark:bg-[#0a0a0a]"
-    >
-      <div class="max-w-7xl mx-auto px-6">
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16"
+          style="
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            margin-bottom: 48px;
+          "
         >
-          <div class="space-y-6">
-            <a href="index.html" class="flex items-center gap-2.5 group">
+          <div>
+            <a
+              href="index.html"
+              style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: inherit;
+                margin-bottom: 20px;
+              "
+            >
               <div
-                class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-                style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
+                style="
+                  width: 36px;
+                  height: 36px;
+                  background: linear-gradient(135deg, #38bdf8, #0284c7);
+                  border-radius: 12px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
               >
-                <i class="fas fa-brain text-white text-sm"></i>
+                <i class="fas fa-brain" style="color: white"></i>
               </div>
-              <span class="font-bold text-xl tracking-tight"
+              <span style="font-weight: 800"
                 >Neuro<span class="gradient-text">Path</span></span
               >
             </a>
-            <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
+            <p class="text-muted" style="font-size: 14px">
               Empowering individuals through AI-driven cognitive profiling and
               career discovery. Understand your mind, unlock your potential.
             </p>
-            <div class="flex gap-4">
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+            <div style="display: flex; gap: 16px; margin-top: 20px">
+              <a href="#" class="text-muted"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-muted"
                 ><i class="fab fa-linkedin-in"></i
               ></a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+              <a href="#" class="text-muted"
                 ><i class="fab fa-instagram"></i
               ></a>
             </div>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Product</h4>
-            <ul class="space-y-4 text-sm text-gray-500">
-              <li>
+            <h4 style="margin-bottom: 20px">Product</h4>
+            <ul style="list-style: none; font-size: 14px">
+              <li style="margin-bottom: 12px">
                 <a
                   href="analyzer.html"
-                  class="hover:text-purple-400 transition-colors"
+                  class="text-muted"
+                  style="text-decoration: none"
                   >Personality Test</a
                 >
               </li>
-              <li>
+              <li style="margin-bottom: 12px">
                 <a
                   href="careers.html"
-                  class="hover:text-purple-400 transition-colors"
+                  class="text-muted"
+                  style="text-decoration: none"
                   >Career Mapping</a
                 >
               </li>
               <li>
                 <a
                   href="results.html"
-                  class="hover:text-purple-400 transition-colors"
+                  class="text-muted"
+                  style="text-decoration: none"
                   >Sample Reports</a
                 >
               </li>
             </ul>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Resources</h4>
-            <ul class="space-y-4 text-sm text-gray-500">
-              <li>
+            <h4 style="margin-bottom: 20px">Resources</h4>
+            <ul style="list-style: none; font-size: 14px">
+              <li style="margin-bottom: 12px">
                 <a
                   href="blog.html"
-                  class="hover:text-purple-400 transition-colors"
+                  class="text-muted"
+                  style="text-decoration: none"
                   >Insights Blog</a
                 >
               </li>
-              <li>
-                <a href="#" class="hover:text-purple-400 transition-colors"
+              <li style="margin-bottom: 12px">
+                <a href="#" class="text-muted" style="text-decoration: none"
                   >Help Center</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:text-purple-400 transition-colors"
+                <a href="#" class="text-muted" style="text-decoration: none"
                   >Privacy Policy</a
                 >
               </li>
             </ul>
           </div>
-
           <div>
-            <h4 class="font-bold mb-6">Stay Updated</h4>
-            <p class="text-sm text-gray-500 mb-4">
+            <h4 style="margin-bottom: 20px">Stay Updated</h4>
+            <p class="text-muted" style="font-size: 14px; margin-bottom: 16px">
               Get the latest career tips via email.
             </p>
-            <form class="relative" id="newsletterForm">
+            <form id="footerNewsletter" style="display: flex">
               <input
                 type="email"
-                id="newsletterEmailFooter"
+                id="footerEmail"
                 placeholder="Email address"
-                class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors"
+                style="flex: 1"
               />
               <button
                 type="submit"
-                class="absolute right-2 top-1.5 bg-purple-600 hover:bg-purple-500 text-white p-1.5 rounded-lg transition-colors"
+                style="
+                  background: #0ea5e9;
+                  border: none;
+                  border-radius: 12px;
+                  padding: 0 16px;
+                  margin-left: 8px;
+                  cursor: pointer;
+                "
               >
-                <i class="fas fa-arrow-right px-2"></i>
+                <i class="fas fa-arrow-right" style="color: white"></i>
               </button>
             </form>
           </div>
         </div>
-
         <div
-          class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6"
+          style="
+            border-top: 1px solid #e5e5e5;
+            padding-top: 24px;
+            text-align: center;
+            font-size: 12px;
+          "
+          class="text-muted"
         >
-          <div class="text-xs text-gray-500">
-            © 2026 NeuroPath AI. All rights reserved.
-          </div>
-          <div class="flex gap-6 text-xs text-gray-500">
-            <a href="#" class="hover:text-white transition">Terms</a>
-            <a href="#" class="hover:text-white transition">Cookies</a>
-          </div>
+          © 2026 NeuroPath AI. All rights reserved.
         </div>
       </div>
     </footer>
+
     <script>
-      const modal = document.getElementById("articleModal"),
-        modalTitle = document.getElementById("modalTitle"),
-        modalDesc = document.getElementById("modalDesc");
-      function showArticleModal(title, description) {
-        modalTitle.textContent = title;
-        modalDesc.textContent =
-          description ||
-          "This article is being prepared. Check back soon for the full deep dive!";
-        modal.style.display = "flex";
-        gsap.fromTo(
-          ".modal-content",
-          { scale: 0.9, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(0.8)" },
-        );
+      // Blog posts with Pinterest author images
+      const posts = [
+        {
+          cat: "personality",
+          title: "The INTJ Paradox",
+          desc: "INTJs are ultra-high performers — but their own perfectionism destroys them. Here's the science and the fix.",
+          author: "Sean",
+          authorImg:
+            "https://i.pinimg.com/736x/b5/fd/30/b5fd3058da8c4891172f55e5ca31d071.jpg",
+          read: "6 min",
+          icon: "fa-user-circle",
+        },
+        {
+          cat: "career",
+          title: "The 5 Careers With the Highest Job Satisfaction in 2025",
+          desc: "Data from 50,000 NeuroPath users reveals surprising patterns about which roles actually make people happy.",
+          author: "Rang",
+          authorImg:
+            "https://i.pinimg.com/736x/81/4e/73/814e733d8718bf0b1f3f612a5062f630.jpg",
+          read: "5 min",
+          icon: "fa-chart-line",
+        },
+        {
+          cat: "ai",
+          title: "How We Built an AI That Understands Personality",
+          desc: "A deep dive into the architecture behind NeuroPath's personality model and why it outperforms all existing tests.",
+          author: "Rounan",
+          authorImg:
+            "https://i.pinimg.com/736x/b2/d4/c1/b2d4c1924b69df3de1ecd11f4306f32c.jpg",
+          read: "7 min",
+          icon: "fa-robot",
+        },
+        {
+          cat: "personality",
+          title: "The ENFP Struggle",
+          desc: "ENFPs are idea machines, but follow-through is hard. Here's the neuroscience-based framework to finish what you start.",
+          author: "Dr. Rivera",
+          authorImg: "https://i.pravatar.cc/28?img=89",
+          read: "5 min",
+          icon: "fa-feather-alt",
+        },
+      ];
+
+      function renderPosts(filter) {
+        const grid = document.getElementById("blogGrid");
+        grid.innerHTML = "";
+        posts
+          .filter((p) => filter === "all" || p.cat === filter)
+          .forEach((p) => {
+            grid.innerHTML += `
+          <div class="card blog-card" onclick='showArticle("${p.title.replace(/'/g, "\\'")}","${p.desc.replace(/'/g, "\\'")}")' style="overflow: hidden;">
+            <div style="height: 160px; background: linear-gradient(135deg, #38bdf8, #0284c7); display: flex; align-items: center; justify-content: center;">
+              <i class="fas ${p.icon}" style="font-size: 48px; color: rgba(255,255,255,0.4);"></i>
+            </div>
+            <div style="padding: 24px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                <span style="background:#e0f2fe; color:#0284c7; padding:4px 12px; border-radius:9999px; font-size:12px;">${p.cat.charAt(0).toUpperCase() + p.cat.slice(1)}</span>
+                <span class="text-muted" style="font-size: 12px;">${p.read}</span>
+              </div>
+              <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">${p.title}</h3>
+              <p class="text-muted" style="font-size: 14px; margin-bottom: 20px; line-height: 1.5;">${p.desc}</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="${p.authorImg}" class="author-img" onerror="this.style.display='none'">
+                  <span class="text-muted" style="font-size: 12px;">${p.author}</span>
+                </div>
+                <span style="color: #0ea5e9; font-weight: 600;">Read →</span>
+              </div>
+            </div>
+          </div>
+        `;
+          });
       }
+
+      renderPosts("all");
+
+      function showArticle(title, desc) {
+        document.getElementById("modalTitle").innerHTML = title;
+        document.getElementById("modalDesc").innerHTML = desc;
+        document.getElementById("articleModal").style.display = "flex";
+      }
+
       function closeModal() {
-        gsap.to(".modal-content", {
-          scale: 0.9,
-          opacity: 0,
-          duration: 0.2,
-          onComplete: () => {
-            modal.style.display = "none";
-          },
-        });
+        document.getElementById("articleModal").style.display = "none";
       }
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
+
+      // Filter functionality
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".filter-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderPosts(btn.dataset.cat);
+        });
       });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && modal.style.display === "flex") closeModal();
+
+      // Load more button (hidden by default, but keep functionality)
+      document.getElementById("loadMoreBtn")?.addEventListener("click", () => {
+        const newPost = {
+          cat: "productivity",
+          title: "The Science of Deep Work",
+          desc: "How to train your brain for intense focus and get more done in less time.",
+          author: "Dr. Chen",
+          authorImg: "https://randomuser.me/api/portraits/men/32.jpg",
+          read: "4 min",
+          icon: "fa-clock",
+        };
+        const grid = document.getElementById("blogGrid");
+        grid.innerHTML += `
+        <div class="card blog-card" onclick='showArticle("${newPost.title}","${newPost.desc}")' style="overflow: hidden;">
+          <div style="height: 160px; background: linear-gradient(135deg, #38bdf8, #0284c7); display: flex; align-items: center; justify-content: center;">
+            <i class="fas ${newPost.icon}" style="font-size: 48px; color: rgba(255,255,255,0.4);"></i>
+          </div>
+          <div style="padding: 24px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+              <span style="background:#e0f2fe; color:#0284c7; padding:4px 12px; border-radius:9999px; font-size:12px;">Productivity</span>
+              <span class="text-muted" style="font-size: 12px;">${newPost.read}</span>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">${newPost.title}</h3>
+            <p class="text-muted" style="font-size: 14px; margin-bottom: 20px;">${newPost.desc}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <img src="${newPost.authorImg}" class="author-img" onerror="this.style.display='none'">
+                <span class="text-muted" style="font-size: 12px;">${newPost.author}</span>
+              </div>
+              <span style="color: #0ea5e9; font-weight: 600;">Read →</span>
+            </div>
+          </div>
+        </div>
+      `;
+        const btn = document.getElementById("loadMoreBtn");
+        btn.textContent = "No more posts (for now)";
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
       });
+
+      // Dark mode functions
       function setTheme(theme) {
         const isDark = theme === "dark";
-        const sunIcon = document.getElementById("sunIcon");
-        const moonIcon = document.getElementById("moonIcon");
         if (isDark) {
           document.documentElement.classList.add("dark");
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.add("scale-0", "absolute");
-            sunIcon.classList.remove("scale-100", "relative");
-            moonIcon.classList.add("scale-100", "relative");
-            moonIcon.classList.remove("scale-0", "absolute");
-          }
+          document.body.classList.add("dark");
         } else {
           document.documentElement.classList.remove("dark");
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.add("scale-100", "relative");
-            sunIcon.classList.remove("scale-0", "absolute");
-            moonIcon.classList.add("scale-0", "absolute");
-            moonIcon.classList.remove("scale-100", "relative");
-          }
+          document.body.classList.remove("dark");
+        }
+        const sun = document.getElementById("sunIcon"),
+          moon = document.getElementById("moonIcon");
+        if (isDark) {
+          sun.style.display = "none";
+          moon.style.display = "block";
+        } else {
+          sun.style.display = "block";
+          moon.style.display = "none";
         }
         localStorage.setItem("theme", theme);
       }
-      function initTheme() {
-        const s = localStorage.getItem("theme"),
-          p = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        let t = s;
-        if (!t) t = p ? "dark" : "light";
-        setTheme(t);
-      }
-      const navLinks = document.querySelectorAll(".nav-link"),
-        indicator = document.getElementById("navIndicator");
-      function updateIndicator(l) {
-        if (!l || !indicator) return;
-        const r = l.getBoundingClientRect(),
-          cr = document
-            .getElementById("navLinksContainer")
-            .getBoundingClientRect();
-        indicator.style.width = r.width + "px";
-        indicator.style.transform = `translateX(${r.left - cr.left}px)`;
-      }
-      const cp = window.location.pathname.split("/").pop() || "blog.html";
-      navLinks.forEach((l) => {
-        if (l.getAttribute("href") === cp) {
-          l.style.color = "#A06BFF";
-          updateIndicator(l);
-        }
-      });
-      navLinks.forEach((l) => {
-        l.addEventListener("mouseenter", () => updateIndicator(l));
-        l.addEventListener("mouseleave", () => {
-          const a = Array.from(navLinks).find(
-            (ln) => ln.getAttribute("href") === cp,
-          );
-          if (a) updateIndicator(a);
-        });
-      });
-      const nav = document.getElementById("mainNav");
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) nav.classList.add("shadow-lg");
-        else nav.classList.remove("shadow-lg");
-      });
+
+      // Initialize theme
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      setTheme(savedTheme || (prefersDark ? "dark" : "light"));
+
+      // Theme toggle button
       document.getElementById("themeToggle").addEventListener("click", () => {
-        const d = document.documentElement.classList.contains("dark");
-        setTheme(d ? "light" : "dark");
-        gsap.to(document.getElementById("themeToggle"), {
-          scale: 0.95,
-          duration: 0.1,
-          yoyo: true,
-          repeat: 1,
-        });
+        const isDark = document.body.classList.contains("dark");
+        setTheme(isDark ? "light" : "dark");
       });
-      document.getElementById("mobileMenuBtn").addEventListener("click", () => {
-        document.getElementById("mobile-menu").classList.toggle("hidden");
+
+      // Newsletter subscription
+      document.getElementById("subscribeBtn")?.addEventListener("click", () => {
+        const email = document.getElementById("newsletterEmail").value;
+        if (email && email.includes("@"))
+          alert("Thanks for subscribing! Check your inbox soon.");
+        else alert("Please enter a valid email address.");
       });
-      gsap.registerPlugin(ScrollTrigger);
-      document.querySelectorAll(".cat-filter").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          document
-            .querySelectorAll(".cat-filter")
-            .forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          const filter = btn.dataset.cat;
-          gsap.to(".blog-card", {
-            opacity: 0,
-            duration: 0.2,
-            onComplete: () => {
-              document
-                .querySelectorAll("#blogGrid [data-cat]")
-                .forEach((card) => {
-                  card.style.display =
-                    filter === "all" || card.dataset.cat === filter
-                      ? ""
-                      : "none";
-                });
-              gsap.to(".blog-card", {
-                opacity: 1,
-                duration: 0.3,
-                stagger: 0.05,
-              });
-            },
-          });
-        });
-      });
-      document.getElementById("loadMoreBtn").addEventListener("click", () => {
-        const nh = `<div data-cat="productivity" class="glass-nav rounded-3xl overflow-hidden blog-card" onclick="showArticleModal('The Science of Deep Work','How to train your brain for intense focus and get more done in less time.')"><div class="h-44 bg-gradient-to-br from-green-900/30 to-teal-900/20 flex items-center justify-center"><i class="fas fa-clock text-5xl text-green-400/30"></i></div><div class="p-6"><div class="flex justify-between items-center mb-3"><span style="background:rgba(123,47,255,.15);color:#7b2fff;padding:4px 12px;border-radius:9999px;font-size:12px">Productivity</span><span class="text-gray-600 text-xs">4 min read</span></div><h3 class="font-bold text-lg mb-2 leading-snug">The Science of Deep Work: How to Train Your Brain for Intense Focus</h3><p class="text-gray-500 text-sm mb-4 line-clamp-2">Learn the neuroscience behind concentration and practical techniques to eliminate distractions.</p><div class="flex justify-between items-center"><div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-green-500 to-teal-500"></div><span class="text-gray-500 text-xs">Dr. Chen</span></div><span class="read-more">Read →</span></div></div></div>`;
-        const g = document.getElementById("blogGrid"),
-          np = document.createElement("div");
-        np.innerHTML = nh.trim();
-        g.appendChild(np.firstChild);
-        gsap.fromTo(
-          g.lastElementChild,
-          { opacity: 0, y: 40, scale: 0.95 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(0.8)" },
-        );
-        const lm = document.getElementById("loadMoreBtn");
-        lm.textContent = "No more posts (for now)";
-        lm.disabled = true;
-        lm.style.opacity = "0.5";
-      });
-      document.getElementById("subscribeBtn").addEventListener("click", () => {
-        const e = document.getElementById("newsletterEmail").value.trim(),
-          msg = document.getElementById("subscribeMessage");
-        if (e && e.includes("@")) {
-          msg.textContent = "🎉 Thanks! Check your inbox for the welcome kit.";
-          msg.classList.remove("hidden");
-          msg.style.color = "#4ade80";
-          document.getElementById("newsletterEmail").value = "";
-          setTimeout(() => msg.classList.add("hidden"), 3000);
-        } else {
-          msg.textContent = "❌ Please enter a valid email address.";
-          msg.classList.remove("hidden");
-          msg.style.color = "#f87171";
-          setTimeout(() => msg.classList.add("hidden"), 2500);
-        }
-      });
-      const newsletterForm = document.getElementById("newsletterForm");
-      if (newsletterForm) {
-        newsletterForm.addEventListener("submit", (e) => {
+
+      document
+        .getElementById("footerNewsletter")
+        ?.addEventListener("submit", (e) => {
           e.preventDefault();
-          const email = document.getElementById("newsletterEmailFooter").value;
-          if (email && email.includes("@")) {
+          const email = document.getElementById("footerEmail").value;
+          if (email && email.includes("@"))
             alert("Thanks for subscribing! Check your inbox soon.");
-            newsletterForm.reset();
-          } else {
-            alert("Please enter a valid email address.");
-          }
+          else alert("Please enter a valid email address.");
         });
-      }
-      initTheme();
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (e) => {
-          if (!localStorage.getItem("theme"))
-            setTheme(e.matches ? "dark" : "light");
+
+      // GSAP animations
+      gsap.fromTo(
+        ".card",
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          scrollTrigger: { trigger: "#blogGrid", start: "top 85%" },
+        },
+      );
+
+      // Close modal on outside click
+      document
+        .getElementById("articleModal")
+        ?.addEventListener("click", (e) => {
+          if (e.target === document.getElementById("articleModal"))
+            closeModal();
         });
+
+      // Close modal on ESC key
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Escape" &&
+          document.getElementById("articleModal").style.display === "flex"
+        )
+          closeModal();
+      });
     </script>
   </body>
 </html>
