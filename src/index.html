@@ -3,25 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeuroPath | Know Your Mind. Own Your Future.</title>
+    <title>NeuroPath | Personality Test & Career Discovery Platform</title>
     <meta
       name="description"
-      content="Take our AI personality test and find your perfect career path. Free, fast, and surprisingly accurate."
+      content="Discover your true personality type and ideal career path with NeuroPath's free AI-powered test. 10 questions, 3 minutes, instant results."
     />
-    <!-- CRITICAL: Theme initialization before any rendering to prevent flash -->
+    <meta
+      name="keywords"
+      content="personality test, career test, MBTI, personality types, career assessment, free personality test, INTJ, ENFP"
+    />
+    <meta name="author" content="NeuroPath" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://neuropath.ai/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="NeuroPath - Know Your Mind. Own Your Future."
+    />
+    <meta
+      property="og:description"
+      content="Free personality test with instant results. Discover your type, career matches, and strengths."
+    />
+    <meta property="og:site_name" content="NeuroPath" />
+    <meta name="twitter:card" content="summary_large_image" />
     <script>
-      (function() {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
+      (function () {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        const isDark =
+          savedTheme === "dark" || (savedTheme === null && prefersDark);
         if (isDark) {
-          document.documentElement.classList.add('dark');
+          document.documentElement.classList.add("dark");
         } else {
-          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.remove("dark");
         }
       })();
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "NeuroPath",
+        "description": "Free AI-powered personality assessment tool",
+        "url": "https://neuropath.ai"
+      }
+    </script>
+    <link rel="stylesheet" href="../src/output.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <link
@@ -32,45 +61,15 @@
       href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            fontFamily: { sans: ["Inter", "sans-serif"] },
-            colors: { neuro: "#7B2FFF", pulse: "#00E5FF", spark: "#FF3DFF" },
-          },
-        },
-      };
-    </script>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Inter", sans-serif;
-        transition: background 0.2s ease, color 0.2s ease;
-      }
-      html.dark body {
-        background: #0a0a0a;
-        color: #ffffff;
-      }
-      html:not(.dark) body {
-        background: #f5f5f7;
-        color: #1d1d1f;
-      }
       .glass-nav {
         background: rgba(10, 10, 10, 0.75);
         backdrop-filter: blur(20px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        transition: background 0.2s ease, border-color 0.2s ease;
       }
-      html:not(.dark) .glass-nav {
+      :root:not(.dark) .glass-nav {
         background: rgba(255, 255, 255, 0.85);
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
       }
       .gradient-text {
         background: linear-gradient(135deg, #7b2fff, #00e5ff);
@@ -80,7 +79,7 @@
       }
       .btn-primary {
         background: linear-gradient(135deg, #7b2fff, #00e5ff);
-        color: white;
+        color: #fff;
         font-weight: 600;
         padding: 10px 24px;
         border-radius: 40px;
@@ -100,10 +99,10 @@
         transition: all 0.3s;
         background: transparent;
       }
-      html.dark .btn-outline {
-        color: white;
+      .dark .btn-outline {
+        color: #fff;
       }
-      html:not(.dark) .btn-outline {
+      :root:not(.dark) .btn-outline {
         color: #1d1d1f;
       }
       .btn-outline:hover {
@@ -133,8 +132,12 @@
         transform: translateY(-8px);
       }
       @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
       }
       .animate-marquee {
         animation: marquee 20s linear infinite;
@@ -142,33 +145,15 @@
       #mobile-menu {
         transition: all 0.3s ease;
       }
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #1a1a1a;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #7b2fff;
-        border-radius: 10px;
-      }
-      html:not(.dark) ::-webkit-scrollbar-track {
-        background: #e0e0e0;
-      }
-      html:not(.dark) .border-white\/10 {
+      :root:not(.dark) .border-white\/10 {
         border-color: rgba(0, 0, 0, 0.08);
       }
-      html:not(.dark) .text-gray-400 {
+      :root:not(.dark) .text-gray-400,
+      :root:not(.dark) .text-gray-500 {
         color: #6b7280;
       }
-      html:not(.dark) .text-gray-500 {
-        color: #6b7280;
-      }
-      html:not(.dark) .bg-white\/10 {
+      :root:not(.dark) .bg-white\/10 {
         background-color: rgba(0, 0, 0, 0.05);
-      }
-      html:not(.dark) .text-gray-300 {
-        color: #4b5563;
       }
     </style>
   </head>
@@ -180,8 +165,8 @@
       <div
         class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between"
       >
-        <a href="index.html" class="flex items-center gap-2.5 group">
-          <div
+        <a href="index.html" class="flex items-center gap-2.5 group"
+          ><div
             class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
             style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
           >
@@ -189,38 +174,29 @@
           </div>
           <span class="font-bold text-xl tracking-tight"
             >Neuro<span class="gradient-text">Path</span></span
-          >
-        </a>
+          ></a
+        >
         <div class="hidden md:flex items-center gap-6 lg:gap-8">
           <div class="flex items-center gap-1 relative" id="navLinksContainer">
             <a
               href="index.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              data-nav="home"
               >Home</a
-            >
-            <a
+            ><a
               href="analyzer.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              data-nav="test"
               >Test</a
-            >
-            <a
+            ><a
               href="results.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              data-nav="results"
               >Results</a
-            >
-            <a
+            ><a
               href="careers.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              data-nav="careers"
               >Careers</a
-            >
-            <a
+            ><a
               href="blog.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
-              data-nav="blog"
               >Blog</a
             >
             <div
@@ -233,20 +209,21 @@
         <div class="flex items-center gap-3">
           <button
             id="themeToggle"
-            class="w-10 h-10 rounded-full glass-nav flex items-center justify-center transition-all duration-300 hover:scale-105"
+            class="relative w-10 h-10 rounded-full glass-nav flex items-center justify-center transition-all duration-300 hover:scale-105 group overflow-hidden border border-white/10"
           >
             <i
               id="sunIcon"
-              class="fas fa-sun text-yellow-500 hidden text-lg"
-            ></i>
-            <i id="moonIcon" class="fas fa-moon text-gray-300 text-lg"></i>
-          </button>
-          <a
+              class="fas fa-sun text-yellow-500 text-lg transition-all duration-500 transform scale-100"
+            ></i
+            ><i
+              id="moonIcon"
+              class="fas fa-moon text-blue-300 text-lg transition-all duration-500 transform scale-0 absolute"
+            ></i></button
+          ><a
             href="analyzer.html"
             class="btn-primary text-sm hidden md:inline-block transition-all duration-300"
             >Take the Test →</a
-          >
-          <button
+          ><button
             id="mobileMenuBtn"
             class="md:hidden text-2xl p-2 rounded-xl glass-nav"
           >
@@ -262,23 +239,19 @@
           href="index.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-home w-5 text-purple-400"></i> Home</a
-        >
-        <a
+        ><a
           href="analyzer.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-brain w-5 text-purple-400"></i> Test</a
-        >
-        <a
+        ><a
           href="results.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-chart-line w-5 text-purple-400"></i> Results</a
-        >
-        <a
+        ><a
           href="careers.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-briefcase w-5 text-purple-400"></i> Careers</a
-        >
-        <a
+        ><a
           href="blog.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-newspaper w-5 text-purple-400"></i> Blog</a
@@ -292,7 +265,6 @@
         </div>
       </div>
     </nav>
-
     <section class="min-h-screen flex items-center pt-20 overflow-hidden">
       <div class="max-w-6xl mx-auto px-6 py-20">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -300,14 +272,11 @@
             <span
               class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-6"
               style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
+              ><i class="fas fa-brain mr-1"></i> Powered by Neuro AI</span
             >
-              <i class="fas fa-brain mr-1"></i> Powered by Neuro AI
-            </span>
             <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">
-              Know Your<br />
-              <span class="gradient-text">Mind.</span><br />
-              Own Your<br />
-              <span
+              Know Your<br /><span class="gradient-text">Mind.</span><br />Own
+              Your<br /><span
                 style="
                   background: linear-gradient(135deg, #ff3dff, #7b2fff);
                   -webkit-background-clip: text;
@@ -321,8 +290,8 @@
               really are and what you should do with your life.
             </p>
             <div class="flex flex-wrap gap-4 mb-10">
-              <a href="analyzer.html" class="btn-primary">Start Free Test →</a>
-              <a href="results.html" class="btn-outline">See Sample Results</a>
+              <a href="analyzer.html" class="btn-primary">Start Free Test →</a
+              ><a href="results.html" class="btn-outline">See Sample Results</a>
             </div>
             <div class="flex gap-8">
               <div>
@@ -405,24 +374,24 @@
         </div>
       </div>
     </section>
-
     <div class="overflow-hidden py-4 border-y border-white/10">
       <div class="flex gap-8 animate-marquee whitespace-nowrap">
-        <span class="text-gray-500 text-sm font-semibold">✦ PERSONALITY ANALYSIS</span>
-        <span class="text-purple-500">◆</span>
-        <span class="text-gray-500 text-sm font-semibold">✦ CAREER MAPPING</span>
-        <span class="text-cyan-500">◆</span>
-        <span class="text-gray-500 text-sm font-semibold">✦ COGNITIVE PROFILING</span>
-        <span class="text-pink-500">◆</span>
-        <span class="text-gray-500 text-sm font-semibold">✦ STRENGTH DISCOVERY</span>
-        <span class="text-purple-500">◆</span>
-        <span class="text-gray-500 text-sm font-semibold">✦ AI INSIGHTS</span>
-        <span class="text-cyan-500">◆</span>
-        <span class="text-gray-500 text-sm font-semibold">✦ PERSONALITY ANALYSIS</span>
-        <span class="text-purple-500">◆</span>
+        <span class="text-gray-500 text-sm font-semibold"
+          >✦ PERSONALITY ANALYSIS</span
+        ><span class="text-purple-500">◆</span
+        ><span class="text-gray-500 text-sm font-semibold"
+          >✦ CAREER MAPPING</span
+        ><span class="text-cyan-500">◆</span
+        ><span class="text-gray-500 text-sm font-semibold"
+          >✦ COGNITIVE PROFILING</span
+        ><span class="text-pink-500">◆</span
+        ><span class="text-gray-500 text-sm font-semibold"
+          >✦ STRENGTH DISCOVERY</span
+        ><span class="text-purple-500">◆</span
+        ><span class="text-gray-500 text-sm font-semibold">✦ AI INSIGHTS</span
+        ><span class="text-cyan-500">◆</span>
       </div>
     </div>
-
     <section class="py-24">
       <div class="max-w-6xl mx-auto px-6">
         <div class="text-center mb-16">
@@ -478,7 +447,6 @@
         </div>
       </div>
     </section>
-
     <section class="py-20 border-t border-white/10">
       <div class="max-w-6xl mx-auto px-6">
         <div class="flex flex-wrap justify-between items-end mb-12">
@@ -497,14 +465,29 @@
           >
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="glass-nav rounded-xl p-4 text-center card-hover"><div class="text-2xl mb-2">🏛️</div><div class="font-bold">INTJ</div><div class="text-purple-400 text-xs">The Architect</div></div>
-          <div class="glass-nav rounded-xl p-4 text-center card-hover"><div class="text-2xl mb-2">💡</div><div class="font-bold">ENTP</div><div class="text-cyan-400 text-xs">The Visionary</div></div>
-          <div class="glass-nav rounded-xl p-4 text-center card-hover"><div class="text-2xl mb-2">🎨</div><div class="font-bold">INFP</div><div class="text-pink-400 text-xs">The Mediator</div></div>
-          <div class="glass-nav rounded-xl p-4 text-center card-hover"><div class="text-2xl mb-2">⚡</div><div class="font-bold">ENTJ</div><div class="text-yellow-400 text-xs">The Commander</div></div>
+          <div class="glass-nav rounded-xl p-4 text-center card-hover">
+            <div class="text-2xl mb-2">🏛️</div>
+            <div class="font-bold">INTJ</div>
+            <div class="text-purple-400 text-xs">The Architect</div>
+          </div>
+          <div class="glass-nav rounded-xl p-4 text-center card-hover">
+            <div class="text-2xl mb-2">💡</div>
+            <div class="font-bold">ENTP</div>
+            <div class="text-cyan-400 text-xs">The Visionary</div>
+          </div>
+          <div class="glass-nav rounded-xl p-4 text-center card-hover">
+            <div class="text-2xl mb-2">🎨</div>
+            <div class="font-bold">INFP</div>
+            <div class="text-pink-400 text-xs">The Mediator</div>
+          </div>
+          <div class="glass-nav rounded-xl p-4 text-center card-hover">
+            <div class="text-2xl mb-2">⚡</div>
+            <div class="font-bold">ENTJ</div>
+            <div class="text-yellow-400 text-xs">The Commander</div>
+          </div>
         </div>
       </div>
     </section>
-
     <section class="py-24 border-t border-white/10">
       <div class="max-w-6xl mx-auto px-6">
         <div class="text-center mb-14">
@@ -518,86 +501,283 @@
           </h2>
         </div>
         <div class="grid md:grid-cols-3 gap-6">
-          <div class="glass-nav rounded-2xl p-6 card-hover"><div class="flex gap-1 text-purple-500 mb-4">★★★★★</div><p class="text-gray-400 text-sm mb-5">"I was stuck in a job I hated. NeuroPath showed me I'm actually an ENFP and should be doing creative work. Changed my life."</p><div class="flex items-center gap-3"><img src="https://i.pinimg.com/736x/02/8e/a7/028ea730c0c6e6528b02eeae93fb74a7.jpg" class="w-10 h-10 rounded-full object-cover" /><div><div class="font-bold text-sm">Chen</div><div class="text-gray-500 text-xs">UX Designer</div></div></div></div>
-          <div class="glass-nav rounded-2xl p-6 card-hover"><div class="flex gap-1 text-purple-500 mb-4">★★★★★</div><p class="text-gray-400 text-sm mb-5">"Took the test on a whim. Got INTJ. Now I'm in software engineering and actually enjoy Mondays. Wild."</p><div class="flex items-center gap-3"><img src="https://i.pinimg.com/736x/26/ac/a2/26aca22d1b2464a4a7f89af466149c5a.jpg" class="w-10 h-10 rounded-full object-cover" /><div><div class="font-bold text-sm">Kimchii</div><div class="text-gray-500 text-xs">Software Engineer</div></div></div></div>
-          <div class="glass-nav rounded-2xl p-6 card-hover"><div class="flex gap-1 text-purple-500 mb-4">★★★★★</div><p class="text-gray-400 text-sm mb-5">"The career matches were spot on. I was already thinking about switching to product management, and this confirmed it."</p><div class="flex items-center gap-3"><img src="https://i.pinimg.com/736x/72/ef/27/72ef273571a13a8b658d25ba99ee5745.jpg" class="w-10 h-10 rounded-full object-cover" /><div><div class="font-bold text-sm">Jay</div><div class="text-gray-500 text-xs">AI Engineer</div></div></div></div>
+          <div class="glass-nav rounded-2xl p-6 card-hover">
+            <div class="flex gap-1 text-purple-500 mb-4">★★★★★</div>
+            <p class="text-gray-400 text-sm mb-5">
+              "I was stuck in a job I hated. NeuroPath showed me I'm actually an
+              ENFP and should be doing creative work. Changed my life."
+            </p>
+            <div class="flex items-center gap-3">
+              <img
+                src="https://i.pinimg.com/736x/02/8e/a7/028ea730c0c6e6528b02eeae93fb74a7.jpg"
+                class="w-10 h-10 rounded-full object-cover"
+              />
+              <div>
+                <div class="font-bold text-sm">Chen</div>
+                <div class="text-gray-500 text-xs">UX Designer</div>
+              </div>
+            </div>
+          </div>
+          <div class="glass-nav rounded-2xl p-6 card-hover">
+            <div class="flex gap-1 text-purple-500 mb-4">★★★★★</div>
+            <p class="text-gray-400 text-sm mb-5">
+              "Took the test on a whim. Got INTJ. Now I'm in software
+              engineering and actually enjoy Mondays. Wild."
+            </p>
+            <div class="flex items-center gap-3">
+              <img
+                src="https://i.pinimg.com/736x/26/ac/a2/26aca22d1b2464a4a7f89af466149c5a.jpg"
+                class="w-10 h-10 rounded-full object-cover"
+              />
+              <div>
+                <div class="font-bold text-sm">Kimchii</div>
+                <div class="text-gray-500 text-xs">Software Engineer</div>
+              </div>
+            </div>
+          </div>
+          <div class="glass-nav rounded-2xl p-6 card-hover">
+            <div class="flex gap-1 text-purple-500 mb-4">★★★★★</div>
+            <p class="text-gray-400 text-sm mb-5">
+              "The career matches were spot on. I was already thinking about
+              switching to product management, and this confirmed it."
+            </p>
+            <div class="flex items-center gap-3">
+              <img
+                src="https://i.pinimg.com/736x/72/ef/27/72ef273571a13a8b658d25ba99ee5745.jpg"
+                class="w-10 h-10 rounded-full object-cover"
+              />
+              <div>
+                <div class="font-bold text-sm">Jay</div>
+                <div class="text-gray-500 text-xs">AI Engineer</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-
     <section class="py-24">
       <div class="max-w-4xl mx-auto px-6 text-center">
-        <div class="glass-nav rounded-3xl p-12 relative overflow-hidden card-hover">
-          <div class="absolute w-64 h-64 rounded-full bg-purple-600/20 blur-3xl -top-20 -left-20"></div>
-          <div class="absolute w-48 h-48 rounded-full bg-pink-600/20 blur-3xl -bottom-20 -right-20"></div>
-          <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-5" style="background: rgba(123, 47, 255, 0.15); color: #7b2fff">Free · No Credit Card</span>
-          <h2 class="text-3xl md:text-5xl font-black mb-4">Ready to meet your<br /><span class="gradient-text">true self?</span></h2>
-          <p class="text-gray-500 mb-8">Join 2.4 million people who've already taken the test.</p>
-          <a href="analyzer.html" class="btn-primary text-lg">Start Free Test →</a>
+        <div
+          class="glass-nav rounded-3xl p-12 relative overflow-hidden card-hover"
+        >
+          <div
+            class="absolute w-64 h-64 rounded-full bg-purple-600/20 blur-3xl -top-20 -left-20"
+          ></div>
+          <div
+            class="absolute w-48 h-48 rounded-full bg-pink-600/20 blur-3xl -bottom-20 -right-20"
+          ></div>
+          <span
+            class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-5"
+            style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
+            >Free · No Credit Card</span
+          >
+          <h2 class="text-3xl md:text-5xl font-black mb-4">
+            Ready to meet your<br /><span class="gradient-text"
+              >true self?</span
+            >
+          </h2>
+          <p class="text-gray-500 mb-8">
+            Join 2.4 million people who've already taken the test.
+          </p>
+          <a href="analyzer.html" class="btn-primary text-lg"
+            >Start Free Test →</a
+          >
         </div>
       </div>
     </section>
+    <footer
+      class="border-t border-white/10 pt-20 pb-10 bg-white dark:bg-[#0a0a0a]"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16"
+        >
+          <div class="space-y-6">
+            <a href="index.html" class="flex items-center gap-2.5 group">
+              <div
+                class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
+                style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
+              >
+                <i class="fas fa-brain text-white text-sm"></i>
+              </div>
+              <span class="font-bold text-xl tracking-tight"
+                >Neuro<span class="gradient-text">Path</span></span
+              >
+            </a>
+            <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
+              Empowering individuals through AI-driven cognitive profiling and
+              career discovery. Understand your mind, unlock your potential.
+            </p>
+            <div class="flex gap-4">
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
 
-    <footer class="border-t border-white/10 py-12">
-      <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="flex items-center gap-2"><div class="w-8 h-8 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"><i class="fas fa-brain text-white text-xs"></i></div><span class="font-bold">Neuro<span class="gradient-text">Path</span></span></div>
-        <div class="flex gap-6 text-sm text-gray-500"><a href="index.html" class="hover:text-white transition">Home</a><a href="analyzer.html" class="hover:text-white transition">Test</a><a href="blog.html" class="hover:text-white transition">Blog</a><a href="#" class="hover:text-white transition">Privacy</a><a href="#" class="hover:text-white transition">Terms</a></div>
-        <div class="text-sm text-gray-500">© 2025 NeuroPath. All rights reserved.</div>
+          <div>
+            <h4 class="font-bold mb-6">Product</h4>
+            <ul class="space-y-4 text-sm text-gray-500">
+              <li>
+                <a
+                  href="analyzer.html"
+                  class="hover:text-purple-400 transition-colors"
+                  >Personality Test</a
+                >
+              </li>
+              <li>
+                <a
+                  href="careers.html"
+                  class="hover:text-purple-400 transition-colors"
+                  >Career Mapping</a
+                >
+              </li>
+              <li>
+                <a
+                  href="results.html"
+                  class="hover:text-purple-400 transition-colors"
+                  >Sample Reports</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-6">Resources</h4>
+            <ul class="space-y-4 text-sm text-gray-500">
+              <li>
+                <a
+                  href="blog.html"
+                  class="hover:text-purple-400 transition-colors"
+                  >Insights Blog</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-purple-400 transition-colors"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-purple-400 transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-6">Stay Updated</h4>
+            <p class="text-sm text-gray-500 mb-4">
+              Get the latest career tips via email.
+            </p>
+            <form class="relative" id="newsletterForm">
+              <input
+                type="email"
+                id="newsletterEmail"
+                placeholder="Email address"
+                class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors"
+              />
+              <button
+                type="submit"
+                class="absolute right-2 top-1.5 bg-purple-600 hover:bg-purple-500 text-white p-1.5 rounded-lg transition-colors"
+              >
+                <i class="fas fa-arrow-right px-2"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div
+          class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          <div class="text-xs text-gray-500">
+            © 2026 NeuroPath AI. All rights reserved.
+          </div>
+          <div class="flex gap-6 text-xs text-gray-500">
+            <a href="#" class="hover:text-white transition">Terms</a>
+            <a href="#" class="hover:text-white transition">Cookies</a>
+          </div>
+        </div>
       </div>
     </footer>
-
     <script>
-      // ========== GLOBAL THEME SYSTEM (cross-page seamless) ==========
       function setTheme(theme) {
-        const isDark = theme === 'dark';
+        const isDark = theme === "dark";
+        const sunIcon = document.getElementById("sunIcon");
+        const moonIcon = document.getElementById("moonIcon");
+
         if (isDark) {
-          document.documentElement.classList.add('dark');
+          document.documentElement.classList.add("dark");
+          if (sunIcon && moonIcon) {
+            sunIcon.classList.add("scale-0", "absolute");
+            sunIcon.classList.remove("scale-100", "relative");
+            moonIcon.classList.add("scale-100", "relative");
+            moonIcon.classList.remove("scale-0", "absolute");
+          }
         } else {
-          document.documentElement.classList.remove('dark');
-        }
-        localStorage.setItem('theme', theme);
-        const sunIcon = document.getElementById('sunIcon');
-        const moonIcon = document.getElementById('moonIcon');
-        if (sunIcon && moonIcon) {
-          if (theme === 'light') {
-            sunIcon.classList.remove('hidden');
-            moonIcon.classList.add('hidden');
-          } else {
-            sunIcon.classList.add('hidden');
-            moonIcon.classList.remove('hidden');
+          document.documentElement.classList.remove("dark");
+          if (sunIcon && moonIcon) {
+            sunIcon.classList.add("scale-100", "relative");
+            sunIcon.classList.remove("scale-0", "absolute");
+            moonIcon.classList.add("scale-0", "absolute");
+            moonIcon.classList.remove("scale-100", "relative");
           }
         }
+        localStorage.setItem("theme", theme);
       }
 
       function initTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
         let theme = savedTheme;
-        if (!theme) theme = prefersDark ? 'dark' : 'light';
+        if (!theme) {
+          theme = prefersDark ? "dark" : "light";
+        }
         setTheme(theme);
       }
+
       const navLinks = document.querySelectorAll(".nav-link");
       const indicator = document.getElementById("navIndicator");
+
       function updateIndicator(activeLink) {
         if (!activeLink || !indicator) return;
         const rect = activeLink.getBoundingClientRect();
-        const containerRect = document.getElementById("navLinksContainer").getBoundingClientRect();
-        const leftPos = rect.left - containerRect.left;
+        const containerRect = document
+          .getElementById("navLinksContainer")
+          .getBoundingClientRect();
         indicator.style.width = rect.width + "px";
-        indicator.style.transform = `translateX(${leftPos}px)`;
+        indicator.style.transform = `translateX(${rect.left - containerRect.left}px)`;
       }
-      const currentPath = window.location.pathname.split("/").pop() || "index.html";
+
+      const currentPath =
+        window.location.pathname.split("/").pop() || "index.html";
       navLinks.forEach((link) => {
-        const href = link.getAttribute("href");
-        if (href === currentPath) {
+        if (link.getAttribute("href") === currentPath) {
           link.style.color = "#A06BFF";
           updateIndicator(link);
         }
       });
+
       navLinks.forEach((link) => {
         link.addEventListener("mouseenter", () => updateIndicator(link));
         link.addEventListener("mouseleave", () => {
-          const activeLink = Array.from(navLinks).find(l => l.getAttribute("href") === currentPath);
+          const activeLink = Array.from(navLinks).find(
+            (l) => l.getAttribute("href") === currentPath,
+          );
           if (activeLink) updateIndicator(activeLink);
         });
       });
@@ -614,26 +794,60 @@
           const isDark = document.documentElement.classList.contains("dark");
           const newTheme = isDark ? "light" : "dark";
           setTheme(newTheme);
-          gsap.to(themeToggleBtn, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 });
+          gsap.to(themeToggleBtn, {
+            scale: 0.95,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 1,
+          });
         });
       }
 
       const mobileBtn = document.getElementById("mobileMenuBtn");
       const mobileMenu = document.getElementById("mobile-menu");
       if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener("click", () => { mobileMenu.classList.toggle("hidden"); });
+        mobileBtn.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+        });
+      }
+
+      const newsletterForm = document.getElementById("newsletterForm");
+      if (newsletterForm) {
+        newsletterForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("newsletterEmail").value;
+          if (email && email.includes("@")) {
+            alert("Thanks for subscribing! Check your inbox soon.");
+            newsletterForm.reset();
+          } else {
+            alert("Please enter a valid email address.");
+          }
+        });
       }
 
       gsap.registerPlugin(ScrollTrigger);
-      gsap.fromTo(".hero-text", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
-      gsap.fromTo(".card-hover", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, scrollTrigger: { trigger: ".card-hover", start: "top 85%" } });
+      gsap.fromTo(
+        ".card-hover",
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          scrollTrigger: { trigger: ".card-hover", start: "top 85%" },
+        },
+      );
+
       initTheme();
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        const stored = localStorage.getItem('theme');
-        if (!stored) {
-          setTheme(e.matches ? 'dark' : 'light');
-        }
-      });
+
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+          const stored = localStorage.getItem("theme");
+          if (!stored) {
+            setTheme(e.matches ? "dark" : "light");
+          }
+        });
     </script>
   </body>
 </html>

@@ -3,69 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NeuroPath | Personality Test</title>
+    <title>NeuroPath | Personality Test - Take the Free Assessment</title>
     <meta
       name="description"
-      content="Take our free personality test. 10 questions. 3 minutes. Get your results instantly."
+      content="Take our free AI-powered personality test. 10 questions, 3 minutes. Get instant results with 12-dimension profile and career matches."
     />
+    <meta
+      name="keywords"
+      content="personality test, free personality test, career test, MBTI test, personality assessment"
+    />
+    <meta name="author" content="NeuroPath" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://neuropath.ai/analyzer.html" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="NeuroPath Personality Test - Free & Accurate"
+    />
+    <meta
+      property="og:description"
+      content="Discover your true personality type in just 3 minutes. Free test with instant results."
+    />
+    <meta property="og:site_name" content="NeuroPath" />
+    <meta name="twitter:card" content="summary_large_image" />
     <script>
-      (function() {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
-        if (isDark) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+      (function () {
+        const t = localStorage.getItem("theme"),
+          e = window.matchMedia("(prefers-color-scheme: dark)").matches,
+          n = t === "dark" || (t === null && e);
+        if (n) document.documentElement.classList.add("dark");
+        else document.documentElement.classList.remove("dark");
       })();
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../src/output.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <link
-      rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            fontFamily: { sans: ["Inter", "sans-serif"] },
-            colors: { neuro: "#7B2FFF", pulse: "#00E5FF", spark: "#FF3DFF" },
-          },
-        },
-      };
-    </script>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Inter", sans-serif;
-        transition: background 0.2s ease, color 0.2s ease;
-      }
-      html.dark body {
-        background: #0a0a0a;
-        color: #ffffff;
-      }
-      html:not(.dark) body {
-        background: #f5f5f7;
-        color: #1d1d1f;
-      }
       .glass-nav {
         background: rgba(10, 10, 10, 0.75);
         backdrop-filter: blur(20px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        transition: background 0.2s ease, border-color 0.2s ease;
       }
-      html:not(.dark) .glass-nav {
+      :root:not(.dark) .glass-nav {
         background: rgba(255, 255, 255, 0.85);
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       }
@@ -77,7 +63,7 @@
       }
       .btn-primary {
         background: linear-gradient(135deg, #7b2fff, #00e5ff);
-        color: white;
+        color: #fff;
         font-weight: 600;
         padding: 10px 24px;
         border-radius: 40px;
@@ -97,10 +83,10 @@
         transition: all 0.3s;
         background: transparent;
       }
-      html.dark .btn-outline {
-        color: white;
+      .dark .btn-outline {
+        color: #fff;
       }
-      html:not(.dark) .btn-outline {
+      :root:not(.dark) .btn-outline {
         color: #1d1d1f;
       }
       .btn-outline:hover {
@@ -133,7 +119,7 @@
         cursor: pointer;
         font-weight: 500;
       }
-      html:not(.dark) .option-btn {
+      :root:not(.dark) .option-btn {
         border: 1px solid rgba(0, 0, 0, 0.1);
         background: rgba(0, 0, 0, 0.02);
         color: #1d1d1f;
@@ -154,31 +140,29 @@
         border-radius: 10px;
         overflow: hidden;
       }
-      html:not(.dark) .progress-bar {
+      :root:not(.dark) .progress-bar {
         background: rgba(0, 0, 0, 0.1);
       }
       .progress-fill {
         height: 100%;
         background: linear-gradient(90deg, #7b2fff, #00e5ff);
-        width: 0%;
+        width: 0;
         transition: width 0.3s ease;
       }
       #mobile-menu {
         transition: all 0.3s ease;
       }
-      html:not(.dark) .border-white\/10 {
+      :root:not(.dark) .border-white\/10 {
         border-color: rgba(0, 0, 0, 0.08);
       }
-      html:not(.dark) .text-gray-400 {
+      :root:not(.dark) .text-gray-400,
+      :root:not(.dark) .text-gray-500 {
         color: #6b7280;
       }
-      html:not(.dark) .text-gray-500 {
-        color: #6b7280;
-      }
-      html:not(.dark) .text-gray-600 {
+      :root:not(.dark) .text-gray-600 {
         color: #4b5563;
       }
-      html:not(.dark) .bg-white\/10 {
+      :root:not(.dark) .bg-white\/10 {
         background-color: rgba(0, 0, 0, 0.05);
       }
     </style>
@@ -191,8 +175,8 @@
       <div
         class="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between"
       >
-        <a href="index.html" class="flex items-center gap-2.5 group">
-          <div
+        <a href="index.html" class="flex items-center gap-2.5 group"
+          ><div
             class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
             style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
           >
@@ -200,31 +184,27 @@
           </div>
           <span class="font-bold text-xl tracking-tight"
             >Neuro<span class="gradient-text">Path</span></span
-          >
-        </a>
+          ></a
+        >
         <div class="hidden md:flex items-center gap-6 lg:gap-8">
           <div class="flex items-center gap-1 relative" id="navLinksContainer">
             <a
               href="index.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
               >Home</a
-            >
-            <a
+            ><a
               href="analyzer.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
               >Test</a
-            >
-            <a
+            ><a
               href="results.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
               >Results</a
-            >
-            <a
+            ><a
               href="careers.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
               >Careers</a
-            >
-            <a
+            ><a
               href="blog.html"
               class="nav-link px-3 py-2 text-sm font-semibold tracking-wide"
               >Blog</a
@@ -239,20 +219,21 @@
         <div class="flex items-center gap-3">
           <button
             id="themeToggle"
-            class="w-10 h-10 rounded-full glass-nav flex items-center justify-center transition-all duration-300 hover:scale-105"
+            class="relative w-10 h-10 rounded-full glass-nav flex items-center justify-center transition-all duration-300 hover:scale-105 group overflow-hidden border border-white/10"
           >
             <i
               id="sunIcon"
-              class="fas fa-sun text-yellow-500 hidden text-lg"
-            ></i>
-            <i id="moonIcon" class="fas fa-moon text-gray-300 text-lg"></i>
-          </button>
-          <a
+              class="fas fa-sun text-yellow-500 text-lg transition-all duration-500 transform scale-100"
+            ></i
+            ><i
+              id="moonIcon"
+              class="fas fa-moon text-blue-300 text-lg transition-all duration-500 transform scale-0 absolute"
+            ></i></button
+          ><a
             href="analyzer.html"
             class="btn-primary text-sm hidden md:inline-block transition-all duration-300"
             >Take the Test →</a
-          >
-          <button
+          ><button
             id="mobileMenuBtn"
             class="md:hidden text-2xl p-2 rounded-xl glass-nav"
           >
@@ -268,23 +249,19 @@
           href="index.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-home w-5 text-purple-400"></i> Home</a
-        >
-        <a
+        ><a
           href="analyzer.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-brain w-5 text-purple-400"></i> Test</a
-        >
-        <a
+        ><a
           href="results.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-chart-line w-5 text-purple-400"></i> Results</a
-        >
-        <a
+        ><a
           href="careers.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-briefcase w-5 text-purple-400"></i> Careers</a
-        >
-        <a
+        ><a
           href="blog.html"
           class="py-2.5 text-base font-medium hover:text-purple-400 transition-colors flex items-center gap-3"
           ><i class="fas fa-newspaper w-5 text-purple-400"></i> Blog</a
@@ -298,7 +275,6 @@
         </div>
       </div>
     </nav>
-
     <section
       id="introScreen"
       class="min-h-screen flex items-center justify-center pt-20"
@@ -308,9 +284,8 @@
           <span
             class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-5"
             style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
+            ><i class="fas fa-brain mr-1"></i> NeuroPath</span
           >
-            <i class="fas fa-brain mr-1"></i> NeuroPath
-          </span>
           <h1 class="text-5xl md:text-6xl font-black mb-5">
             Ready to meet<br /><span class="gradient-text"
               >your true self?</span
@@ -350,7 +325,6 @@
         </div>
       </div>
     </section>
-
     <section id="quizScreen" class="hidden min-h-screen pt-28 pb-16">
       <div class="max-w-2xl mx-auto px-6">
         <div class="mb-8">
@@ -358,8 +332,7 @@
             <span class="text-sm text-gray-500"
               >Question <span id="qNum">1</span> of
               <span id="qTotal">10</span></span
-            >
-            <span
+            ><span
               id="qCategory"
               class="text-xs px-3 py-1 rounded-full"
               style="background: rgba(123, 47, 255, 0.15); color: #7b2fff"
@@ -391,9 +364,8 @@
             class="btn-outline text-sm opacity-50"
             disabled
           >
-            ← Back
-          </button>
-          <button
+            ← Back</button
+          ><button
             onclick="nextQuestion()"
             id="nextBtn"
             class="btn-primary text-sm"
@@ -404,7 +376,6 @@
         </div>
       </div>
     </section>
-
     <section
       id="analyzingScreen"
       class="hidden min-h-screen flex items-center justify-center"
@@ -434,177 +405,187 @@
         <p class="text-gray-600 text-xs mt-4" id="analyzePercent">0%</p>
       </div>
     </section>
+    <footer
+      class="border-t border-white/10 pt-20 pb-10 bg-white dark:bg-[#0a0a0a]"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16"
+        >
+          <div class="space-y-6">
+            <a href="index.html" class="flex items-center gap-2.5 group">
+              <div
+                class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
+                style="background: linear-gradient(135deg, #7b2fff, #00e5ff)"
+              >
+                <i class="fas fa-brain text-white text-sm"></i>
+              </div>
+              <span class="font-bold text-xl tracking-tight"
+                >Neuro<span class="gradient-text">Path</span></span
+              >
+            </a>
+            <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
+              Empowering individuals through AI-driven cognitive profiling and
+              career discovery. Understand your mind, unlock your potential.
+            </p>
+            <div class="flex gap-4">
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center hover:bg-purple-500/20 hover:text-purple-400 transition-all border border-black/5 dark:border-white/5"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
 
-    <footer class="border-t border-white/10 py-8 mt-20">
-      <div class="max-w-6xl mx-auto px-6 text-center text-gray-500 text-sm">
-        <p>© 2025 NeuroPath. Find your path.</p>
+          <div>
+            <h4 class="font-bold mb-6">Product</h4>
+            <ul class="space-y-4 text-sm text-gray-500">
+              <li>
+                <a
+                  href="analyzer.html"
+                  class="hover:text-purple-400 transition-colors"
+                  >Personality Test</a
+                >
+              </li>
+              <li>
+                <a
+                  href="careers.html"
+                  class="hover:text-purple-400 transition-colors"
+                  >Career Mapping</a
+                >
+              </li>
+              <li>
+                <a
+                  href="results.html"
+                  class="hover:text-purple-400 transition-colors"
+                  >Sample Reports</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-6">Resources</h4>
+            <ul class="space-y-4 text-sm text-gray-500">
+              <li>
+                <a
+                  href="blog.html"
+                  class="hover:text-purple-400 transition-colors"
+                  >Insights Blog</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-purple-400 transition-colors"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-purple-400 transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-bold mb-6">Stay Updated</h4>
+            <p class="text-sm text-gray-500 mb-4">
+              Get the latest career tips via email.
+            </p>
+            <form class="relative" id="newsletterForm">
+              <input
+                type="email"
+                id="newsletterEmail"
+                placeholder="Email address"
+                class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500 transition-colors"
+              />
+              <button
+                type="submit"
+                class="absolute right-2 top-1.5 bg-purple-600 hover:bg-purple-500 text-white p-1.5 rounded-lg transition-colors"
+              >
+                <i class="fas fa-arrow-right px-2"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div
+          class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          <div class="text-xs text-gray-500">
+            © 2026 NeuroPath AI. All rights reserved.
+          </div>
+          <div class="flex gap-6 text-xs text-gray-500">
+            <a href="#" class="hover:text-white transition">Terms</a>
+            <a href="#" class="hover:text-white transition">Cookies</a>
+          </div>
+        </div>
       </div>
     </footer>
-
     <script>
-      // Quiz logic
-      const questions = [
-        { text: "When you meet new people, you're usually the one to start the conversation.", cat: "Social", icon: "fa-users" },
-        { text: "You prefer to plan everything in advance rather than being spontaneous.", cat: "Planning", icon: "fa-calendar" },
-        { text: "You trust logic and data more than your gut feelings.", cat: "Thinking", icon: "fa-brain" },
-        { text: "You enjoy thinking about abstract ideas and theories.", cat: "Creativity", icon: "fa-lightbulb" },
-        { text: "After a party or social event, you feel energized, not drained.", cat: "Energy", icon: "fa-bolt" },
-        { text: "You adapt easily when plans suddenly change.", cat: "Flexibility", icon: "fa-arrows-rotate" },
-        { text: "You think about the long-term consequences of your actions.", cat: "Vision", icon: "fa-eye" },
-        { text: "You prefer working alone rather than in a team.", cat: "Work Style", icon: "fa-user" },
-        { text: "You naturally take charge in group situations.", cat: "Leadership", icon: "fa-crown" },
-        { text: "You often put other people's needs before your own.", cat: "Empathy", icon: "fa-heart" },
-      ];
-      let currentIndex = 0;
-      let userAnswers = {};
-
-      function startQuiz() {
-        gsap.to("#introScreen", { opacity: 0, duration: 0.3, onComplete: () => {
-          document.getElementById("introScreen").classList.add("hidden");
-          document.getElementById("quizScreen").classList.remove("hidden");
-          renderQuestion();
-          gsap.fromTo("#quizScreen", { opacity: 0 }, { opacity: 1, duration: 0.5 });
-        }});
-      }
-      function renderQuestion() {
-        const q = questions[currentIndex];
-        document.getElementById("qNum").textContent = currentIndex + 1;
-        document.getElementById("qTotal").textContent = questions.length;
-        document.getElementById("qCategory").textContent = q.cat;
-        document.getElementById("questionText").textContent = q.text;
-        document.getElementById("qIcon").innerHTML = `<i class="fas ${q.icon} text-purple-500 text-xl"></i>`;
-        document.getElementById("progressFill").style.width = ((currentIndex + 1) / questions.length) * 100 + "%";
-        const container = document.getElementById("answersContainer");
-        container.innerHTML = "";
-        const options = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
-        options.forEach((opt, idx) => {
-          const btn = document.createElement("button");
-          btn.className = "option-btn" + (userAnswers[currentIndex] === idx ? " selected" : "");
-          btn.textContent = opt;
-          btn.onclick = () => {
-            userAnswers[currentIndex] = idx;
-            document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
-            btn.classList.add("selected");
-            document.getElementById("nextBtn").disabled = false;
-            gsap.to(btn, { scale: 1.02, duration: 0.1, yoyo: true, repeat: 1 });
-          };
-          container.appendChild(btn);
-        });
-        document.getElementById("prevBtn").disabled = currentIndex === 0;
-        document.getElementById("prevBtn").style.opacity = currentIndex === 0 ? "0.5" : "1";
-        document.getElementById("nextBtn").disabled = userAnswers[currentIndex] === undefined;
-        document.getElementById("nextBtn").innerHTML = currentIndex === questions.length - 1 ? "See Results →" : "Next →";
-        gsap.fromTo("#questionCard", { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4 });
-      }
-      function nextQuestion() {
-        if (userAnswers[currentIndex] === undefined) return;
-        if (currentIndex < questions.length - 1) { currentIndex++; renderQuestion(); }
-        else { showAnalyzing(); }
-      }
-      function prevQuestion() { if (currentIndex > 0) { currentIndex--; renderQuestion(); } }
-      function showAnalyzing() {
-        gsap.to("#quizScreen", { opacity: 0, duration: 0.3, onComplete: () => {
-          document.getElementById("quizScreen").classList.add("hidden");
-          document.getElementById("analyzingScreen").classList.remove("hidden");
-          gsap.fromTo("#analyzingScreen", { opacity: 0 }, { opacity: 1, duration: 0.5 });
-          localStorage.setItem("quizAnswers", JSON.stringify(userAnswers));
-          let percent = 0;
-          const steps = ["Processing answers...", "Analyzing patterns...", "Building your profile...", "Finding career matches..."];
-          const interval = setInterval(() => {
-            percent += 2;
-            document.getElementById("analyzeBar").style.width = percent + "%";
-            document.getElementById("analyzePercent").textContent = percent + "%";
-            document.getElementById("analyzingStep").textContent = steps[Math.min(Math.floor(percent / 25), 3)];
-            if (percent >= 100) { clearInterval(interval); setTimeout(() => { window.location.href = "results.html"; }, 500); }
-          }, 40);
-        }});
-      }
-
-      // ========== GLOBAL THEME SYSTEM (cross-page seamless) ==========
+      const questions=[{text:"When you meet new people, you're usually the one to start the conversation.",cat:"Social",icon:"fa-users"},{text:"You prefer to plan everything in advance rather than being spontaneous.",cat:"Planning",icon:"fa-calendar"},{text:"You trust logic and data more than your gut feelings.",cat:"Thinking",icon:"fa-brain"},{text:"You enjoy thinking about abstract ideas and theories.",cat:"Creativity",icon:"fa-lightbulb"},{text:"After a party or social event, you feel energized, not drained.",cat:"Energy",icon:"fa-bolt"},{text:"You adapt easily when plans suddenly change.",cat:"Flexibility",icon:"fa-arrows-rotate"},{text:"You think about the long-term consequences of your actions.",cat:"Vision",icon:"fa-eye"},{text:"You prefer working alone rather than in a team.",cat:"Work Style",icon:"fa-user"},{text:"You naturally take charge in group situations.",cat:"Leadership",icon:"fa-crown"},{text:"You often put other people's needs before your own.",cat:"Empathy",icon:"fa-heart"}];
+      let currentIndex=0,userAnswers={};
+      function startQuiz(){gsap.to("#introScreen",{opacity:0,duration:.3,onComplete:()=>{document.getElementById("introScreen").classList.add("hidden");document.getElementById("quizScreen").classList.remove("hidden");renderQuestion();gsap.fromTo("#quizScreen",{opacity:0},{opacity:1,duration:.5})}})}
+      function renderQuestion(){const q=questions[currentIndex];document.getElementById("qNum").textContent=currentIndex+1;document.getElementById("qTotal").textContent=questions.length;document.getElementById("qCategory").textContent=q.cat;document.getElementById("questionText").textContent=q.text;document.getElementById("qIcon").innerHTML=`<i class="fas ${q.icon} text-purple-500 text-xl"></i>`;document.getElementById("progressFill").style.width=((currentIndex+1)/questions.length)*100+"%";const c=document.getElementById("answersContainer");c.innerHTML="";["Strongly Disagree","Disagree","Neutral","Agree","Strongly Agree"].forEach((opt,idx)=>{const btn=document.createElement("button");btn.className="option-btn"+(userAnswers[currentIndex]===idx?" selected":"");btn.textContent=opt;btn.onclick=()=>{userAnswers[currentIndex]=idx;document.querySelectorAll(".option-btn").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");document.getElementById("nextBtn").disabled=false;gsap.to(btn,{scale:1.02,duration:.1,yoyo:true,repeat:1})};c.appendChild(btn)});document.getElementById("prevBtn").disabled=currentIndex===0;document.getElementById("prevBtn").style.opacity=currentIndex===0?"0.5":"1";document.getElementById("nextBtn").disabled=userAnswers[currentIndex]===undefined;document.getElementById("nextBtn").innerHTML=currentIndex===questions.length-1?"See Results →":"Next →";gsap.fromTo("#questionCard",{x:30,opacity:0},{x:0,opacity:1,duration:.4})}
+      function nextQuestion(){if(userAnswers[currentIndex]===undefined)return;if(currentIndex<questions.length-1){currentIndex++;renderQuestion()}else showAnalyzing()}
+      function prevQuestion(){if(currentIndex>0){currentIndex--;renderQuestion()}}
+      function showAnalyzing(){gsap.to("#quizScreen",{opacity:0,duration:.3,onComplete:()=>{document.getElementById("quizScreen").classList.add("hidden");document.getElementById("analyzingScreen").classList.remove("hidden");gsap.fromTo("#analyzingScreen",{opacity:0},{opacity:1,duration:.5});localStorage.setItem("quizAnswers",JSON.stringify(userAnswers));let p=0;const steps=["Processing answers...","Analyzing patterns...","Building your profile...","Finding career matches..."];const i=setInterval(()=>{p+=2;document.getElementById("analyzeBar").style.width=p+"%";document.getElementById("analyzePercent").textContent=p+"%";document.getElementById("analyzingStep").textContent=steps[Math.min(Math.floor(p/25),3)];if(p>=100){clearInterval(i);setTimeout(()=>{window.location.href="results.html"},500)}},40)}}}
       function setTheme(theme) {
         const isDark = theme === 'dark';
-        if (isDark) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-        localStorage.setItem('theme', theme);
         const sunIcon = document.getElementById('sunIcon');
         const moonIcon = document.getElementById('moonIcon');
-        if (sunIcon && moonIcon) {
-          if (theme === 'light') {
-            sunIcon.classList.remove('hidden');
-            moonIcon.classList.add('hidden');
-          } else {
-            sunIcon.classList.add('hidden');
-            moonIcon.classList.remove('hidden');
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          if (sunIcon && moonIcon) {
+            sunIcon.classList.add('scale-0', 'absolute');
+            sunIcon.classList.remove('scale-100', 'relative');
+            moonIcon.classList.add('scale-100', 'relative');
+            moonIcon.classList.remove('scale-0', 'absolute');
+          }
+        } else {
+          document.documentElement.classList.remove('dark');
+          if (sunIcon && moonIcon) {
+            sunIcon.classList.add('scale-100', 'relative');
+            sunIcon.classList.remove('scale-0', 'absolute');
+            moonIcon.classList.add('scale-0', 'absolute');
+            moonIcon.classList.remove('scale-100', 'relative');
           }
         }
+        localStorage.setItem('theme', theme);
       }
-
-      function initTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        let theme = savedTheme;
-        if (!theme) theme = prefersDark ? 'dark' : 'light';
-        setTheme(theme);
-      }
-      const navLinks = document.querySelectorAll(".nav-link");
-      const indicator = document.getElementById("navIndicator");
-      function updateIndicator(activeLink) {
-        if (!activeLink || !indicator) return;
-        const rect = activeLink.getBoundingClientRect();
-        const containerRect = document.getElementById("navLinksContainer").getBoundingClientRect();
-        const leftPos = rect.left - containerRect.left;
-        indicator.style.width = rect.width + "px";
-        indicator.style.transform = `translateX(${leftPos}px)`;
-      }
-      const currentPath = window.location.pathname.split("/").pop() || "analyzer.html";
-      navLinks.forEach((link) => {
-        const href = link.getAttribute("href");
-        if (href === currentPath) {
-          link.style.color = "#A06BFF";
-          updateIndicator(link);
-        }
-      });
-      navLinks.forEach((link) => {
-        link.addEventListener("mouseenter", () => updateIndicator(link));
-        link.addEventListener("mouseleave", () => {
-          const activeLink = Array.from(navLinks).find(l => l.getAttribute("href") === currentPath);
-          if (activeLink) updateIndicator(activeLink);
-        });
-      });
-
-      const nav = document.getElementById("mainNav");
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) nav.classList.add("shadow-lg");
-        else nav.classList.remove("shadow-lg");
-      });
-
-      const themeToggleBtn = document.getElementById("themeToggle");
-      if (themeToggleBtn) {
-        themeToggleBtn.addEventListener("click", () => {
-          const isDark = document.documentElement.classList.contains("dark");
-          const newTheme = isDark ? "light" : "dark";
-          setTheme(newTheme);
-          gsap.to(themeToggleBtn, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 });
+      function initTheme(){const s=localStorage.getItem('theme'),p=window.matchMedia('(prefers-color-scheme: dark)').matches;let t=s;if(!t)t=p?'dark':'light';setTheme(t);}
+      const navLinks=document.querySelectorAll(".nav-link"),indicator=document.getElementById("navIndicator");
+      function updateIndicator(l){if(!l||!indicator)return;const r=l.getBoundingClientRect(),cr=document.getElementById("navLinksContainer").getBoundingClientRect();indicator.style.width=r.width+"px";indicator.style.transform=`translateX(${r.left-cr.left}px)`}
+      const cp=window.location.pathname.split("/").pop()||"analyzer.html";
+      navLinks.forEach(l=>{if(l.getAttribute("href")===cp){l.style.color="#A06BFF";updateIndicator(l)}});
+      navLinks.forEach(l=>{l.addEventListener("mouseenter",()=>updateIndicator(l));l.addEventListener("mouseleave",()=>{const a=Array.from(navLinks).find(ln=>ln.getAttribute("href")===cp);if(a)updateIndicator(a)})});
+      const nav=document.getElementById("mainNav");window.addEventListener("scroll",()=>{if(window.scrollY>50)nav.classList.add("shadow-lg");else nav.classList.remove("shadow-lg")});
+      document.getElementById("themeToggle").addEventListener("click",()=>{const d=document.documentElement.classList.contains("dark");setTheme(d?"light":"dark");gsap.to(document.getElementById("themeToggle"),{scale:.95,duration:.1,yoyo:true,repeat:1})});
+      document.getElementById("mobileMenuBtn").addEventListener("click",()=>{document.getElementById("mobile-menu").classList.toggle("hidden")});
+      const newsletterForm = document.getElementById('newsletterForm');
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const email = document.getElementById('newsletterEmail').value;
+          if (email && email.includes('@')) {
+            alert('Thanks for subscribing! Check your inbox soon.');
+            newsletterForm.reset();
+          } else {
+            alert('Please enter a valid email address.');
+          }
         });
       }
-
-      const mobileBtn = document.getElementById("mobileMenuBtn");
-      const mobileMenu = document.getElementById("mobile-menu");
-      if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener("click", () => { mobileMenu.classList.toggle("hidden"); });
-      }
-
-      gsap.fromTo(".hero-text", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8 });
-      initTheme();
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        const stored = localStorage.getItem('theme');
-        if (!stored) {
-          setTheme(e.matches ? 'dark' : 'light');
-        }
-      });
+      initTheme();window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{if(!localStorage.getItem('theme'))setTheme(e.matches?'dark':'light')});
     </script>
   </body>
 </html>
